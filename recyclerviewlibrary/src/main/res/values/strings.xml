@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">RecyclerViewLibrary</string>
+    <string name="loading_text">正在玩命的加载...</string>
+    <string name="loading_fail">加载失败？再次点击试试？</string>
+    <string name="loading_end">我也是有“底线的”</string>
+</resources>

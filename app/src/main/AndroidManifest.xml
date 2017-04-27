@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="note.lym.org.noteproject">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/launcher"
+        android:name=".app.NoteApplication"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.home.HomePagerActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.home.detail.NoteDetailActivity"/>
+        <activity android:name=".ui.home.InsertNoteActivity"/>
+    </application>
+
+</manifest>

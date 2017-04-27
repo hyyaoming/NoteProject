@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_warm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="20dp"
+        android:text="@string/warm_toast"
+        android:textColor="@color/gary_color"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/v_division"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/title_warm"
+        android:background="@color/gary_color" />
+
+
+    <LinearLayout
+        android:layout_below="@id/v_division"
+        android:id="@+id/layout_note_name"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/note_detail_name"
+            android:textSize="16sp"
+            android:textColor="@color/gary_color"
+            />
+
+        <EditText
+            android:id="@+id/edit_dialog"
+            android:layout_width="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:maxLines="2"
+            android:layout_height="@dimen/action_bar_height"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shadow_edit_bg"
+            android:hint="@string/please_insert_note_name"
+            android:textColor="@color/gary_color"
+            android:textColorHint="@color/little_gary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_dialog_sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_note_name"
+        android:padding="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/shadow_popup"
+        android:text="@string/sure" />
+
+
+</RelativeLayout>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">简易便签</string>
+    <string name="exit_app">你再点我就走了哦~</string>
+    <string name="title">便签列表</string>
+    <string name="no_note">目前还没有便签哦~</string>
+    <string name="click_add_note">请点击右上角图标添加便签哦~</string>
+    <string name="exit_application">无情退出</string>
+    <string name="add_note">添加便签</string>
+    <string name="please_insert_note">请您先写点东西~</string>
+    <string name="please_insert_note_name">请您为标签取个名哟~</string>
+    <string name="sure">确定</string>
+    <string name="note_detail_time">便签创建时间：</string>
+    <string name="note_detail_name">便签名字：</string>
+    <string name="note_detail_content">便签内容：</string>
+    <string name="note_detail">便签详情</string>
+    <string name="warm_toast">温馨提示</string>
+    <string name="are_you_sure_delete_this_note">您确定要删除此条便签吗？</string>
+    <string name="negative">否</string>
+    <string name="positive">是</string>
+    <string name="quickly_key">快速搜索关键字</string>
+</resources>

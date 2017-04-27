@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+     一般第一层用来绘制阴影，因为layer-list会层层叠在一起。
+     top: 指的是距离当前控件上方的偏移量其指的就是外边距margin,然而bottom,right,left则同理。
+     这里可以drawable可以直接指定资源drawable也可以自行绘制。
+    -->
+    <item
+        android:left="1dp"
+        android:top="1dp">
+        <shape>
+            <solid android:color="@android:color/darker_gray" />
+            <corners android:radius="10dp" />
+            <stroke
+                android:width="1px"
+                android:color="@color/gary_color"
+                />
+        </shape>
+    </item>
+    <!-- 绘制阴影层，这一层的item会覆盖在上一层的item上面，bottom，right指的是距离当前控件下方与左方的外边距，其实指的就是margin，则left，top同理-->
+    <item
+        android:bottom="1dp"
+        android:right="1dp">
+        <shape>
+            <solid android:color="@android:color/white" />
+            <corners android:radius="10dp" />
+            <stroke
+                android:width="1px"
+                android:color="@color/gary_color"
+                />
+        </shape>
+    </item>
+</layer-list>

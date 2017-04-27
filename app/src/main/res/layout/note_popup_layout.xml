@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_gravity="right"
+        android:layout_marginRight="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/surname_popup_arrow_up" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shadow_popup"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/please_insert_note_name" />
+
+        <EditText
+            android:id="@+id/edit_note_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_margin="5dp"
+            android:maxLines="1"
+            android:background="@drawable/shadow_edit_bg"
+            android:maxLength="20"
+            android:textColor="@color/gary_color"
+            android:textColorHint="@color/little_gary"
+            />
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="@string/sure"
+            android:textSize="18sp"
+            android:textColor="@color/gary_color"
+            android:padding="10dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

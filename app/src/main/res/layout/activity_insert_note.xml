@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_bg"
+    android:orientation="vertical">
+
+    <note.lym.org.noteproject.view.BaseActionBar
+        android:id="@+id/insert_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbarThumbVertical="@android:color/transparent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_note_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gary_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_note_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_note_name"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/gary_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_content_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@id/tv_note_time"
+                    android:textColor="@color/gary_color"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/edit_note_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="4dp"
+                android:textSize="16sp"
+                android:textColor="@color/gary_color"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
