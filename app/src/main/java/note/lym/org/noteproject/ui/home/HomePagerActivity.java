@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -35,8 +38,10 @@ import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClick
  * @version 8.3.0
  * @since 2017-04-25 11:35
  */
-public class HomePagerActivity extends BaseActivity {
+public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipe;
     @BindView(R.id.title_bar)
     BaseActionBar mActionBar;
     @BindView(R.id.rv_list)
@@ -45,6 +50,7 @@ public class HomePagerActivity extends BaseActivity {
     View mNoNoteView;
     private ArrayList<Note> mArrays = new ArrayList<>();
     private NoteListAdapter mAdapter;
+    private static final long DELAYED_TIME = 1500;
 
     @Override
     protected int getLayoutId() {
@@ -64,6 +70,12 @@ public class HomePagerActivity extends BaseActivity {
         mRvList.setHasFixedSize(true);
         initAdapter();
         initRecyclerViewItemClickListener();
+        initSwipeRefreshListener();
+    }
+
+    private void initSwipeRefreshListener() {
+        mSwipe.setOnRefreshListener(this);
+        mSwipe.setColorSchemeColors(ContextCompat.getColor(this,R.color.colorPrimaryDark));
     }
 
     private void initRecyclerViewItemClickListener() {
@@ -140,7 +152,8 @@ public class HomePagerActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        mArrays = (ArrayList<Note>) DataSupport.findAll(Note.class);
+        mArrays.clear();
+        mArrays.addAll(findArray());
         showNoDataView(mArrays);
     }
 
@@ -202,5 +215,21 @@ public class HomePagerActivity extends BaseActivity {
             initData();
             initAdapter();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        mAdapter.openLoadAnimation(BaseFastAdapter.SCALEIN);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.setNewData(findArray());
+                mSwipe.setRefreshing(false);
+            }
+        },DELAYED_TIME);
+    }
+
+    private ArrayList<Note> findArray(){
+        return (ArrayList<Note>) DataSupport.findAll(Note.class);
     }
 }
