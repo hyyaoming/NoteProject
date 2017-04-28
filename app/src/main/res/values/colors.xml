@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#0B6E93</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="status_bar_color">@color/colorPrimaryDark</color>
+    <color name="action_bar_color">#11B6F4</color>
     <color name="little_gary">#b2adda</color>
     <color name="gary_color">#6A584C</color>
     <color name="theme_color">#95A4C1</color>
+    <color name="key_color">@color/orange</color>
+    <color name="orange">#ff5200</color>
 </resources>

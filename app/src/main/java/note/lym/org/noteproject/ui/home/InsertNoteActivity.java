@@ -113,6 +113,7 @@ public class InsertNoteActivity extends BaseActivity {
 
     private boolean saveNote() {
         if (getContentSize() > 0) {
+            hideSoftInput();
             getInsertNote().save();
             setResult(RESULT_OK);
             finish();

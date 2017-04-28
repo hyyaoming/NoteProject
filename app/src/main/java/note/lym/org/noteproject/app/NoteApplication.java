@@ -2,6 +2,7 @@ package note.lym.org.noteproject.app;
 
 import org.litepal.LitePalApplication;
 
+import note.lym.org.noteproject.utils.Static;
 import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
@@ -16,5 +17,6 @@ public class NoteApplication extends LitePalApplication {
     public void onCreate() {
         super.onCreate();
         ToastUtils.init(this);
+        Static.CONTEXT = this;
     }
 }

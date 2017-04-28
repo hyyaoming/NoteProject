@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_color"
+    android:background="@color/action_bar_color"
     android:orientation="vertical">
 
 
@@ -11,8 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:src="@drawable/titlebar_back_normal_down_black" />
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/icon_left_back" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -29,6 +30,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/inset_note" />
+        android:padding="10dp"
+        android:src="@drawable/ic_channel_manage" />
 
 </RelativeLayout>

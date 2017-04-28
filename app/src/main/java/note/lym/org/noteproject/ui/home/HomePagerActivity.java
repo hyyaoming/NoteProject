@@ -10,8 +10,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import org.litepal.crud.DataSupport;
 
@@ -75,7 +79,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
 
     private void initSwipeRefreshListener() {
         mSwipe.setOnRefreshListener(this);
-        mSwipe.setColorSchemeColors(ContextCompat.getColor(this,R.color.colorPrimaryDark));
+        mSwipe.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     private void initRecyclerViewItemClickListener() {
@@ -88,6 +92,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 String noteName = mArrays.get(position).noteName;
                 String noteTime = mArrays.get(position).date;
                 String noteContent = mArrays.get(position).content;
+                hideSoftInput();
                 NoteDetailActivity.action(HomePagerActivity.this, noteName, noteTime, noteContent);
             }
         });
@@ -102,11 +107,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 builder.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Note note = mArrays.get(position);
-                        mArrays.remove(note);
-                        DataSupport.deleteAll(Note.class,"date = ?",note.date);
-                        mAdapter.notifyDataSetChanged();
-                        showNoDataView(mArrays);
+                        removeData(position);
                     }
                 });
                 builder.show();
@@ -114,13 +115,69 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
         });
     }
 
+    private void removeHeaderView(ArrayList<Note> array) {
+        if (array.isEmpty()) {
+            mAdapter.removeAllHeaderView();
+        }
+    }
+
+    private void removeData(int position) {
+        Note note = mArrays.get(position);
+        mArrays.remove(note);
+        removeHeaderView(mArrays);
+        DataSupport.deleteAll(Note.class, "date = ?", note.date);
+        mAdapter.notifyDataSetChanged();
+        showNoDataView(mArrays);
+    }
+
     private void initAdapter() {
         mAdapter = new NoteListAdapter(R.layout.item_note_list, mArrays);
         mRvList.setAdapter(mAdapter);
+        if (!mArrays.isEmpty()) {
+            mAdapter.addHeaderView(getHeaderView());
+        }
+    }
+
+    private View getHeaderView() {
+        View view = getLayoutInflater().inflate(R.layout.header_search_view, (ViewGroup) mRvList.getParent(), false);
+        EditText mEditSearch = (EditText) view.findViewById(R.id.edit_search_view);
+        mEditSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    mAdapter.setNewData(filterSearch(s.toString()));
+                } else {
+                    mAdapter.setNewData(findArray());
+                }
+                mAdapter.filterKey(s.toString());
+            }
+        });
+        return view;
+    }
+
+    private ArrayList<Note> filterSearch(String text) {
+        ArrayList<Note> data = new ArrayList<>();
+        for (Note note : mArrays) {
+            if (note.date.contains(text) || note.noteName.contains(text) || note.content.contains(text)) {
+                data.add(note);
+            }
+        }
+        return data;
     }
 
     private void initActionBar() {
         mActionBar.setTextTitle(R.string.title);
+        mActionBar.setLeftImageResources(R.drawable.ic_nav);
         mActionBar.setLeftBackListener(new BaseActionBar.LeftBackListener() {
             @Override
             public void onClick() {
@@ -133,7 +190,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 ToastUtils.showToast(R.string.title);
             }
         });
-        mActionBar.setRightInsertClickListener(true,new BaseActionBar.RightInsertClickListener() {
+        mActionBar.setRightInsertClickListener(true, new BaseActionBar.RightInsertClickListener() {
             @Override
             public void onClick() {
                 showDialog();
@@ -145,7 +202,8 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
         PopupUtils.showInsertNoteDialog(HomePagerActivity.this, new InsertNoteDialog.OnButtonClickListener() {
             @Override
             public void onClick(String note) {
-                InsertNoteActivity.action(HomePagerActivity.this,note);
+                hideSoftInput();
+                InsertNoteActivity.action(HomePagerActivity.this, note);
             }
         });
     }
@@ -157,7 +215,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
         showNoDataView(mArrays);
     }
 
-    private void showNoDataView(ArrayList<Note> data){
+    private void showNoDataView(ArrayList<Note> data) {
         if (data.isEmpty()) {
             mNoNoteView.setVisibility(View.VISIBLE);
         } else {
@@ -226,10 +284,10 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 mAdapter.setNewData(findArray());
                 mSwipe.setRefreshing(false);
             }
-        },DELAYED_TIME);
+        }, DELAYED_TIME);
     }
 
-    private ArrayList<Note> findArray(){
+    private ArrayList<Note> findArray() {
         return (ArrayList<Note>) DataSupport.findAll(Note.class);
     }
 }
