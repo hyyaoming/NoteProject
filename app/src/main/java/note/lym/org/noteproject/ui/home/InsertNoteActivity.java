@@ -80,7 +80,7 @@ public class InsertNoteActivity extends BaseActivity {
     private void initActionBar() {
         mActionBar.setTextTitle(R.string.add_note);
         mActionBar.setRightImageResources(R.drawable.insert_done);
-        mActionBar.setLeftBackListener(new BaseActionBar.LeftBackListener() {
+        mActionBar.setLeftBackListener(true,new BaseActionBar.LeftBackListener() {
             @Override
             public void onClick() {
                 saveNote();

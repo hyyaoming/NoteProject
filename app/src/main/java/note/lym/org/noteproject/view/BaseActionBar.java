@@ -73,8 +73,13 @@ public class BaseActionBar extends LinearLayout {
 
     private LeftBackListener mLeftBackListener;
 
-    public void setLeftBackListener(LeftBackListener listener) {
+    public void setLeftBackListener(boolean visible,LeftBackListener listener) {
         mLeftBackListener = listener;
+        if(visible){
+            mIvBack.setVisibility(VISIBLE);
+        }else{
+            mIvBack.setVisibility(GONE);
+        }
     }
 
     public interface TitleClickListener {

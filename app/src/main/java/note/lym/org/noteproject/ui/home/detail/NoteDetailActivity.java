@@ -39,7 +39,7 @@ public class NoteDetailActivity extends BaseActivity {
     private void initActionBar() {
         mActionBar.setTextTitle(R.string.note_detail);
         mActionBar.setRightInsertClickListener(false,null);
-        mActionBar.setLeftBackListener(new BaseActionBar.LeftBackListener() {
+        mActionBar.setLeftBackListener(true,new BaseActionBar.LeftBackListener() {
             @Override
             public void onClick() {
                 finish();

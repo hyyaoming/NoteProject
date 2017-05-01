@@ -39,7 +39,6 @@ import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClick
  * 主页
  *
  * @author yaoming.li
- * @version 8.3.0
  * @since 2017-04-25 11:35
  */
 public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -178,18 +177,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
     private void initActionBar() {
         mActionBar.setTextTitle(R.string.title);
         mActionBar.setLeftImageResources(R.drawable.ic_nav);
-        mActionBar.setLeftBackListener(new BaseActionBar.LeftBackListener() {
-            @Override
-            public void onClick() {
-                finish();
-            }
-        });
-        mActionBar.setTitleClickListener(new BaseActionBar.TitleClickListener() {
-            @Override
-            public void onClick() {
-                ToastUtils.showToast(R.string.title);
-            }
-        });
+        mActionBar.setLeftBackListener(false,null);
         mActionBar.setRightInsertClickListener(true, new BaseActionBar.RightInsertClickListener() {
             @Override
             public void onClick() {
