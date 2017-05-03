@@ -35,9 +35,9 @@ public abstract class BaseActivity extends BaseRunTimePermission {
         StatusBarCompat.compat(this, ContextCompat.getColor(this,R.color.status_bar_color));
         Log.i(TAG, getClass().getSimpleName());
         ButterKnife.bind(this);
-        initData();
         bindView();
         initListener();
+        initData();
     }
 
     protected abstract int getLayoutId();

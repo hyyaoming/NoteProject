@@ -43,7 +43,7 @@ public class DateUtils {
      * @return String
      */
     public static String getCurrentDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         long time = System.currentTimeMillis();
         Date NowDate = new Date(time);
         return formatter.format(NowDate);
