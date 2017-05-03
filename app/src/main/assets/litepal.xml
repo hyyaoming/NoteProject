@@ -5,7 +5,7 @@
 
     <version value="1"></version>
     <list>
-        <mapping class="note.lym.org.noteproject.model.Note"></mapping>
+        <mapping class="note.lym.org.noteproject.model.bean.Note"></mapping>
     </list>
 
 </litepal>

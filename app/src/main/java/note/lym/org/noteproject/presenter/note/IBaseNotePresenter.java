@@ -3,7 +3,7 @@ package note.lym.org.noteproject.presenter.note;
 import java.util.List;
 
 import note.lym.org.noteproject.adapter.NoteListAdapter;
-import note.lym.org.noteproject.model.Note;
+import note.lym.org.noteproject.model.bean.Note;
 
 /**
  * @author yaoming.li

@@ -24,10 +24,9 @@ import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.adapter.NoteListAdapter;
 import note.lym.org.noteproject.base.BaseActivity;
-import note.lym.org.noteproject.model.Note;
-import note.lym.org.noteproject.presenter.note.INotePresenter;
+import note.lym.org.noteproject.model.bean.Note;
+import note.lym.org.noteproject.presenter.note.INoteView;
 import note.lym.org.noteproject.presenter.note.NoteListPresenter;
-import note.lym.org.noteproject.ui.home.detail.NoteDetailActivity;
 import note.lym.org.noteproject.view.BaseActionBar;
 import note.lym.org.noteproject.view.InsertNoteDialog;
 import note.lym.org.noteproject.view.PopupUtils;
@@ -41,7 +40,7 @@ import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClick
  * @author yaoming.li
  * @since 2017-04-25 11:35
  */
-public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, INotePresenter {
+public class HomePagerActivity extends BaseActivity<NoteListPresenter> implements SwipeRefreshLayout.OnRefreshListener, INoteView {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipe;
@@ -53,7 +52,11 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
     View mNoNoteView;
     private NoteListAdapter mAdapter;
     private static final long DELAYED_TIME = 1500;
-    private NoteListPresenter mNotePresenter;
+
+    @Override
+    protected void initInject() {
+        getActivityComponent().inject(this);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -89,7 +92,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 String noteTime = ((Note) adapter.getData().get(position)).date;
                 String noteContent = ((Note) adapter.getData().get(position)).content;
                 hideSoftInput();
-                NoteDetailActivity.action(HomePagerActivity.this, noteName, noteTime, noteContent);
+//                NoteDetailActivity.action(HomePagerActivity.this, noteName, noteTime, noteContent);
             }
         });
 
@@ -103,7 +106,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 builder.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mNotePresenter.deleteNote(position, mAdapter.getData().get(position), mAdapter);
+                        mPresenter.deleteNote(position, mAdapter.getData().get(position), mAdapter);
                     }
                 });
                 builder.show();
@@ -135,7 +138,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
                 if (s.length() > 0) {
                     mAdapter.setNewData(filterSearch(s.toString()));
                 } else {
-                    mAdapter.setNewData(mNotePresenter.getNoteListData());
+                    mAdapter.setNewData(mPresenter.getNoteListData());
                 }
                 mAdapter.filterKey(s.toString());
             }
@@ -170,15 +173,14 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
             @Override
             public void onClick(String note) {
                 hideSoftInput();
-                InsertNoteActivity.action(HomePagerActivity.this, note);
+                 InsertNoteActivity.action(HomePagerActivity.this, note);
             }
         });
     }
 
     @Override
     protected void initData() {
-        mNotePresenter = new NoteListPresenter(this);
-        mNotePresenter.getNoteList();
+        mPresenter.getNoteList();
     }
 
 
@@ -186,6 +188,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
     protected void bindView() {
 
     }
+
 
     /**
      * 启动当前的Activity
@@ -229,7 +232,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == InsertNoteActivity.REQUEST_CODE && resultCode == RESULT_OK) {
-            mNotePresenter.getNoteList();
+            mPresenter.getNoteList();
         }
     }
 
@@ -239,7 +242,7 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mAdapter.setNewData(mNotePresenter.getNoteListData());
+                mAdapter.setNewData(mPresenter.getNoteListData());
                 mSwipe.setRefreshing(false);
             }
         }, DELAYED_TIME);
@@ -270,5 +273,10 @@ public class HomePagerActivity extends BaseActivity implements SwipeRefreshLayou
     @Override
     public void removeHeaderView() {
         mAdapter.removeAllHeaderView();
+    }
+
+    @Override
+    public void showError(String msg) {
+
     }
 }

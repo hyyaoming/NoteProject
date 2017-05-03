@@ -1,4 +1,4 @@
-package note.lym.org.noteproject.model;
+package note.lym.org.noteproject.model.bean;
 
 import org.litepal.crud.DataSupport;
 

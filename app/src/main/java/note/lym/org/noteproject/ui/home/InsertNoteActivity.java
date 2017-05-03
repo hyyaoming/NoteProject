@@ -1,7 +1,6 @@
 package note.lym.org.noteproject.ui.home;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,8 +11,8 @@ import java.util.Random;
 
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.base.BaseActivity;
-import note.lym.org.noteproject.model.Note;
+import note.lym.org.noteproject.base.SimpleActivity;
+import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.utils.ToastUtils;
 import note.lym.org.noteproject.view.BaseActionBar;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.DateUtils;
@@ -22,7 +21,7 @@ import project.recyclerview.lym.org.recyclerviewlibrary.util.DateUtils;
  * @author yaoming.li
  * @since 2017-04-26 10:38
  */
-public class InsertNoteActivity extends BaseActivity {
+public class InsertNoteActivity extends SimpleActivity {
 
     @BindView(R.id.insert_action_bar)
     BaseActionBar mActionBar;
@@ -47,15 +46,19 @@ public class InsertNoteActivity extends BaseActivity {
      ***/
     private String mNoteName = "";
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayout() {
         return R.layout.activity_insert_note;
     }
 
     @Override
-    protected void initListener() {
+    protected void initEventAndData() {
         initActionBar();
         initEditListener();
+
+        bindView();
+        initData();
     }
 
     private void initEditListener() {
@@ -80,13 +83,13 @@ public class InsertNoteActivity extends BaseActivity {
     private void initActionBar() {
         mActionBar.setTextTitle(R.string.add_note);
         mActionBar.setRightImageResources(R.drawable.insert_done);
-        mActionBar.setLeftBackListener(true,new BaseActionBar.LeftBackListener() {
+        mActionBar.setLeftBackListener(true, new BaseActionBar.LeftBackListener() {
             @Override
             public void onClick() {
                 saveNote();
             }
         });
-        mActionBar.setRightInsertClickListener(true,new BaseActionBar.RightInsertClickListener() {
+        mActionBar.setRightInsertClickListener(true, new BaseActionBar.RightInsertClickListener() {
             @Override
             public void onClick() {
                 if (!saveNote()) {
@@ -96,12 +99,10 @@ public class InsertNoteActivity extends BaseActivity {
         });
     }
 
-    @Override
     protected void initData() {
         getIntentData();
     }
 
-    @Override
     protected void bindView() {
         mTvNoteName.setText(mNoteName);
         mTvNoteTime.setText(DateUtils.getCurrentDate());

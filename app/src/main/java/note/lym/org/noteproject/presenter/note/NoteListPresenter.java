@@ -4,30 +4,36 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import note.lym.org.noteproject.adapter.NoteListAdapter;
-import note.lym.org.noteproject.model.Note;
+import note.lym.org.noteproject.base.RxPresenter;
+import note.lym.org.noteproject.model.bean.Note;
+import note.lym.org.noteproject.model.http.RetrofitHelper;
 
 /**
  * @author yaoming.li
  * @since 2017-05-03 11:31
  */
-public class NoteListPresenter implements IBaseNotePresenter {
+public class NoteListPresenter extends RxPresenter<INoteView> implements IBaseNotePresenter {
 
-    private INotePresenter mNotePresenter;
+    private RetrofitHelper mRetrofitHelper;
 
-    public NoteListPresenter(INotePresenter presenter) {
-        mNotePresenter = presenter;
+    @Inject
+    public NoteListPresenter(RetrofitHelper mRetrofitHelper) {
+        this.mRetrofitHelper = mRetrofitHelper;
     }
+
 
     @Override
     public void getNoteList() {
         List<Note> list = getNoteListData();
         if (list.isEmpty()) {
-            mNotePresenter.noDataView();
+            getView().noDataView();
         } else {
-            mNotePresenter.initHeaderView();
-            mNotePresenter.updateNoteList(DataSupport.findAll(Note.class));
-            mNotePresenter.showDateView();
+            getView().initHeaderView();
+            getView().updateNoteList(list);
+            getView().showDateView();
         }
     }
 
@@ -36,10 +42,10 @@ public class NoteListPresenter implements IBaseNotePresenter {
         adapter.remove(position);
         DataSupport.deleteAll(Note.class, "date = ?", note.date);
         if (adapter.getData().isEmpty()) {
-            mNotePresenter.noDataView();
-            mNotePresenter.removeHeaderView();
+            getView().noDataView();
+            getView().removeHeaderView();
         } else {
-            mNotePresenter.showDateView();
+            getView().showDateView();
         }
     }
 

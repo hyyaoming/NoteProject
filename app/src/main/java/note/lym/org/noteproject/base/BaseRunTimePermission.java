@@ -93,5 +93,4 @@ public class BaseRunTimePermission extends AppCompatActivity {
 
     }
 
-
 }

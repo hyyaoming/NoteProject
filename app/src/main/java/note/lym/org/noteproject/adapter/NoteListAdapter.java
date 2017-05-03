@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat;
 import java.util.List;
 
 import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.model.Note;
+import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.utils.Static;
 import note.lym.org.noteproject.utils.TextUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
