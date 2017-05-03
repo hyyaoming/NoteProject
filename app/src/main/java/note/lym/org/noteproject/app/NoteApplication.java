@@ -1,5 +1,7 @@
 package note.lym.org.noteproject.app;
 
+import android.view.LayoutInflater;
+
 import org.litepal.LitePalApplication;
 
 import note.lym.org.noteproject.utils.Static;
@@ -18,5 +20,6 @@ public class NoteApplication extends LitePalApplication {
         super.onCreate();
         ToastUtils.init(this);
         Static.CONTEXT = this;
+        Static.INFLATER = LayoutInflater.from(this);
     }
 }
