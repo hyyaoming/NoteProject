@@ -20,4 +20,7 @@ public interface INoteView extends BaseView {
     void removeHeaderView();
 
     void updateNoteList(List<Note> notes);
+
+
+
 }

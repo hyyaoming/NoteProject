@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -12,6 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.BuildConfig;
 import note.lym.org.noteproject.app.Constants;
+import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.utils.SystemUtil;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
@@ -124,6 +126,10 @@ public class RetrofitHelper {
         return (ResourceSubscriber) observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(subscriber);
+    }
+
+    public Flowable<HttpResponse<List<xxxData>>> fetchGetData(int size, int page) {
+        return sNoteApis.getData(size,page);
     }
 
 }

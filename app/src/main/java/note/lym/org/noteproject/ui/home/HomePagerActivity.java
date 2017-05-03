@@ -181,6 +181,7 @@ public class HomePagerActivity extends BaseActivity<NoteListPresenter> implement
     @Override
     protected void initData() {
         mPresenter.getNoteList();
+        mPresenter.getData(true,10);
     }
 
 

@@ -15,4 +15,7 @@ public interface IBaseNotePresenter {
     void deleteNote(int position, Note note, NoteListAdapter adapter);
 
     List<Note> getNoteListData();
+
+    void getData(boolean isRefresh,int size);
+
 }

@@ -3,6 +3,10 @@ package note.lym.org.noteproject.model.http;
 
 public class HttpResponse<T> {
 
+    public boolean error;
+    public T results;
+
+
 //    //token失效
 //    public static final int TOKEN_LOSE = 112;
 //
@@ -46,4 +50,5 @@ public class HttpResponse<T> {
 //    public void setData(T data) {
 //        this.data = data;
 //    }
+
 }
