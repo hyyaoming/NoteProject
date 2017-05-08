@@ -1,5 +1,6 @@
 package note.lym.org.noteproject.adapter;
 
+import android.renderscript.Matrix2f;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,6 +10,7 @@ import android.util.SparseArray;
 import java.util.List;
 
 import note.lym.org.noteproject.fragment.BelleListFragment;
+import note.lym.org.noteproject.fragment.NewsListFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
 
 /**
@@ -20,6 +22,7 @@ import note.lym.org.noteproject.fragment.NoteListFragment;
 public class TabFragmentAdapter extends FragmentStatePagerAdapter {
 
     private static final int BELLE_ITEM = 0;
+    private static final int NEW_ITEM = 1;
     private SparseArray<Fragment> mArray = new SparseArray<>();
     private Fragment mFragment;
     private List<String> mList;
@@ -41,6 +44,16 @@ public class TabFragmentAdapter extends FragmentStatePagerAdapter {
                     return fragment;
                 } else {
                     return mFragment;
+                }
+            case NEW_ITEM:
+                mFragment = mArray.get(NEW_ITEM);
+                if(null == mFragment){
+                    NewsListFragment fragment = new NewsListFragment();
+                    mFragment = fragment;
+                    mArray.put(NEW_ITEM,fragment);
+                    return fragment;
+                }else{
+                    return  mFragment;
                 }
         }
         return new Fragment();

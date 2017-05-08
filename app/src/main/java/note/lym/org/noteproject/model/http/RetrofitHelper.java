@@ -14,6 +14,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.BuildConfig;
 import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.model.bean.Belle;
+import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.utils.SystemUtil;
 import okhttp3.Cache;
@@ -120,5 +121,11 @@ public class RetrofitHelper {
     public Flowable<Belle> getBelleData(int page){
         return sNoteApis.getBelleData(page);
     }
+
+    public Flowable<NewsList> getNewsList(int page){
+        return sNoteApis.getNews(page);
+    }
+
+
 
 }

@@ -113,7 +113,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
     @Override
     public void hideLoading() {
-        mBar.setVisibility(View.GONE);
+        if(mBar != null){
+            mBar.setVisibility(View.GONE);
+        }
     }
 
     protected FragmentComponent getFragmentComponent() {

@@ -27,7 +27,7 @@ public class TabPagerFragment extends SimpleFragment {
     Toolbar mToolBar;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
-    private List list = Arrays.asList("随便逛逛");
+    private List list = Arrays.asList("随便逛逛","网易头条");
 
     @Override
     protected void loadLazyData() {
