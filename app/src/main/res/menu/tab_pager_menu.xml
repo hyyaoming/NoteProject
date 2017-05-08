@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_note"
+            android:checkable="true"
+            android:icon="@drawable/look1"
+            android:title="@string/casual_write" />
+
+        <item
+            android:id="@+id/menu_picture"
+            android:checkable="true"
+            android:icon="@drawable/ic_nav_picture"
+            android:title="@string/around_work" />
+    </group>
+
+</menu>

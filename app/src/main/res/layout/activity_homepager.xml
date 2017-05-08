@@ -1,38 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/note_background"
     android:orientation="vertical">
 
-    <note.lym.org.noteproject.view.BaseActionBar
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height" />
+
+    <include layout="@layout/layout_status_bar" />
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_list"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/status_bar_color"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:navigationIcon="@drawable/ic_nav"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/note_background"
+                android:layout_weight="1">
 
-        <include
-            android:id="@+id/layout_no_note"
-            layout="@layout/layout_no_note"
-            android:visibility="gone" />
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    </FrameLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+                <include
+                    android:id="@+id/layout_no_note"
+                    layout="@layout/layout_no_note"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/status_bar_color"
+                    android:indeterminateTintMode="src_in" />
+
+            </FrameLayout>
+        </android.support.design.widget.AppBarLayout>
+
 
 </LinearLayout>

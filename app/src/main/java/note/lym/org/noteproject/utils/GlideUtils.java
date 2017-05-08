@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
 
 /**
  * Glide管理类
@@ -25,7 +26,19 @@ public class GlideUtils {
      * @param url 图片地址
      */
     public static void load(Context act, ImageView img, String url) {
-        Glide.with(act).load(url).into(img);
+        Glide.with(act).load(url).centerCrop().into(img);
+    }
+
+    /**
+     * 就加载一张图片，啥都不设置。
+     *
+     * @param context 上下文对象
+     * @param view 设置加载的图片
+     * @param url 图片地址
+     * @param listener 回调
+     */
+    public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
+        Glide.with(context).load(url).centerCrop().dontAnimate().listener(listener).into(view);
     }
 
     /**

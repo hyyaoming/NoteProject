@@ -7,4 +7,7 @@ public interface BaseView {
 
     void showError(String msg);
 
+    void showLoading();
+
+    void hideLoading();
 }

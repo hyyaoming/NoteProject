@@ -5,24 +5,20 @@
     android:background="@drawable/activity_bg"
     android:orientation="vertical">
 
-    <note.lym.org.noteproject.view.BaseActionBar
-        android:id="@+id/insert_action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height" />
+    <include layout="@layout/layout_tool_bar"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbarThumbVertical="@android:color/transparent"
-        >
+        android:scrollbarThumbVertical="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="0dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_height="0dp">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -49,8 +45,8 @@
                     android:id="@+id/tv_content_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_alignBottom="@id/tv_note_time"
+                    android:layout_alignParentRight="true"
                     android:textColor="@color/gary_color"
                     android:textSize="14sp" />
 
@@ -60,12 +56,11 @@
                 android:id="@+id/edit_note_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
                 android:layout_marginTop="20dp"
+                android:background="@null"
                 android:lineSpacingExtra="4dp"
-                android:textSize="16sp"
                 android:textColor="@color/gary_color"
-                />
+                android:textSize="16sp" />
 
         </LinearLayout>
 

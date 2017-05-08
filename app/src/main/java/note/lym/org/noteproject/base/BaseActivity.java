@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -26,7 +27,7 @@ import note.lym.org.noteproject.utils.StatusBarCompat;
  * @author yaoming.li
  * @since 2017-04-25 10:23
  */
-public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTimePermission  implements BaseView{
+public abstract class BaseActivity <T extends BasePresenter> extends ToolBarBaseActivity  implements BaseView{
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -87,14 +88,6 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
     }
 
 
-    /**
-     * 隐藏系统软键盘
-     */
-    protected void hideSoftInput(){
-        if (SoftInputUtil.isOpen()) {
-            SoftInputUtil.hideSysSoftInput(this);
-        }
-    }
 
     @Override
     protected void onDestroy() {

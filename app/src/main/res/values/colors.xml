@@ -10,4 +10,6 @@
     <color name="theme_color">#95A4C1</color>
     <color name="key_color">@color/orange</color>
     <color name="orange">#ff5200</color>
+    <color name="mid_grey">#40808080</color>
+    <color name="belle_color">#faf1f1f1</color>
 </resources>

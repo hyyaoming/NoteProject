@@ -7,6 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/gary_color</item>
     </style>
+    
+    <style name="BigBelleTheme" parent="BaseAppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="AppTheme" parent="BaseAppTheme">
 
@@ -22,5 +26,7 @@
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
 </resources>

@@ -2,8 +2,13 @@ package note.lym.org.noteproject.ui.home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,9 +27,8 @@ import project.recyclerview.lym.org.recyclerviewlibrary.util.DateUtils;
  * @since 2017-04-26 10:38
  */
 public class InsertNoteActivity extends SimpleActivity {
-
-    @BindView(R.id.insert_action_bar)
-    BaseActionBar mActionBar;
+    @BindView(R.id.toolbar)
+    Toolbar mToolBar;
     @BindView(R.id.tv_note_name)
     TextView mTvNoteName;
     @BindView(R.id.tv_note_time)
@@ -81,26 +85,29 @@ public class InsertNoteActivity extends SimpleActivity {
     }
 
     private void initActionBar() {
-        mActionBar.setTextTitle(R.string.add_note);
-        mActionBar.setRightImageResources(R.drawable.insert_done);
-        mActionBar.setLeftBackListener(true, new BaseActionBar.LeftBackListener() {
-            @Override
-            public void onClick() {
-                saveNote();
-            }
-        });
-        mActionBar.setRightInsertClickListener(true, new BaseActionBar.RightInsertClickListener() {
-            @Override
-            public void onClick() {
-                if (!saveNote()) {
-                    ToastUtils.showToast(R.string.please_insert_note);
-                }
-            }
-        });
+        initToolBar(mToolBar,true,getString(R.string.add_note));
     }
 
     protected void initData() {
         getIntentData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save_note,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() ==R.id.save_note){
+            saveNote();
+            return true;
+        }else if(item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+        return false;
     }
 
     protected void bindView() {
@@ -112,15 +119,15 @@ public class InsertNoteActivity extends SimpleActivity {
         mNoteName = getIntent().getStringExtra(NOTE_NAME);
     }
 
-    private boolean saveNote() {
+    private void saveNote() {
         if (getContentSize() > 0) {
             hideSoftInput();
             getInsertNote().save();
             setResult(RESULT_OK);
             finish();
-            return true;
+        }else{
+            ToastUtils.showToast(R.string.please_insert_note);
         }
-        return false;
     }
 
     private Note getInsertNote() {
@@ -140,10 +147,14 @@ public class InsertNoteActivity extends SimpleActivity {
         return getNoteContent().length();
     }
 
-    public static void action(Activity context, String noteName) {
+    public static void action(Fragment fragment,Activity context, String noteName) {
         Intent intent = new Intent(context, InsertNoteActivity.class);
         intent.putExtra(NOTE_NAME, noteName);
-        context.startActivityForResult(intent, REQUEST_CODE);
+        fragment.startActivityForResult(intent, REQUEST_CODE);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+    }
 }

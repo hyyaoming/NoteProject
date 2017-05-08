@@ -542,8 +542,7 @@ public abstract class BaseFastAdapter<T, K extends BaseViewHolder> extends Recyc
                     return EMPTY_VIEW;
             }
         }
-//        autoLoadMore(position);
-//        mRecyclerView.addOnScrollListener(listener);
+        autoLoadMore(position);
         int numHeaders = getHeaderLayoutCount();
         if (position < numHeaders) {
             return HEADER_VIEW;

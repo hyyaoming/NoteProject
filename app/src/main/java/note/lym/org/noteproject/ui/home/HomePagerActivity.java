@@ -1,38 +1,28 @@
 package note.lym.org.noteproject.ui.home;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.util.SparseArray;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.WindowManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.adapter.NoteListAdapter;
-import note.lym.org.noteproject.base.BaseActivity;
-import note.lym.org.noteproject.model.bean.Note;
-import note.lym.org.noteproject.presenter.note.INoteView;
-import note.lym.org.noteproject.presenter.note.NoteListPresenter;
-import note.lym.org.noteproject.view.BaseActionBar;
-import note.lym.org.noteproject.view.InsertNoteDialog;
-import note.lym.org.noteproject.view.PopupUtils;
-import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
-import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
-import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClickListener;
+import note.lym.org.noteproject.base.SimpleActivity;
+import note.lym.org.noteproject.fragment.BelleListFragment;
+import note.lym.org.noteproject.fragment.NoteListFragment;
+import note.lym.org.noteproject.fragment.TabPagerFragment;
 
 /**
  * 主页
@@ -40,156 +30,32 @@ import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClick
  * @author yaoming.li
  * @since 2017-04-25 11:35
  */
-public class HomePagerActivity extends BaseActivity<NoteListPresenter> implements SwipeRefreshLayout.OnRefreshListener, INoteView {
+public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipe;
-    @BindView(R.id.title_bar)
-    BaseActionBar mActionBar;
-    @BindView(R.id.rv_list)
-    RecyclerView mRvList;
-    @BindView(R.id.layout_no_note)
-    View mNoNoteView;
-    private NoteListAdapter mAdapter;
-    private static final long DELAYED_TIME = 1500;
 
-    @Override
-    protected void initInject() {
-        getActivityComponent().inject(this);
-    }
+    @BindView(R.id.nav_view)
+    NavigationView mNavView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    private SparseArray<String> mSparseTags = new SparseArray<>();
+    private int mItemId = -1;
+    private WeakHandler mHandler = new WeakHandler(this);
+    private static final int EXIT_TIME = 1500;
+    private long mExit_Time = 0;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_homepager;
+    protected int getLayout() {
+        return R.layout.fragment_tab_pager_fragment;
     }
 
     @Override
-    protected void initListener() {
-        initActionBar();
-        initRecyclerViewList();
+    protected void initEventAndData() {
+        _initDrawerLayout(mDrawerLayout, mNavView);
+        mSparseTags.put(R.id.menu_note, getString(R.string.casual_write));
+        mSparseTags.put(R.id.menu_picture, getString(R.string.around_work));
+        mNavView.setCheckedItem(R.id.menu_note);
+        addFragment(R.id.fl_container, new NoteListFragment(),  getString(R.string.casual_write));
     }
-
-    private void initRecyclerViewList() {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvList.setLayoutManager(manager);
-        mRvList.setHasFixedSize(true);
-        initAdapter();
-        initRecyclerViewItemClickListener();
-        initSwipeRefreshListener();
-    }
-
-    private void initSwipeRefreshListener() {
-        mSwipe.setOnRefreshListener(this);
-        mSwipe.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-    }
-
-    private void initRecyclerViewItemClickListener() {
-        mRvList.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
-                String noteName = ((Note) adapter.getData().get(position)).noteName;
-                String noteTime = ((Note) adapter.getData().get(position)).date;
-                String noteContent = ((Note) adapter.getData().get(position)).content;
-                hideSoftInput();
-//                NoteDetailActivity.action(HomePagerActivity.this, noteName, noteTime, noteContent);
-            }
-        });
-
-        mRvList.addOnItemTouchListener(new OnItemLongClickListener() {
-            @Override
-            public void onSimpleItemLongClick(BaseFastAdapter adapter, View view, final int position) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(HomePagerActivity.this);
-                builder.setTitle(R.string.warm_toast);
-                builder.setMessage(R.string.are_you_sure_delete_this_note);
-                builder.setNegativeButton(R.string.negative, null);
-                builder.setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.deleteNote(position, mAdapter.getData().get(position), mAdapter);
-                    }
-                });
-                builder.show();
-            }
-        });
-    }
-
-    private void initAdapter() {
-        mAdapter = new NoteListAdapter(R.layout.item_note_list, null);
-        mRvList.setAdapter(mAdapter);
-    }
-
-    private View getHeaderView() {
-        View view = getLayoutInflater().inflate(R.layout.header_search_view, (ViewGroup) mRvList.getParent(), false);
-        EditText mEditSearch = (EditText) view.findViewById(R.id.edit_search_view);
-        mEditSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    mAdapter.setNewData(filterSearch(s.toString()));
-                } else {
-                    mAdapter.setNewData(mPresenter.getNoteListData());
-                }
-                mAdapter.filterKey(s.toString());
-            }
-        });
-        return view;
-    }
-
-    private ArrayList<Note> filterSearch(String text) {
-        ArrayList<Note> data = new ArrayList<>();
-        for (Note note : mAdapter.getData()) {
-            if (note.date.contains(text) || note.noteName.contains(text) || note.content.contains(text)) {
-                data.add(note);
-            }
-        }
-        return data;
-    }
-
-    private void initActionBar() {
-        mActionBar.setTextTitle(R.string.title);
-        mActionBar.setLeftImageResources(R.drawable.ic_nav);
-        mActionBar.setLeftBackListener(false, null);
-        mActionBar.setRightInsertClickListener(true, new BaseActionBar.RightInsertClickListener() {
-            @Override
-            public void onClick() {
-                showDialog();
-            }
-        });
-    }
-
-    private void showDialog() {
-        PopupUtils.showInsertNoteDialog(HomePagerActivity.this, new InsertNoteDialog.OnButtonClickListener() {
-            @Override
-            public void onClick(String note) {
-                hideSoftInput();
-                 InsertNoteActivity.action(HomePagerActivity.this, note);
-            }
-        });
-    }
-
-    @Override
-    protected void initData() {
-        mPresenter.getNoteList();
-        mPresenter.getData(true,10);
-    }
-
-
-    @Override
-    protected void bindView() {
-
-    }
-
 
     /**
      * 启动当前的Activity
@@ -202,22 +68,50 @@ public class HomePagerActivity extends BaseActivity<NoteListPresenter> implement
         activity.finish();
     }
 
-
-    private static final int EXIT_TIME = 1500;
-    private long mExit_Time = 0;
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exitApplication();
-            return true;
+    /**
+     * 初始化 DrawerLayout
+     *
+     * @param drawerLayout DrawerLayout
+     * @param navView      NavigationView
+     */
+    private void _initDrawerLayout(DrawerLayout drawerLayout, NavigationView navView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+            //将侧边栏顶部延伸至status bar
+            drawerLayout.setFitsSystemWindows(true);
+            //将主页面顶部延伸至status bar
+            drawerLayout.setClipToPadding(false);
         }
-        return super.onKeyDown(keyCode, event);
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                mHandler.sendEmptyMessage(mItemId);
+            }
+        });
+        navView.setNavigationItemSelectedListener(this);
     }
 
-    private void exitApplication() {
+    @Override
+    public void onBackPressed() {
+        // 获取堆栈里有几个
+        final int stackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else if (stackEntryCount == 1) {
+            // 如果剩一个说明在主页，提示按两次退出app
+            _exit();
+        } else {
+            // 获取上一个堆栈中保存的是哪个页面，根据name来设置导航项的选中状态
+            final String tagName = getSupportFragmentManager().getBackStackEntryAt(stackEntryCount - 2).getName();
+            mNavView.setCheckedItem(mSparseTags.keyAt(mSparseTags.indexOfValue(tagName)));
+            super.onBackPressed();
+        }
+    }
+
+    private void _exit() {
         if (System.currentTimeMillis() - mExit_Time > EXIT_TIME) {
-            Snackbar.make(mRvList, R.string.exit_app, Snackbar.LENGTH_SHORT).setAction(R.string.exit_application, new View.OnClickListener() {
+            Snackbar.make(mDrawerLayout, R.string.exit_app, Snackbar.LENGTH_SHORT).setAction(R.string.exit_application, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     exitApp();
@@ -230,54 +124,47 @@ public class HomePagerActivity extends BaseActivity<NoteListPresenter> implement
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == InsertNoteActivity.REQUEST_CODE && resultCode == RESULT_OK) {
-            mPresenter.getNoteList();
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        if (item.isChecked()) {
+            return true;
         }
+        mItemId = item.getItemId();
+        return true;
     }
 
     @Override
-    public void onRefresh() {
-        mAdapter.openLoadAnimation(BaseFastAdapter.SCALEIN);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.setNewData(mPresenter.getNoteListData());
-                mSwipe.setRefreshing(false);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class WeakHandler extends Handler {
+
+        private WeakReference<Activity> act;
+
+        public WeakHandler(Activity activity) {
+            act = new WeakReference<Activity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            Activity activity = act.get();
+            if (activity == null) {
+                return;
             }
-        }, DELAYED_TIME);
-    }
-
-    @Override
-    public void updateNoteList(List<Note> notes) {
-        mAdapter.setNewData(notes);
-    }
-
-    @Override
-    public void showDateView() {
-        mNoNoteView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void noDataView() {
-        mNoNoteView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void initHeaderView() {
-        if (mAdapter.getHeaderLayoutCount() == 0) {
-            mAdapter.addHeaderView(getHeaderView());
+            switch (msg.what) {
+                case R.id.menu_picture:
+                    replaceFragment(R.id.fl_container, new TabPagerFragment(), mSparseTags.get(R.id.menu_picture));
+                    break;
+                case R.id.menu_note:
+                    replaceFragment(R.id.fl_container, new NoteListFragment(), mSparseTags.get(R.id.menu_note));
+                    break;
+            }
         }
     }
 
-    @Override
-    public void removeHeaderView() {
-        mAdapter.removeAllHeaderView();
-    }
-
-    @Override
-    public void showError(String msg) {
-
-    }
 }

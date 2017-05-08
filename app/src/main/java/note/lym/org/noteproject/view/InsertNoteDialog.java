@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import note.lym.org.noteproject.R;
+import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
@@ -65,6 +66,7 @@ public class InsertNoteDialog extends Dialog {
         String noteName = mEditNoteName.getText().toString().trim();
         if (null != mListener && !TextUtils.isEmpty(noteName)) {
             mListener.onClick(noteName);
+            SoftInputUtil.hideShow(mEditNoteName);
             dismiss();
         }else{
             ToastUtils.showToast(R.string.please_insert_note_name);

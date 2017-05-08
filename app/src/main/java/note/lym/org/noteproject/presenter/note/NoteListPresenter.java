@@ -13,6 +13,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.adapter.NoteListAdapter;
 import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.RxPresenter;
+import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.model.http.HttpResponse;
@@ -70,16 +71,13 @@ public class NoteListPresenter extends RxPresenter<INoteView> implements IBaseNo
         } else {
             mPage++;
         }
-
-        Flowable<HttpResponse<List<xxxData>>> flowable = mRetrofitHelper.fetchGetData(size,mPage);
-
+        Flowable<HttpResponse<List<xxxData>>> flowable = mRetrofitHelper.fetchGetData(size, mPage);
         ResourceSubscriber<HttpResponse<List<xxxData>>> observer = new ResourceSubscriber<HttpResponse<List<xxxData>>>() {
-
             @Override
             public void onNext(HttpResponse<List<xxxData>> data) {
                 if (null != getView() && null != data) {
-                    if (!data.error ) {
-                        Log.d(Constants.Async,data.results.toString());
+                    if (!data.error) {
+                        Log.d(Constants.Async, data.results.toString());
 //                        getView().showSuccess(data.results);
                     } else {
 //                        getView().showFailure();
@@ -97,16 +95,7 @@ public class NoteListPresenter extends RxPresenter<INoteView> implements IBaseNo
             public void onComplete() {
 
             }
-
         };
-
         addSubscription(mRetrofitHelper.startObservable(flowable, observer));
-
-
-
     }
-
-
-
-
 }

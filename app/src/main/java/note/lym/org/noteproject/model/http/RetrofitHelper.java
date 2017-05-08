@@ -13,6 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.BuildConfig;
 import note.lym.org.noteproject.app.Constants;
+import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.utils.SystemUtil;
 import okhttp3.Cache;
@@ -79,23 +80,7 @@ public class RetrofitHelper {
                 return response;
             }
         };
-        //共参
-//        Interceptor parameters = new Interceptor() {
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//                Request original = chain.request();
-//                HttpUrl originalHttpUrl = original.url();
-//                HttpUrl url = originalHttpUrl.newBuilder()
-//                        .addQueryParameter("token", SPUtil.getToken())
-//                        .build();
-//                Request.Builder requestBuilder = original.newBuilder()
-//                        .url(url);
-//                Request request = requestBuilder.build();
-//                return chain.proceed(request);
-//            }
-//        };
         builder.addNetworkInterceptor(cacheInterceptor);
-//        builder.addInterceptor(parameters);
         builder.cache(cache).addInterceptor(cacheInterceptor);
         //设置超时
         builder.connectTimeout(15, TimeUnit.SECONDS);
@@ -130,6 +115,10 @@ public class RetrofitHelper {
 
     public Flowable<HttpResponse<List<xxxData>>> fetchGetData(int size, int page) {
         return sNoteApis.getData(size,page);
+    }
+
+    public Flowable<Belle> getBelleData(int page){
+        return sNoteApis.getBelleData(page);
     }
 
 }

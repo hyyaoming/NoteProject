@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/detail_action_bar"
-        layout="@layout/base_action_bar" />
+     layout="@layout/layout_tool_bar"
+        />
 
     <ScrollView
         android:layout_width="match_parent"

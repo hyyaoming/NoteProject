@@ -4,4 +4,11 @@
     <style name="AppTheme" parent="@style/BaseAppTheme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <!-- 这个用来处理大图界面，底部导航透明 -->
+    <style name="AppTheme.BigPhotoTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
 </resources>

@@ -18,4 +18,10 @@
     <string name="negative">否</string>
     <string name="positive">是</string>
     <string name="quickly_key">快速搜索关键字</string>
+    <string name="again">重试</string>
+    <string name="no_network">请检查网络</string>
+    <string name="no_date">小编今天没准备小姐姐吗？</string>
+    <string name="a_little_love">a little love</string>
+    <string name="casual_write">随便写写</string>
+    <string name="around_work">随便逛逛</string>
 </resources>
