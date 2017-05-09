@@ -59,4 +59,6 @@ public abstract class SimpleActivity extends ToolBarBaseActivity {
         android.os.Process.killProcess(Process.myPid());
     }
 
+
+
 }

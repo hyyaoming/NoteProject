@@ -16,6 +16,7 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.presenter.note.news.INewsView;
 import note.lym.org.noteproject.presenter.note.news.NewsListPresenter;
+import note.lym.org.noteproject.ui.home.detail.NewsDetailActivity;
 import note.lym.org.noteproject.utils.ToastUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
@@ -51,7 +52,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mRvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
-                ToastUtils.showToast("敬请期待");
+                String newsId = ((NewsList.NewsBean)adapter.getData().get(position)).getDocid();
+                NewsDetailActivity.launch(getActivity(),newsId);
             }
         });
         mAdapter.setOnLoadMoreListener(this);

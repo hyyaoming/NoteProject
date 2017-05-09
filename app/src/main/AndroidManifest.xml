@@ -26,6 +26,7 @@
             android:theme="@style/AppTheme.BigPhotoTheme"
             />
       <activity android:name=".ui.home.detail.NoteDetailActivity"/>
+        <activity android:name=".ui.home.detail.NewsDetailActivity"/>
 
     </application>
 

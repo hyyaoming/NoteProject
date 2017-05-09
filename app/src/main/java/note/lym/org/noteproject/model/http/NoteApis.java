@@ -2,9 +2,11 @@ package note.lym.org.noteproject.model.http;
 
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Flowable;
 import note.lym.org.noteproject.model.bean.Belle;
+import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.xxxData;
 import retrofit2.http.GET;
@@ -24,5 +26,8 @@ public interface NoteApis {
 
     @GET("http://c.m.163.com/nc/article/headline/T1348647909107/{id}-20.html")
     Flowable<NewsList> getNews(@Path("id") int id );
+
+    @GET("http://c.m.163.com/nc/article/{newsId}/full.html")
+    Flowable<Map<String, NewsDetailBean>> getNewsDetail(@Path("newsId") String newsId);
 
 }

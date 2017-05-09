@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.WindowManager;
 
 import javax.inject.Inject;
@@ -99,4 +100,12 @@ public abstract class BaseActivity <T extends BasePresenter> extends ToolBarBase
         mUnBinder.unbind();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+        return false;
+    }
 }

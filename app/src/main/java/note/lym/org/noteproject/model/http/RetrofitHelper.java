@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -14,6 +15,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.BuildConfig;
 import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.model.bean.Belle;
+import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.utils.SystemUtil;
@@ -124,6 +126,10 @@ public class RetrofitHelper {
 
     public Flowable<NewsList> getNewsList(int page){
         return sNoteApis.getNews(page);
+    }
+
+    public Flowable<Map<String, NewsDetailBean>> getNewsDetail(String id){
+        return sNoteApis.getNewsDetail(id);
     }
 
 
