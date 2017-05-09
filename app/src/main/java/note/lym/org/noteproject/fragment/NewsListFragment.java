@@ -21,6 +21,7 @@ import note.lym.org.noteproject.utils.ToastUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.DefaultItemDecoration;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.ItemMoveAndRemoveHelper;
 
 /**
  * Desp.
@@ -49,6 +50,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mRvList.setLayoutManager(manager);
         mRvList.setHasFixedSize(true);
         mRvList.setAdapter(mAdapter);
+        ItemMoveAndRemoveHelper.openItemMove(mRvList,mAdapter);
         mRvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {

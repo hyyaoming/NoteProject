@@ -25,8 +25,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import project.recyclerview.lym.org.recyclerviewlibrary.BaseAnimation.AlphaInAnimation;
@@ -36,6 +36,9 @@ import project.recyclerview.lym.org.recyclerviewlibrary.BaseAnimation.SlideInBot
 import project.recyclerview.lym.org.recyclerviewlibrary.BaseAnimation.SlideInLeftAnimation;
 import project.recyclerview.lym.org.recyclerviewlibrary.BaseAnimation.SlideInRightAnimation;
 import project.recyclerview.lym.org.recyclerviewlibrary.entity.IExpandable;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.ItemRemoveAdapterHelper;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemMoveListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemRemoveListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.loadmore.LoadMoreView;
 import project.recyclerview.lym.org.recyclerviewlibrary.loadmore.SimpleLoadMoreView;
 import project.recyclerview.lym.org.recyclerviewlibrary.viewholder.BaseViewHolder;
@@ -48,7 +51,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  *
  * @author yaoming.li
  */
-public abstract class BaseFastAdapter<T, K extends BaseViewHolder> extends RecyclerView.Adapter<K> {
+public abstract class BaseFastAdapter<T, K extends BaseViewHolder> extends RecyclerView.Adapter<K> implements ItemRemoveAdapterHelper {
 
     //load more
     private boolean mNextLoadEnable = false;
@@ -1527,5 +1530,30 @@ public abstract class BaseFastAdapter<T, K extends BaseViewHolder> extends Recyc
             }
         }
         return -1;
+    }
+
+    private OnItemRemoveListener mItemRemoveListener;
+
+    public void setOnItemRemoveListener(OnItemRemoveListener listener) {
+        this.mItemRemoveListener = listener;
+    }
+
+
+    @Override
+    public boolean onItemMove(int formPosition, int toPosition) {
+        int formPositions = formPosition - getHeaderLayoutCount();
+        int toPositions = toPosition - getHeaderLayoutCount();
+        Collections.swap(mData, formPositions, toPositions);
+        notifyItemMoved(formPositions, toPositions);
+        return true;
+    }
+
+    @Override
+    public boolean onItemVanish(RecyclerView.ViewHolder viewHolder) {
+        if (null != mItemRemoveListener) {
+            int position =  viewHolder.getAdapterPosition() - getHeaderLayoutCount();
+            mItemRemoveListener.onItemRemove(position);
+        }
+        return true;
     }
 }

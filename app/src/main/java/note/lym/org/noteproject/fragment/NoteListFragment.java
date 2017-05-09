@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,6 +39,10 @@ import note.lym.org.noteproject.view.PopupUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClickListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemMoveListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemRemoveListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.ItemMoveAndRemoveHelper;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.RecyclerViewItemTouchHelper;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -77,6 +83,7 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
         mAdapter = new NoteListAdapter(R.layout.item_note_list, null);
         mRvList.setAdapter(mAdapter);
         initRecyclerViewItemClickListener();
+        ItemMoveAndRemoveHelper.openItemMove(mRvList,mAdapter);
         initSwipeRefreshListener();
     }
 
@@ -220,7 +227,7 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
             PopupUtils.showInsertNoteDialog(getActivity(), new InsertNoteDialog.OnButtonClickListener() {
                 @Override
                 public void onClick(String note) {
-                    InsertNoteActivity.action(NoteListFragment.this,getActivity(), note);
+                    InsertNoteActivity.action(NoteListFragment.this, note);
                 }
             });
             return true;

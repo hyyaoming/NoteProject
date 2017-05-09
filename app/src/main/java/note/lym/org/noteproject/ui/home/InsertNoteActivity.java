@@ -60,9 +60,8 @@ public class InsertNoteActivity extends SimpleActivity {
     protected void initEventAndData() {
         initActionBar();
         initEditListener();
-
-        bindView();
         initData();
+        bindView();
     }
 
     private void initEditListener() {
@@ -147,8 +146,8 @@ public class InsertNoteActivity extends SimpleActivity {
         return getNoteContent().length();
     }
 
-    public static void action(Fragment fragment,Activity context, String noteName) {
-        Intent intent = new Intent(context, InsertNoteActivity.class);
+    public static void action(Fragment fragment, String noteName) {
+        Intent intent = new Intent(fragment.getActivity(), InsertNoteActivity.class);
         intent.putExtra(NOTE_NAME, noteName);
         fragment.startActivityForResult(intent, REQUEST_CODE);
     }
