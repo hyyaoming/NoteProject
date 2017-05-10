@@ -19,7 +19,7 @@ import note.lym.org.noteproject.utils.SoftInputUtil;
 /**
  * 无MVP的activity
  */
-public abstract class SimpleActivity extends ToolBarBaseActivity {
+public abstract class SimpleActivity extends BaseRunTimePermission {
 
 
     protected Activity mContext;

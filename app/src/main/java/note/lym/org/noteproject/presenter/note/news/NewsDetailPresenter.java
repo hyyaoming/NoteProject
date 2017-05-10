@@ -43,6 +43,6 @@ public class NewsDetailPresenter extends RxPresenter<INewsDetailView> implements
 
             }
         };
-        mHelper.startObservable(able,subscriber);
+        addSubscription(mHelper.startObservable(able,subscriber));
     }
 }

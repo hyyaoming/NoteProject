@@ -20,7 +20,7 @@ import note.lym.org.noteproject.manage.ActivityManage;
  * @author yaoming.li
  * @since 2017-04-25 10:31
  */
-public class BaseRunTimePermission extends AppCompatActivity {
+public class BaseRunTimePermission extends ToolBarBaseActivity {
 
     private static RequestPermissionListener mListener;
     private static final int REQUEST_PERMISSION_CODE = 1000;
@@ -37,7 +37,7 @@ public class BaseRunTimePermission extends AppCompatActivity {
      * @param arr      传入一个需要申请权限的数组
      * @param listener 回调
      */
-    public static void requestRunTimePermission(String arr[], RequestPermissionListener listener) {
+    protected  void requestRunTimePermission(String arr[], RequestPermissionListener listener) {
         mListener = listener;
         Activity activity = ActivityManage.getStackTopActivity();
         if (null == activity) {

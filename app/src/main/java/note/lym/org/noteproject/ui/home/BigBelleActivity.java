@@ -1,5 +1,7 @@
 package note.lym.org.noteproject.ui.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +15,7 @@ import com.bumptech.glide.request.target.Target;
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.base.SimpleActivity;
-import note.lym.org.noteproject.fragment.BelleListFragment;
+import note.lym.org.noteproject.utils.AlbumManager;
 import note.lym.org.noteproject.utils.GlideUtils;
 import uk.co.senab.photoview.PhotoView;
 
@@ -55,6 +57,26 @@ public class BigBelleActivity extends SimpleActivity {
             }
         };
         GlideUtils.loadCenterCrop(this,mImageUrl, mPhotoView,listener);
+        mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                saveImageToGallery(mImageUrl);
+                return true;
+            }
+        });
+    }
+
+    private void saveImageToGallery(final String url) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BigBelleActivity.this);
+        builder.setTitle(R.string.download_belle);
+        builder.setNegativeButton(android.R.string.cancel,null);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlbumManager.download(url);
+            }
+        }).show();
+
     }
 
     public static void action(Fragment fragment, String url) {

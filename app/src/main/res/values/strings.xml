@@ -24,4 +24,7 @@
     <string name="a_little_love">a little love</string>
     <string name="casual_write">随便写写</string>
     <string name="around_work">随便逛逛</string>
+    <string name="download_belle">小主好眼力,快收了她</string>
+    <string name="save_image_success">小主快去相册中看看吧~</string>
+    <string name="save_image_error">下载貌似失败了呢~</string>
 </resources>

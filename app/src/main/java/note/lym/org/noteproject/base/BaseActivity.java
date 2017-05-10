@@ -28,7 +28,7 @@ import note.lym.org.noteproject.utils.StatusBarCompat;
  * @author yaoming.li
  * @since 2017-04-25 10:23
  */
-public abstract class BaseActivity <T extends BasePresenter> extends ToolBarBaseActivity  implements BaseView{
+public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTimePermission  implements BaseView{
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
