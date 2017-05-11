@@ -12,4 +12,5 @@
     <color name="orange">#ff5200</color>
     <color name="mid_grey">#40808080</color>
     <color name="belle_color">#faf1f1f1</color>
+    <color name="light_black">#30000000</color>
 </resources>

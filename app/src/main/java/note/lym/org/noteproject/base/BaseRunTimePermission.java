@@ -2,12 +2,9 @@ package note.lym.org.noteproject.base;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,19 +22,13 @@ public class BaseRunTimePermission extends ToolBarBaseActivity {
     private static RequestPermissionListener mListener;
     private static final int REQUEST_PERMISSION_CODE = 1000;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityManage.getInstance().addActivityToStack(this);
-    }
-
     /**
      * 处理运行时权限
      *
      * @param arr      传入一个需要申请权限的数组
      * @param listener 回调
      */
-    protected  void requestRunTimePermission(String arr[], RequestPermissionListener listener) {
+    public static void requestRunTimePermission(String arr[], RequestPermissionListener listener) {
         mListener = listener;
         Activity activity = ActivityManage.getStackTopActivity();
         if (null == activity) {
@@ -45,7 +36,7 @@ public class BaseRunTimePermission extends ToolBarBaseActivity {
         }
         LinkedList<String> arrays = new LinkedList<>();
         for (String permission : arr) {
-            if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED) {
                 arrays.add(permission);
             }
         }
@@ -54,13 +45,6 @@ public class BaseRunTimePermission extends ToolBarBaseActivity {
         } else {
             ActivityCompat.requestPermissions(activity, arrays.toArray(new String[arrays.size()]), REQUEST_PERMISSION_CODE);
         }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ActivityManage.getInstance().removeActivityBackStack(this);
     }
 
     @Override
