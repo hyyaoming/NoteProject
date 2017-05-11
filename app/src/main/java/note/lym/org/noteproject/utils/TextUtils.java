@@ -39,4 +39,25 @@ public class TextUtils {
         return sp;
     }
 
+    /**
+     * 过滤所有空白
+     * 包括：空格" "，换行，\t（一个tab空格）
+     *
+     * @param str 字符串
+     * @return String
+     */
+    public static String trimAllWhitespace(String str) {
+        return str.replaceAll(" ", "").replaceAll("\n", "").replaceAll("\t", "").toString();
+    }
+
+    /**
+     * 过滤"\n"空白
+     *
+     * @param str 字符串
+     * @return String
+     */
+    public static String replaceWhiteSpace(String str) {
+        return str.replaceAll("\n", "");
+    }
+
 }

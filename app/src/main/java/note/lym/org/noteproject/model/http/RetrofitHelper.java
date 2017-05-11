@@ -18,6 +18,7 @@ import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
+import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.utils.SystemUtil;
 import okhttp3.Cache;
@@ -118,23 +119,27 @@ public class RetrofitHelper {
     }
 
     public Flowable<HttpResponse<List<xxxData>>> fetchGetData(int size, int page) {
-        return sNoteApis.getData(size,page);
+        return sNoteApis.getData(size, page);
     }
 
-    public Flowable<Belle> getBelleData(int page){
+    public Flowable<Belle> getBelleData(int page) {
         return sNoteApis.getBelleData(page);
     }
 
-    public Flowable<NewsList> getNewsList(int page){
+    public Flowable<NewsList> getNewsList(int page) {
         return sNoteApis.getNews(page);
     }
 
-    public Flowable<Map<String, NewsDetailBean>> getNewsDetail(String id){
+    public Flowable<Map<String, NewsDetailBean>> getNewsDetail(String id) {
         return sNoteApis.getNewsDetail(id);
     }
 
-    public Flowable<Joke> getJokeList(Map<String,String> map){
+    public Flowable<Joke> getJokeList(Map<String, String> map) {
         return sNoteApis.getJokes(map);
+    }
+
+    public Flowable<TextJoke> getTextJokeList(Map<String,String> map){
+        return sNoteApis.getTextJoke(map);
     }
 
 

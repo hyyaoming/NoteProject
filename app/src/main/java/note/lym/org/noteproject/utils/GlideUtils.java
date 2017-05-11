@@ -56,7 +56,7 @@ public class GlideUtils {
      */
     public static void loadGif(String url,ImageView iv,int defaultImage){
         if(SystemUtil.isWifiConnected(NoteApplication.getInstance())){
-            Glide.with(NoteApplication.getInstance()).load(url).asGif().diskCacheStrategy(DiskCacheStrategy.NONE).into(iv);
+            Glide.with(NoteApplication.getInstance()).load(url).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
         }else{
             iv.setImageResource(defaultImage);
         }

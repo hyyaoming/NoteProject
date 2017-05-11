@@ -12,6 +12,7 @@ import java.util.List;
 import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.JokeListFragment;
 import note.lym.org.noteproject.fragment.NewsListFragment;
+import note.lym.org.noteproject.fragment.TextJokeListFragment;
 
 /**
  * FragmentPagerAdapter适用于数量较少，page固定的情况，因为fragment不会被被完全回收，不会走onDestroy
@@ -33,6 +34,7 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     private static final int NEW_ITEM = 1;
     private SparseArray<Fragment> mArray = new SparseArray<>();
     private static final int JOKE_ITEM = 2;
+    private static final int TEXT_JOKE_ITEM = 3;
     private Fragment mFragment;
     private List<String> mList;
 
@@ -70,6 +72,16 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
                     JokeListFragment fragment = new JokeListFragment();
                     mFragment = fragment;
                     mArray.put(JOKE_ITEM, fragment);
+                    return fragment;
+                } else {
+                    return mFragment;
+                }
+            case TEXT_JOKE_ITEM:
+                mFragment = mArray.get(TEXT_JOKE_ITEM);
+                if (null == mFragment) {
+                    TextJokeListFragment fragment = new TextJokeListFragment();
+                    mFragment = fragment;
+                    mArray.put(TEXT_JOKE_ITEM, fragment);
                     return fragment;
                 } else {
                     return mFragment;

@@ -9,6 +9,7 @@ import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
+import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.model.bean.xxxData;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -35,4 +36,6 @@ public interface NoteApis {
     @GET("https://route.showapi.com/341-3")
     Flowable<Joke> getJokes(@QueryMap Map<String,String> map);
 
+    @GET("http://route.showapi.com/341-1")
+    Flowable<TextJoke> getTextJoke(@QueryMap Map<String,String> map);
 }
