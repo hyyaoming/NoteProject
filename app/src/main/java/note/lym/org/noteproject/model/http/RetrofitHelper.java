@@ -15,6 +15,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.BuildConfig;
 import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.model.bean.Belle;
+import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.xxxData;
@@ -132,6 +133,9 @@ public class RetrofitHelper {
         return sNoteApis.getNewsDetail(id);
     }
 
+    public Flowable<Joke> getJokeList(Map<String,String> map){
+        return sNoteApis.getJokes(map);
+    }
 
 
 }

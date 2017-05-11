@@ -31,8 +31,6 @@ import note.lym.org.noteproject.fragment.TabPagerFragment;
  * @since 2017-04-25 11:35
  */
 public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-
     @BindView(R.id.nav_view)
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
@@ -53,8 +51,8 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         _initDrawerLayout(mDrawerLayout, mNavView);
         mSparseTags.put(R.id.menu_note, getString(R.string.casual_write));
         mSparseTags.put(R.id.menu_picture, getString(R.string.around_work));
-        mNavView.setCheckedItem(R.id.menu_note);
-        addFragment(R.id.fl_container, new NoteListFragment(),  getString(R.string.casual_write));
+        mNavView.setCheckedItem(R.id.menu_picture);
+        addFragment(R.id.fl_container, new TabPagerFragment(),  getString(R.string.around_work));
     }
 
     /**
@@ -142,6 +140,9 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 这里采用一个软引用队列，防止内存泄漏
+     */
     private class WeakHandler extends Handler {
 
         private WeakReference<Activity> act;

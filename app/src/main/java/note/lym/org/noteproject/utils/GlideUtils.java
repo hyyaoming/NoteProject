@@ -4,7 +4,10 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
+
+import note.lym.org.noteproject.app.NoteApplication;
 
 /**
  * Glide管理类
@@ -25,8 +28,12 @@ public class GlideUtils {
      * @param img 设置加载的图片
      * @param url 图片地址
      */
-    public static void load(Context act, ImageView img, String url) {
-        Glide.with(act).load(url).centerCrop().into(img);
+    public static void load(Context act, ImageView img, String url,int defaultImage) {
+        if(SystemUtil.isWifiConnected(NoteApplication.getInstance())){
+            Glide.with(act).load(url).centerCrop().into(img);
+        }else{
+            img.setImageResource(defaultImage);
+        }
     }
 
     /**
@@ -39,6 +46,20 @@ public class GlideUtils {
      */
     public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
         Glide.with(context).load(url).centerCrop().dontAnimate().listener(listener).into(view);
+    }
+
+    /**
+     * 加载一张gif图片,只在wifi情况下加载。
+     * @param url   资源
+     * @param iv    图片
+     * @param defaultImage  默认图
+     */
+    public static void loadGif(String url,ImageView iv,int defaultImage){
+        if(SystemUtil.isWifiConnected(NoteApplication.getInstance())){
+            Glide.with(NoteApplication.getInstance()).load(url).asGif().diskCacheStrategy(DiskCacheStrategy.NONE).into(iv);
+        }else{
+            iv.setImageResource(defaultImage);
+        }
     }
 
     /**

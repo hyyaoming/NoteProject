@@ -6,11 +6,13 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import note.lym.org.noteproject.model.bean.Belle;
+import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.xxxData;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface NoteApis {
 
@@ -29,5 +31,8 @@ public interface NoteApis {
 
     @GET("http://c.m.163.com/nc/article/{newsId}/full.html")
     Flowable<Map<String, NewsDetailBean>> getNewsDetail(@Path("newsId") String newsId);
+
+    @GET("https://route.showapi.com/341-3")
+    Flowable<Joke> getJokes(@QueryMap Map<String,String> map);
 
 }

@@ -30,11 +30,18 @@ import note.lym.org.noteproject.utils.SoftInputUtil;
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView {
     protected static final String TAG = BaseFragment.class.getSimpleName();
     protected Context mContext;
+    /**
+     * 是否开始加载数据标记位
+     */
     private boolean mLoad = false;
     @Inject
     protected T mPresenter;
     private View mRootView;
     private Unbinder mBinder;
+    @Nullable
+    /**
+     * 子类布局文件中必须写一个progressbar,并且id要一致
+     */
     @BindView(R.id.progress)
     protected ProgressBar mBar;
 
@@ -51,13 +58,14 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
             }
             updateViews();
         }
-        ViewGroup group = (ViewGroup) container.getParent();
+        ViewGroup group = (ViewGroup) mRootView.getParent();
         if (null != group) {
             group.removeView(mRootView);
         }
         return mRootView;
     }
 
+    //当前fragment挂载到宿主Activity时回调
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -95,12 +103,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         }
     }
 
+    //宿主Activity创建时回调
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getUserVisibleHint() && null != mRootView && !mLoad) {
             mLoad = true;
-                loadLazyData();
+            loadLazyData();
         }
     }
 
@@ -129,6 +138,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         return new FragmentModule(this);
     }
 
+    //当前fragment是否可见
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisible() && isVisibleToUser && null != mRootView && !mLoad) {

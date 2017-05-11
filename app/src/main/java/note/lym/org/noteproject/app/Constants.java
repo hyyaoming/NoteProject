@@ -28,4 +28,13 @@ public class Constants {
     public static final String TOKEN = "token";
     public static final String PHONE = "phone";
     public static final String PASSWORD = "Password";
+
+    /**
+     * show_api_id
+     */
+    public static final String SHOW_API_ID = "37893";
+    /**
+     * show_api_key
+     */
+    public static final String SHOW_API_KEY = "82294d27890648a69d314cbc3072b489";
 }
