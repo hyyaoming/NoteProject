@@ -6,6 +6,8 @@ import dagger.Component;
 import note.lym.org.noteproject.Dagger.FragmentScope;
 import note.lym.org.noteproject.Dagger.Modul.FragmentModule;
 import note.lym.org.noteproject.fragment.BelleListFragment;
+import note.lym.org.noteproject.fragment.ClassifyListFragment;
+import note.lym.org.noteproject.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.fragment.JokeListFragment;
 import note.lym.org.noteproject.fragment.NewsListFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
@@ -26,5 +28,10 @@ public interface FragmentComponent {
     void inject(JokeListFragment fragment);
 
     void inject(TextJokeListFragment fragment);
+
+    void inject(HealthMessageFragment fragment);
+
+    void inject(ClassifyListFragment fragment);
+
 
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout_tool_bar"
+        layout="@layout/layout_app_tool_bar" />
+
+    <TextView
+        android:id="@+id/tv_health_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_tool_bar"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <note.lym.org.noteproject.view.image.BadgedFourThreeImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/iv_health_detail_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_health_detail_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:badgeGravity="end|bottom"
+        app:badgePadding="16dp" />
+
+    <TextView
+        android:id="@+id/tv_health_detail_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_health_detail_iv"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/gary_color"
+        android:lineSpacingExtra="3dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_health_detail_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_health_detail_content"
+        android:layout_margin="10dp"
+        android:textColor="@color/little_gary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_health_detail_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_health_detail_source"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/little_gary"
+        android:textSize="16sp" />
+
+
+</RelativeLayout>

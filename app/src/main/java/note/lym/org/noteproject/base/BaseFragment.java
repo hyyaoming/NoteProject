@@ -20,7 +20,6 @@ import note.lym.org.noteproject.Dagger.Component.FragmentComponent;
 import note.lym.org.noteproject.Dagger.Modul.FragmentModule;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
-import note.lym.org.noteproject.ui.home.HomePagerActivity;
 import note.lym.org.noteproject.utils.SoftInputUtil;
 
 /**
@@ -121,6 +120,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     }
 
     @Override
+    public void showError(String msg) {
+        if(mBar != null){
+            mBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void hideLoading() {
         if(mBar != null){
             mBar.setVisibility(View.GONE);
@@ -156,4 +162,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     protected abstract void initInject();
 
     protected abstract int getLayoutResources();
+
+
 }

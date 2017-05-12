@@ -32,7 +32,11 @@ public class TabPagerFragment extends SimpleFragment {
     @Override
     protected void loadLazyData() {
         initToolBar(mToolBar,true,"随便逛逛");
-        mAdapter = new TabFragmentAdapter(getActivity().getSupportFragmentManager(),list);
+        /**
+         * 在fragment中嵌套fragment，尤其是使用了ViewPager的情况下的时候最好使用getChildFragmentManager
+         * 而不要去使用 getActivity().getSupportFragmentManager() 避免一些buf的出现
+         */
+        mAdapter = new TabFragmentAdapter(getChildFragmentManager(),list);
         mVp.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mVp);
     }

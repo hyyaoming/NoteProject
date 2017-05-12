@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/news_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/toolbar_margin_top"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- 滚动的内容 -->
+        <include layout="@layout/layout_health_detail_content" />
+    </android.support.v4.widget.NestedScrollView>
+
+    <include
+        layout="@layout/layout_progress"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

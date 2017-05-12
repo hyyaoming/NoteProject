@@ -4,6 +4,8 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,4 +62,18 @@ public class TextUtils {
         return str.replaceAll("\n", "");
     }
 
+    public static boolean isEmpty(String str) {
+        return (str == null || str.length() == 0);
+    }
+
+    public static String utf8Encode(String str) {
+        if (!isEmpty(str) && str.getBytes().length != str.length()) {
+            try {
+                return URLEncoder.encode(str, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException("UnsupportedEncodingException occurred. ", e);
+            }
+        }
+        return str;
+    }
 }

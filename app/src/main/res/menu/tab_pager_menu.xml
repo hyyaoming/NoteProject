@@ -4,15 +4,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_note"
-            android:checkable="true"
             android:icon="@drawable/look1"
             android:title="@string/casual_write" />
 
         <item
             android:id="@+id/menu_picture"
-            android:checkable="true"
             android:icon="@drawable/ic_nav_picture"
             android:title="@string/around_work" />
+
+        <item
+            android:id="@+id/menu_health"
+            android:icon="@drawable/ic_nav_news"
+            android:title="@string/health_message" />
     </group>
 
 </menu>

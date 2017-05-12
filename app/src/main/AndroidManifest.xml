@@ -27,6 +27,7 @@
       <activity android:name=".ui.home.detail.NoteDetailActivity"/>
         <activity android:name=".ui.home.detail.NewsDetailActivity"/>
         <activity android:name=".ui.home.InsertNoteActivity"/>
+        <activity android:name=".ui.home.detail.HealthDetailActivity"/>
 
     </application>
 
