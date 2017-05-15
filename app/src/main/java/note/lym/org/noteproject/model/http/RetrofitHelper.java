@@ -21,6 +21,8 @@ import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
+import note.lym.org.noteproject.model.bean.SisterClassList;
+import note.lym.org.noteproject.model.bean.SisterList;
 import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.model.bean.xxxData;
 import note.lym.org.noteproject.utils.SystemUtil;
@@ -155,6 +157,14 @@ public class RetrofitHelper {
 
     public Flowable<HealthDetail> getHealthDetail(Map<String,String> map){
         return sNoteApis.getHealthDetailData(map);
+    }
+
+    public Flowable<SisterList> getSisterClassifyList(Map<String,String> map){
+        return sNoteApis.getSisterListData(map);
+    }
+
+    public Flowable<SisterClassList> getSisterClassifyDataList(Map<String,String> map){
+        return sNoteApis.getSisterClassifyList(map);
     }
 
 

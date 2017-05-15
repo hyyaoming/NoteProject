@@ -1,11 +1,16 @@
 package note.lym.org.noteproject.utils;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+
+import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 import note.lym.org.noteproject.app.NoteApplication;
 
@@ -28,20 +33,32 @@ public class GlideUtils {
      * @param img 设置加载的图片
      * @param url 图片地址
      */
-    public static void load(Context act, ImageView img, String url,int defaultImage) {
-        if(SystemUtil.isWifiConnected(NoteApplication.getInstance())){
+    public static void load(Context act, ImageView img, String url, int defaultImage) {
+        Glide.with(act).load(url).centerCrop().into(img);
+    }
+
+    /**
+     * 就加载一张图片，啥都不设置,在wifi情况下加载。
+     *
+     * @param act 上下文对象
+     * @param img 设置加载的图片
+     * @param url 图片地址
+     */
+    public static void loadWifi(Context act, ImageView img, String url, int defaultImage) {
+        if (SystemUtil.isWifiConnected(NoteApplication.getInstance())) {
             Glide.with(act).load(url).centerCrop().into(img);
-        }else{
+        } else {
             img.setImageResource(defaultImage);
         }
     }
 
+
     /**
      * 就加载一张图片，啥都不设置。
      *
-     * @param context 上下文对象
-     * @param view 设置加载的图片
-     * @param url 图片地址
+     * @param context  上下文对象
+     * @param view     设置加载的图片
+     * @param url      图片地址
      * @param listener 回调
      */
     public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
@@ -50,14 +67,15 @@ public class GlideUtils {
 
     /**
      * 加载一张gif图片,只在wifi情况下加载。
-     * @param url   资源
-     * @param iv    图片
-     * @param defaultImage  默认图
+     *
+     * @param url          资源
+     * @param iv           图片
+     * @param defaultImage 默认图
      */
-    public static void loadGif(String url,ImageView iv,int defaultImage){
-        if(SystemUtil.isWifiConnected(NoteApplication.getInstance())){
+    public static void loadGif(String url, ImageView iv, int defaultImage) {
+        if (SystemUtil.isWifiConnected(NoteApplication.getInstance())) {
             Glide.with(NoteApplication.getInstance()).load(url).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
-        }else{
+        } else {
             iv.setImageResource(defaultImage);
         }
     }
@@ -92,17 +110,18 @@ public class GlideUtils {
 
     /**
      * 可设置加载时的动画
-     * @param context   上下文
-     * @param url   图片地址
-     * @param errorImage    加载失败时的图片
-     * @param defaultImage  加载中的图片
-     * @param imageView 加载的图片
-     * @param width 剪裁图片的宽度
-     * @param height    剪裁图片的高度
-     * @param animationRes  加载时的动画
+     *
+     * @param context      上下文
+     * @param url          图片地址
+     * @param errorImage   加载失败时的图片
+     * @param defaultImage 加载中的图片
+     * @param imageView    加载的图片
+     * @param width        剪裁图片的宽度
+     * @param height       剪裁图片的高度
+     * @param animationRes 加载时的动画
      */
-    public static void load(Context context,String url,int errorImage,int defaultImage,ImageView imageView,int width,int height,int animationRes){
-        Glide.with(context).load(url).error(errorImage).placeholder(defaultImage).override(width,height).crossFade().centerCrop().animate(animationRes).into(imageView);
+    public static void load(Context context, String url, int errorImage, int defaultImage, ImageView imageView, int width, int height, int animationRes) {
+        Glide.with(context).load(url).error(errorImage).placeholder(defaultImage).override(width, height).crossFade().centerCrop().animate(animationRes).into(imageView);
     }
 
     /**
@@ -121,6 +140,20 @@ public class GlideUtils {
      */
     public static void resumeRequest(Context act) {
         Glide.with(act).resumeRequests();
+    }
+
+
+    /**
+     * 计算图片分辨率
+     */
+    public static String calePhotoSize(Context context, String url) throws ExecutionException, InterruptedException {
+        File file = Glide.with(context).load(url)
+                .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        return options.outWidth + "*" + options.outHeight;
     }
 
 }

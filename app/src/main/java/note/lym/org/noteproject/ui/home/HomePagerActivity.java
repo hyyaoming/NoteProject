@@ -23,6 +23,7 @@ import note.lym.org.noteproject.base.SimpleActivity;
 import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
+import note.lym.org.noteproject.fragment.SisterClassifyFragment;
 import note.lym.org.noteproject.fragment.TabPagerFragment;
 
 /**
@@ -53,6 +54,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         mSparseTags.put(R.id.menu_note, getString(R.string.casual_write));
         mSparseTags.put(R.id.menu_picture, getString(R.string.around_work));
         mSparseTags.put(R.id.menu_health,getString(R.string.health_message));
+        mSparseTags.put(R.id.menu_sister,getString(R.string.beautiful_sister));
         mNavView.setCheckedItem(R.id.menu_picture);
         addFragment(R.id.fl_container, new TabPagerFragment(),  getString(R.string.around_work));
     }
@@ -168,6 +170,9 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
                     break;
                 case R.id.menu_health:
                     replaceFragment(R.id.fl_container,new HealthMessageFragment(),mSparseTags.get(R.id.menu_health));
+                    break;
+                case R.id.menu_sister:
+                    replaceFragment(R.id.fl_container,new SisterClassifyFragment(),mSparseTags.get(R.id.menu_sister));
                     break;
             }
         }

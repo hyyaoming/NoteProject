@@ -9,6 +9,7 @@
     <!-- ToolBar -->
     <dimen name="toolbar_margin_top">0dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="photo_margin_width">1dp</dimen>
 
     <!-- News List -->
     <dimen name="news_icon_width">100dp</dimen>

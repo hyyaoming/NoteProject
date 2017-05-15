@@ -16,6 +16,11 @@
             android:id="@+id/menu_health"
             android:icon="@drawable/ic_nav_news"
             android:title="@string/health_message" />
+
+        <item
+            android:id="@+id/menu_sister"
+            android:icon="@drawable/menu_belle_sister"
+            android:title="@string/beautiful_sister" />
     </group>
 
 </menu>

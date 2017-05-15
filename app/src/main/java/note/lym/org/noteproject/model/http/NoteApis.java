@@ -12,6 +12,8 @@ import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
+import note.lym.org.noteproject.model.bean.SisterClassList;
+import note.lym.org.noteproject.model.bean.SisterList;
 import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.model.bean.xxxData;
 import retrofit2.http.GET;
@@ -75,6 +77,16 @@ public interface NoteApis {
     @GET("http://route.showapi.com/96-36")
     Flowable<HealthDetail> getHealthDetailData(@QueryMap Map<String, String> map);
 
+    /**
+     * 获取图片列表分类
+     */
+    @GET("http://route.showapi.com/1208-1")
+    Flowable<SisterList> getSisterListData(@QueryMap Map<String, String> map);
 
+    /**
+     * 获取图片列表
+     */
+    @GET("http://route.showapi.com/1208-2")
+    Flowable<SisterClassList> getSisterClassifyList(@QueryMap Map<String, String> map);
 
 }

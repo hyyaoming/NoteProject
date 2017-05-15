@@ -3,6 +3,7 @@ package note.lym.org.noteproject.utils;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -75,5 +76,27 @@ public class TextUtils {
             }
         }
         return str;
+    }
+
+    /**
+     * 计算图片要显示的高度
+     *
+     * @param pixel 原始分辨率
+     * @param width 要显示的宽度
+     * @return
+     */
+    public static int calcPhotoHeight(String pixel, int width) {
+        int height = -1;
+        int index = pixel.indexOf("*");
+        if (index != -1) {
+            try {
+                int widthPixel = Integer.parseInt(pixel.substring(0, index));
+                int heightPixel = Integer.parseInt(pixel.substring(index + 1));
+                height = (int) (heightPixel * (width * 1.0f / widthPixel));
+            } catch (NumberFormatException e) {
+                return -1;
+            }
+        }
+        return height;
     }
 }
