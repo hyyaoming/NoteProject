@@ -64,7 +64,7 @@ public class BigBelleActivity extends SimpleActivity {
                 return true;
             }
         };
-        GlideUtils.loadCenterCrop(this, mImageUrl, mPhotoView, listener);
+        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, listener);
         mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

@@ -3,6 +3,7 @@ package note.lym.org.noteproject.fragment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import note.lym.org.noteproject.presenter.note.belle.IBelleView;
 import note.lym.org.noteproject.ui.home.BigBelleActivity;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
  * 妹子列表
@@ -43,17 +45,13 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
     @Override
     protected void updateViews() {
         mAdapter = new BelleListAdapter(R.layout.belle_list_item, null);
-        LinearLayoutManager manager = new LinearLayoutManager(mContext);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvBelleList.setLayoutManager(manager);
-        mRvBelleList.setHasFixedSize(true);
-        mRvBelleList.setAdapter(mAdapter);
+        FullSpanUtil.setStaggeredGridLayoutManager(mRvBelleList, mAdapter, 2, StaggeredGridLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
         mRvBelleList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
-                String url = ((Belle.ResultsBean)adapter.getData().get(position)).getUrl();
-                BigBelleActivity.action(BelleListFragment.this,url);
+                String url = ((Belle.ResultsBean) adapter.getData().get(position)).getUrl();
+                BigBelleActivity.action(BelleListFragment.this, url);
             }
         });
     }

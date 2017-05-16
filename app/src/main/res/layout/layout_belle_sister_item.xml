@@ -7,15 +7,12 @@
     android:background="@drawable/ic_bg_card"
     android:orientation="vertical">
 
-    <note.lym.org.noteproject.view.image.BadgedFourThreeImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/iv_photo"
+    <ImageView
+        android:id="@+id/iv_sister_photo"
+        android:src="@drawable/ic_default_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:badgeGravity="end|bottom"
-        app:badgePadding="16dp"
-        />
+        android:scaleType="fitXY"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tv_title"

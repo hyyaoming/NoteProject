@@ -16,6 +16,7 @@ import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.presenter.note.joke.IJokeView;
 import note.lym.org.noteproject.presenter.note.joke.JokePresenter;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
  * 轻松一刻
@@ -24,7 +25,6 @@ import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
  * @since 2017-05-11 16:13
  */
 public class JokeListFragment extends BaseFragment<JokePresenter> implements IJokeView, BaseFastAdapter.RequestLoadMoreListener {
-
 
     @BindView(R.id.rv_news_list)
     RecyclerView mRvList;
@@ -40,12 +40,8 @@ public class JokeListFragment extends BaseFragment<JokePresenter> implements IJo
 
     @Override
     protected void updateViews() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
         mAdapter = new JokeListAdapter(R.layout.layout_joke_item,null);
-        mRvList.setHasFixedSize(true);
-        mRvList.setLayoutManager(manager);
-        mRvList.setAdapter(mAdapter);
+        FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
     }
 

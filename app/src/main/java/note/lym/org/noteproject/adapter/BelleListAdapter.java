@@ -27,7 +27,6 @@ public class BelleListAdapter extends BaseFastAdapter<Belle.ResultsBean, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, Belle.ResultsBean item) {
         ImageView iv = helper.getView(R.id.iv_belle);
-        GlideUtils.load(NoteApplication.getInstance(),iv,item.getUrl(), DefIconFactory.iconDefault());
-        Log.i(BelleListAdapter.class.getSimpleName(),item.toString());
+        GlideUtils.loadCutImage(iv,item.getUrl());
     }
 }

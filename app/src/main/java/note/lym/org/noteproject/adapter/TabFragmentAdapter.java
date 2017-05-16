@@ -3,7 +3,6 @@ package note.lym.org.noteproject.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 
@@ -11,6 +10,7 @@ import java.util.List;
 
 import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.JokeListFragment;
+import note.lym.org.noteproject.fragment.MaySisterFragment;
 import note.lym.org.noteproject.fragment.NewsListFragment;
 import note.lym.org.noteproject.fragment.TextJokeListFragment;
 
@@ -33,8 +33,9 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     private static final int BELLE_ITEM = 0;
     private static final int NEW_ITEM = 1;
     private SparseArray<Fragment> mArray = new SparseArray<>();
-    private static final int JOKE_ITEM = 2;
+    private static final int JOKE_ITEM = 4;
     private static final int TEXT_JOKE_ITEM = 3;
+    private static final int MAY_SISTER_ITEM = 2;
     private Fragment mFragment;
     private List<String> mList;
 
@@ -82,6 +83,16 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
                     TextJokeListFragment fragment = new TextJokeListFragment();
                     mFragment = fragment;
                     mArray.put(TEXT_JOKE_ITEM, fragment);
+                    return fragment;
+                } else {
+                    return mFragment;
+                }
+            case MAY_SISTER_ITEM:
+                mFragment = mArray.get(MAY_SISTER_ITEM);
+                if (null == mFragment) {
+                    MaySisterFragment fragment = new MaySisterFragment();
+                    mFragment = fragment;
+                    mArray.put(MAY_SISTER_ITEM, fragment);
                     return fragment;
                 } else {
                     return mFragment;

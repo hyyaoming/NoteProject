@@ -15,6 +15,7 @@ import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.presenter.note.joke.ITextJokeView;
 import note.lym.org.noteproject.presenter.note.joke.TextJokePersenter;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
  * 文本笑话大全
@@ -38,12 +39,8 @@ public class TextJokeListFragment extends BaseFragment<TextJokePersenter> implem
 
     @Override
     protected void updateViews() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
         mAdapter = new TextJokeListAdapter(R.layout.layout_text_joke_item,null);
-        mRvList.setHasFixedSize(true);
-        mRvList.setLayoutManager(manager);
-        mRvList.setAdapter(mAdapter);
+        FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
     }
 

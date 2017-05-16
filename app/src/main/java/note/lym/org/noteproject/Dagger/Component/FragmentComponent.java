@@ -9,6 +9,7 @@ import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.ClassifyListFragment;
 import note.lym.org.noteproject.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.fragment.JokeListFragment;
+import note.lym.org.noteproject.fragment.MaySisterFragment;
 import note.lym.org.noteproject.fragment.NewsListFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyFragment;
@@ -38,6 +39,8 @@ public interface FragmentComponent {
     void inject(SisterClassifyFragment fragment);
 
     void inject(SisterClassifyListFragment fragment);
+
+    void inject(MaySisterFragment fragment);
 
 
 }

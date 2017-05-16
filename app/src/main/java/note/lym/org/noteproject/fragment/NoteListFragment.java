@@ -41,6 +41,7 @@ import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickList
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemMoveListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemRemoveListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.ItemMoveAndRemoveHelper;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.RecyclerViewItemTouchHelper;
 
@@ -66,7 +67,7 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
 
     @Override
     protected void loadLazyData() {
-        mPresenter.getData(true,10);
+//        mPresenter.getData(true,10);
         mPresenter.getNoteList();
         Log.i(TAG,"load data");
     }
@@ -76,12 +77,8 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
         initToolBar(mToolBar,true,getString(R.string.title));
         setHasOptionsMenu(true);
         mBar.setVisibility(View.GONE);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvList.setLayoutManager(manager);
-        mRvList.setHasFixedSize(true);
         mAdapter = new NoteListAdapter(R.layout.item_note_list, null);
-        mRvList.setAdapter(mAdapter);
+        FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
         initRecyclerViewItemClickListener();
         ItemMoveAndRemoveHelper.openItemMove(mRvList,mAdapter);
         initSwipeRefreshListener();

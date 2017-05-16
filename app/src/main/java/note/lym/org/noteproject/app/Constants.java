@@ -13,6 +13,8 @@ public class Constants {
 
     public static final int NUM_OF_PAGE = 20;
 
+    public static final String RESULT_COUNT = "10";
+
     //================= TYPE ==================== //
     public static final int TYPE_A = 101;
     public static final int TYPE_B = 102;

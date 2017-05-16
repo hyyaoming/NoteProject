@@ -3,7 +3,6 @@ package note.lym.org.noteproject.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -12,12 +11,12 @@ import java.util.List;
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.adapter.BelleSisterListAdapter;
-import note.lym.org.noteproject.adapter.HealthListAdapter;
 import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.SisterClassList;
 import note.lym.org.noteproject.presenter.note.sister.ISisterClassifyView;
 import note.lym.org.noteproject.presenter.note.sister.SisterClassifyPresenter;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
  * 漂亮姐姐列表页
@@ -42,11 +41,8 @@ public class SisterClassifyListFragment extends BaseFragment<SisterClassifyPrese
 
     @Override
     protected void updateViews() {
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mRvList.setLayoutManager(layoutManager);
-        mRvList.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new BelleSisterListAdapter(R.layout.layout_belle_sister_item, null);
-        mRvList.setAdapter(mAdapter);
+        FullSpanUtil.setStaggeredGridLayoutManager(mRvList,mAdapter,2,StaggeredGridLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
     }
 

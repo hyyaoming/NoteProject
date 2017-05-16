@@ -18,6 +18,7 @@ import note.lym.org.noteproject.presenter.note.health.IHealthListView;
 import note.lym.org.noteproject.ui.home.detail.HealthDetailActivity;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
+import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
  * 健康资讯列表
@@ -41,12 +42,8 @@ public class ClassifyListFragment extends BaseFragment<HelthListPresenter> imple
 
     @Override
     protected void updateViews() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
         mAdapter = new HealthListAdapter(R.layout.item_news_list, null);
-        mRvList.setHasFixedSize(true);
-        mRvList.setLayoutManager(manager);
-        mRvList.setAdapter(mAdapter);
+        FullSpanUtil.setLinearLayoutManage(mRvList, mAdapter, LinearLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
         mRvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override

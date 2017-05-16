@@ -10,6 +10,7 @@ import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.model.bean.HealthDetail;
 import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.model.bean.Joke;
+import note.lym.org.noteproject.model.bean.MaySisterData;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.SisterClassList;
@@ -89,4 +90,9 @@ public interface NoteApis {
     @GET("http://route.showapi.com/1208-2")
     Flowable<SisterClassList> getSisterClassifyList(@QueryMap Map<String, String> map);
 
+    /**
+     * 获取不得姐数据
+     */
+    @GET("http://route.showapi.com/255-1")
+    Flowable<MaySisterData> getMaySisterData(@QueryMap Map<String, String> map);
 }

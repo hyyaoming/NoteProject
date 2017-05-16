@@ -1,18 +1,33 @@
 package note.lym.org.noteproject.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.model.bean.Note;
 
 /**
  * Glide管理类
@@ -35,6 +50,30 @@ public class GlideUtils {
      */
     public static void load(Context act, ImageView img, String url, int defaultImage) {
         Glide.with(act).load(url).centerCrop().into(img);
+    }
+
+    /**
+     * 这种情况一般指图片子指定了图片的大小，需要全部展示
+     *
+     * @param url          图片地址
+     * @param defaultImage 默认图
+     * @param imageView    需要加载的图片
+     */
+    public static void loadFitCenter(String url, int defaultImage, ImageView imageView) {
+        Glide.with(NoteApplication.getContext()).load(url).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
+    }
+
+    /**
+     * 图片请求返回了图片的宽高信息
+     *
+     * @param url          图片地址
+     * @param defaultImage 加载时的图片
+     * @param imageView    被加载的图片
+     * @param width        图片宽度
+     * @param height       图片高度
+     */
+    public static void loadFitCenter(String url, int defaultImage, ImageView imageView, int width, int height) {
+        Glide.with(NoteApplication.getContext()).load(url).override(width, height).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
     }
 
     /**
@@ -63,6 +102,18 @@ public class GlideUtils {
      */
     public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
         Glide.with(context).load(url).centerCrop().dontAnimate().listener(listener).into(view);
+    }
+
+    /**
+     * 就加载一张图片，啥都不设置。
+     *
+     * @param context  上下文对象
+     * @param view     设置加载的图片
+     * @param url      图片地址
+     * @param listener 回调
+     */
+    public static void loadFitCenter(Context context, String url, ImageView view, RequestListener listener) {
+        Glide.with(context).load(url).fitCenter().dontAnimate().listener(listener).into(view);
     }
 
     /**
@@ -125,6 +176,24 @@ public class GlideUtils {
     }
 
     /**
+     * 加载一张圆形图片
+     *
+     * @param url 图片地址
+     * @param iv  被加载的图片
+     */
+    public static void loadCircleImage(String url, final ImageView iv) {
+        Glide.with(NoteApplication.getInstance()).load(url).asBitmap().fitCenter().into(new BitmapImageViewTarget(iv) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                iv.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+    }
+
+    /**
      * 暂停请求图片
      *
      * @param act Context
@@ -146,14 +215,48 @@ public class GlideUtils {
     /**
      * 计算图片分辨率
      */
-    public static String calePhotoSize(Context context, String url) throws ExecutionException, InterruptedException {
-        File file = Glide.with(context).load(url)
+    public static String calePhotoSize(String url) throws ExecutionException, InterruptedException {
+        File file = Glide.with(NoteApplication.getInstance()).load(url)
                 .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
-        // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file.getAbsolutePath(), options);
         return options.outWidth + "*" + options.outHeight;
+    }
+
+    /**
+     * 针对请求的图片没有返回像素的处理情况
+     *
+     * @param iv  需要加载的图片
+     * @param url 图片地址
+     */
+    public static void loadCutImage(final ImageView iv, final String url) {
+        Flowable.create(new FlowableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(FlowableEmitter<Object> e) throws Exception {
+                e.onNext(calePhotoSize(url));
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        String size = (String) o;
+                        if (!TextUtils.isEmpty(size)) {
+                            int width = SystemUtil.getScreenWidth(NoteApplication.getInstance()) / 2;
+                            int height = TextUtils.calcPhotoHeight(size, width);
+                            loadFitCenter(url, DefIconFactory.iconDefault(), iv, width, height);
+                        } else {
+                            ToastUtils.showToast(R.string.no_date);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        ToastUtils.showToast(R.string.no_date);
+                    }
+                });
     }
 
 }
