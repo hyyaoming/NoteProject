@@ -10,6 +10,12 @@
         android:layout_width="match_parent"
         android:background="@color/light_black"
         android:layout_height="?attr/actionBarSize"
-        app:theme="@style/AppTheme.AppBarOverlay"
-        />
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <include
+            layout="@layout/layout_love_belle_girl"
+            />
+
+
+    </android.support.v7.widget.Toolbar>
 </FrameLayout>

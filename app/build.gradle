@@ -51,4 +51,7 @@ dependencies {
     // html text
     compile 'com.zzhoujay.richtext:richtext:2.0.9'
     compile 'com.youth.banner:banner:1.4.9'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
+
 }

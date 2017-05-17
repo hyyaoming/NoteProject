@@ -1,7 +1,6 @@
 package note.lym.org.noteproject.fragment;
 
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -12,7 +11,6 @@ import java.util.List;
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.adapter.BelleListAdapter;
-import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.presenter.note.belle.BellePresenter;
@@ -83,7 +81,7 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
         Snackbar.make(mRvBelleList, msg, Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getBelleData(page,COUNT);
+                mPresenter.getBelleData(page, COUNT);
             }
         }).show();
     }
@@ -91,6 +89,6 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
     @Override
     public void onLoadMoreRequested() {
         page++;
-        mPresenter.getBelleData(page,COUNT);
+        mPresenter.getBelleData(page, COUNT);
     }
 }

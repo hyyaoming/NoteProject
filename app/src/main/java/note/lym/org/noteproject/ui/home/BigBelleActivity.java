@@ -6,21 +6,27 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import org.greenrobot.eventbus.EventBus;
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.base.SimpleActivity;
+import note.lym.org.noteproject.eventbus.LookerEvent;
+import note.lym.org.noteproject.model.dao.Collect;
 import note.lym.org.noteproject.utils.AlbumManager;
+import note.lym.org.noteproject.utils.AnimateHelper;
 import note.lym.org.noteproject.utils.GlideUtils;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -36,10 +42,16 @@ public class BigBelleActivity extends SimpleActivity {
     Toolbar mToolBar;
     @BindView(R.id.progress)
     ProgressBar mProgressBar;
+    @BindView(R.id.fl_layout)
+    FrameLayout mLayout;
     public static final String URL = "image_url";
     private String mImageUrl;
     private boolean mIsHidden = false;
     private static final long TIME = 800L;
+    @BindView(R.id.iv_count)
+    TextView mTv;
+    private Collect mCollect;
+    public static final int DURATION = 1500;
 
     @Override
     protected int getLayout() {
@@ -49,22 +61,15 @@ public class BigBelleActivity extends SimpleActivity {
     @Override
     protected void initEventAndData() {
         initToolBar(mToolBar, true, "");
+        mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
         mImageUrl = getIntent().getStringExtra(URL);
-        RequestListener<String, GlideDrawable> listener = new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                mProgressBar.setVisibility(View.GONE);
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                mProgressBar.setVisibility(View.GONE);
-                mPhotoView.setImageDrawable(resource);
-                return true;
-            }
-        };
-        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, listener);
+        mCollect = getCollect();
+        if (null != mCollect && mCollect.isCollect.equals("1")) {
+            mTv.setSelected(true);
+        } else {
+            mTv.setSelected(false);
+        }
+        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mProgressBar);
         mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -80,6 +85,12 @@ public class BigBelleActivity extends SimpleActivity {
             }
         });
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        EventBus.getDefault().post(new LookerEvent());
     }
 
     private void requestPermission() {
@@ -114,12 +125,42 @@ public class BigBelleActivity extends SimpleActivity {
                 AlbumManager.download(url);
             }
         }).show();
-
     }
 
+    /**
+     * 注意，这里如果想要fragment接收到回传值那么必须用fragment启动activity，不然收不到回传值。
+     */
     public static void action(Fragment fragment, String url) {
         Intent intent = new Intent(fragment.getActivity(), BigBelleActivity.class);
         intent.putExtra(URL, url);
         fragment.startActivity(intent);
+    }
+
+    @OnClick(R.id.fl_layout)
+    public void love() {
+        mCollect = getCollect();
+        if (mCollect != null) {
+            if (mCollect.isCollect.equals("1")) {
+                mCollect.isCollect = "0";
+                mTv.setSelected(false);
+                setResult(RESULT_OK);
+            } else {
+                mCollect.isCollect = "1";
+                mTv.setSelected(true);
+            }
+            mCollect.url = mImageUrl;
+            mCollect.save();
+        } else {
+            Collect collect = new Collect();
+            collect.isCollect = "1";
+            collect.url = mImageUrl;
+            mTv.setSelected(true);
+            collect.save();
+        }
+        AnimateHelper.doLike(mTv, DURATION);
+    }
+
+    private Collect getCollect() {
+        return DataSupport.where("url = ?", mImageUrl).findFirst(Collect.class);
     }
 }

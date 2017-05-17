@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.Target;
@@ -27,10 +29,13 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
-import note.lym.org.noteproject.model.bean.Note;
 
 /**
- * Glide管理类
+ * Glide图片加载类
+ * Glide这里有个坑，如果你设置了加载时的图片或者加载出错的图片时，需要关闭加载时的动画
+ * Glide有两种缩放模式：1.CenterCrop、2.FitCenter。
+ * CenterCrop这种模式情况下图片可能会填充满ImageView,并优先展示中间部分，但是图像不一定会展示完全，一半适用于位置宽高的情况。
+ * FitCenter这种模式类似于Warp_Content包裹内容，一版适用于指定宽高的情况。
  *
  * @author yaoming.li
  * @since 2017-05-03 15:06
@@ -49,7 +54,7 @@ public class GlideUtils {
      * @param url 图片地址
      */
     public static void load(Context act, ImageView img, String url, int defaultImage) {
-        Glide.with(act).load(url).centerCrop().into(img);
+        Glide.with(act).load(url).centerCrop().placeholder(defaultImage).dontAnimate().into(img);
     }
 
     /**
@@ -107,13 +112,30 @@ public class GlideUtils {
     /**
      * 就加载一张图片，啥都不设置。
      *
-     * @param context  上下文对象
-     * @param view     设置加载的图片
-     * @param url      图片地址
-     * @param listener 回调
+     * @param context 上下文对象
+     * @param view    设置加载的图片
+     * @param url     图片地址
      */
-    public static void loadFitCenter(Context context, String url, ImageView view, RequestListener listener) {
-        Glide.with(context).load(url).fitCenter().dontAnimate().listener(listener).into(view);
+    public static void loadFitCenter(Context context, String url, ImageView view, ProgressBar bar) {
+        Glide.with(context).load(url).fitCenter().dontAnimate().listener(loadRequestListener(bar, view)).into(view);
+    }
+
+    private static RequestListener loadRequestListener(final ProgressBar bar, final ImageView view) {
+        return new RequestListener<String, GlideDrawable>() {
+
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                bar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                bar.setVisibility(View.GONE);
+                view.setImageDrawable(resource);
+                return true;
+            }
+        };
     }
 
     /**
