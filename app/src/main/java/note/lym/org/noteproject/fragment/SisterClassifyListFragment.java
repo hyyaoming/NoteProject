@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import java.util.List;
 
@@ -15,7 +16,9 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.SisterClassList;
 import note.lym.org.noteproject.presenter.note.sister.ISisterClassifyView;
 import note.lym.org.noteproject.presenter.note.sister.SisterClassifyPresenter;
+import note.lym.org.noteproject.utils.ToastUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
@@ -43,6 +46,12 @@ public class SisterClassifyListFragment extends BaseFragment<SisterClassifyPrese
     protected void updateViews() {
         mAdapter = new BelleSisterListAdapter(R.layout.layout_belle_sister_item, null);
         FullSpanUtil.setStaggeredGridLayoutManager(mRvList,mAdapter,2,StaggeredGridLayoutManager.VERTICAL);
+        mRvList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
+                ToastUtils.showToast(R.string.no_big_photo);
+            }
+        });
         mAdapter.setOnLoadMoreListener(this);
     }
 

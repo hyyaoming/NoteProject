@@ -12,6 +12,7 @@ import note.lym.org.noteproject.fragment.JokeListFragment;
 import note.lym.org.noteproject.fragment.MaySisterFragment;
 import note.lym.org.noteproject.fragment.NewsListFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
+import note.lym.org.noteproject.fragment.PersonToLifeFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyListFragment;
 import note.lym.org.noteproject.fragment.TextJokeListFragment;
@@ -41,6 +42,8 @@ public interface FragmentComponent {
     void inject(SisterClassifyListFragment fragment);
 
     void inject(MaySisterFragment fragment);
+
+    void inject(PersonToLifeFragment fragment);
 
 
 }

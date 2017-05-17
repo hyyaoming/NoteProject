@@ -12,5 +12,9 @@
     <color name="orange">#ff5200</color>
     <color name="mid_grey">#40808080</color>
     <color name="belle_color">#faf1f1f1</color>
+    <color name="a_little_gary">#fcfcfc</color>
+    <color name="dank_gary">#e8e8e8</color>
     <color name="light_black">#30000000</color>
+    <color name="guide_mask_bk">#C8000000</color>
+    <color name="result_view">#b0000000</color>
 </resources>

@@ -7,6 +7,6 @@ package note.lym.org.noteproject.presenter.note.belle;
  */
 public interface IBaseBellePresenter {
 
-    void getBelleData(int page);
+    void getBelleData(int page,int count);
 
 }

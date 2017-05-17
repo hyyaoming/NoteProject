@@ -10,7 +10,9 @@ import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.model.bean.HealthDetail;
 import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.model.bean.Joke;
+import note.lym.org.noteproject.model.bean.LookerGirl;
 import note.lym.org.noteproject.model.bean.MaySisterData;
+import note.lym.org.noteproject.model.bean.MoreType;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.SisterClassList;
@@ -33,8 +35,8 @@ public interface NoteApis {
     /**
      * 获取福利图片
      */
-    @GET("/api/data/福利/10/{page}")
-    Flowable<Belle> getBelleData(@Path("page") int page);
+    @GET("/api/data/福利/{count}/{page}")
+    Flowable<Belle> getBelleData(@Path("page") int page,@Path("count") int count);
 
     /**
      * 获取网易头条
@@ -95,4 +97,17 @@ public interface NoteApis {
      */
     @GET("http://route.showapi.com/255-1")
     Flowable<MaySisterData> getMaySisterData(@QueryMap Map<String, String> map);
+
+
+    /**
+     * 获取更多的图片列表
+     */
+    @GET("http://route.showapi.com/852-1")
+    Flowable<MoreType> getPersonToLife(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取具体类别的图片
+     */
+    @GET("http://route.showapi.com/852-2")
+    Flowable<LookerGirl> getLookerGirl(@QueryMap Map<String, String> map);
 }

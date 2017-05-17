@@ -12,6 +12,7 @@ import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.JokeListFragment;
 import note.lym.org.noteproject.fragment.MaySisterFragment;
 import note.lym.org.noteproject.fragment.NewsListFragment;
+import note.lym.org.noteproject.fragment.PersonToLifeFragment;
 import note.lym.org.noteproject.fragment.TextJokeListFragment;
 
 /**
@@ -36,6 +37,7 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     private static final int JOKE_ITEM = 4;
     private static final int TEXT_JOKE_ITEM = 3;
     private static final int MAY_SISTER_ITEM = 2;
+    private static final int PERSIONS_TO_LIFE = 5;
     private Fragment mFragment;
     private List<String> mList;
 
@@ -93,6 +95,16 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
                     MaySisterFragment fragment = new MaySisterFragment();
                     mFragment = fragment;
                     mArray.put(MAY_SISTER_ITEM, fragment);
+                    return fragment;
+                } else {
+                    return mFragment;
+                }
+            case PERSIONS_TO_LIFE:
+                mFragment = mArray.get(PERSIONS_TO_LIFE);
+                if (null == mFragment) {
+                    PersonToLifeFragment fragment = new PersonToLifeFragment();
+                    mFragment = fragment;
+                    mArray.put(PERSIONS_TO_LIFE, fragment);
                     return fragment;
                 } else {
                     return mFragment;

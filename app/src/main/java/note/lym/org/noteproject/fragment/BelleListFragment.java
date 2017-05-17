@@ -12,6 +12,7 @@ import java.util.List;
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.adapter.BelleListAdapter;
+import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.presenter.note.belle.BellePresenter;
@@ -35,11 +36,12 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
     RecyclerView mRvBelleList;
     BelleListAdapter mAdapter;
     private int page = 1;
+    private static final int COUNT = 10;
 
     @Override
     protected void loadLazyData() {
         Log.i(TAG, "loadLazyData");
-        mPresenter.getBelleData(page);
+        mPresenter.getBelleData(page, COUNT);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
         Snackbar.make(mRvBelleList, msg, Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getBelleData(page);
+                mPresenter.getBelleData(page,COUNT);
             }
         }).show();
     }
@@ -89,6 +91,6 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
     @Override
     public void onLoadMoreRequested() {
         page++;
-        mPresenter.getBelleData(page);
+        mPresenter.getBelleData(page,COUNT);
     }
 }

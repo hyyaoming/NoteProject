@@ -19,7 +19,9 @@ import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.model.bean.HealthDetail;
 import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.model.bean.Joke;
+import note.lym.org.noteproject.model.bean.LookerGirl;
 import note.lym.org.noteproject.model.bean.MaySisterData;
+import note.lym.org.noteproject.model.bean.MoreType;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.bean.SisterClassList;
@@ -128,8 +130,8 @@ public class RetrofitHelper {
         return sNoteApis.getData(size, page);
     }
 
-    public Flowable<Belle> getBelleData(int page) {
-        return sNoteApis.getBelleData(page);
+    public Flowable<Belle> getBelleData(int page,int count) {
+        return sNoteApis.getBelleData(page,count);
     }
 
     public Flowable<NewsList> getNewsList(int page) {
@@ -170,6 +172,14 @@ public class RetrofitHelper {
 
     public Flowable<MaySisterData> getMaySisterData(Map<String,String> map){
         return sNoteApis.getMaySisterData(map);
+    }
+
+    public Flowable<MoreType> getMoreTypeData(Map<String,String> map){
+        return sNoteApis.getPersonToLife(map);
+    }
+
+    public Flowable<LookerGirl> getLookerGirlData(Map<String,String> map){
+        return sNoteApis.getLookerGirl(map);
     }
 
 

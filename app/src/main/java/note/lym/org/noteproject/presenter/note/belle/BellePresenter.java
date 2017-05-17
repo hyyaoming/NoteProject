@@ -1,7 +1,5 @@
 package note.lym.org.noteproject.presenter.note.belle;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
@@ -9,7 +7,6 @@ import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.Belle;
-import note.lym.org.noteproject.model.http.HttpResponse;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
 import note.lym.org.noteproject.utils.Static;
 
@@ -28,11 +25,11 @@ public class BellePresenter extends RxPresenter<IBelleView> implements IBaseBell
 
 
     @Override
-    public void getBelleData(final int page) {
+    public void getBelleData(final int page,int count) {
         if(page==1){
             getView().showLoading();
         }
-        Flowable<Belle> flow = mHelper.getBelleData(page);
+        Flowable<Belle> flow = mHelper.getBelleData(page,count);
         ResourceSubscriber<Belle> observer = new ResourceSubscriber<Belle>() {
             @Override
             public void onNext(Belle list) {
