@@ -23,12 +23,13 @@ import note.lym.org.noteproject.eventbus.LookerEvent;
 import note.lym.org.noteproject.model.dao.Collect;
 import note.lym.org.noteproject.ui.home.AttentionActivity;
 import note.lym.org.noteproject.utils.AnimateHelper;
+import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
  * @author yaoming.li
  * @since 2017-05-08 10:14
  */
-public class TabPagerFragment extends SimpleFragment{
+public class TabPagerFragment extends SimpleFragment {
     private TabFragmentAdapter mAdapter;
     @BindView(R.id.view_pager)
     ViewPager mVp;
@@ -67,14 +68,17 @@ public class TabPagerFragment extends SimpleFragment{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLookerEvent(LookerEvent event) {
-        int size = DataSupport.where("isCollect = ?","1").find(Collect.class).size();
-        mIvCount.setText(String.valueOf(String.valueOf(size)));
+        mIvCount.setText(String.valueOf(String.valueOf(getAttentionCount())));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private int getAttentionCount() {
+        return DataSupport.where("isCollect = ?", "1").find(Collect.class).size();
     }
 
     @Override
@@ -105,7 +109,11 @@ public class TabPagerFragment extends SimpleFragment{
 
     @OnClick(R.id.fl_layout)
     public void jump() {
-        AttentionActivity.launch(this);
+        if (getAttentionCount() > 0) {
+            AttentionActivity.launch(this);
+        }else{
+            ToastUtils.showToast(R.string.no_save_looker_girl);
+        }
     }
 
 }
