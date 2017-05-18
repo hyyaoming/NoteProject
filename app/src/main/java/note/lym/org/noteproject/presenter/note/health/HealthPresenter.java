@@ -10,6 +10,7 @@ import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 获取健康咨询逻辑类
@@ -40,7 +41,12 @@ public class HealthPresenter extends RxPresenter<IHealthView> implements IBaseHe
 
             @Override
             public void onError(Throwable t) {
-                getView().showError(t.getMessage());
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getHealthClassifyList();
+                    }
+                });
             }
 
             @Override

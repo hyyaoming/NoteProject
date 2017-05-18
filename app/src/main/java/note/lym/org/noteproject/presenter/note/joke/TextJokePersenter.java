@@ -12,6 +12,7 @@ import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
@@ -27,7 +28,7 @@ public class TextJokePersenter extends RxPresenter<ITextJokeView> implements ITe
     }
 
     @Override
-    public void getTextJokeData(int maxResult, final int page) {
+    public void getTextJokeData(final int maxResult, final int page) {
         if (page == 1) {
             getView().showLoading();
         }
@@ -36,30 +37,29 @@ public class TextJokePersenter extends RxPresenter<ITextJokeView> implements ITe
         map.put("page", String.valueOf(page));
         map.put("showapi_appid", Constants.SHOW_API_ID);
         map.put("showapi_sign", Constants.SHOW_API_KEY);
-
         Flowable<TextJoke> able = mHelper.getTextJokeList(map);
-
         ResourceSubscriber<TextJoke> jokeResource = new ResourceSubscriber<TextJoke>() {
             @Override
             public void onNext(TextJoke joke) {
                 Log.i("Tag",joke.getShowapi_res_body().getContentlist().size()+"");
                 getView().getTextJokeList(joke.getShowapi_res_body().getContentlist());
-                if (page == 1) {
-                    getView().hideLoading();
-                }
             }
 
             @Override
             public void onError(Throwable t) {
-                Log.i("Tag",t.getMessage());
-                if (page == 1) {
-                    getView().hideLoading();
-                }
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getTextJokeData(maxResult,page);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+                if (page == 1) {
+                    getView().hideLoading();
+                }
             }
         };
         addSubscription(mHelper.startObservable(able, jokeResource));

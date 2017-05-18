@@ -9,6 +9,7 @@ import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.NewsList;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
 import note.lym.org.noteproject.utils.Static;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
@@ -32,27 +33,26 @@ public class NewsListPresenter extends RxPresenter<INewsView> implements IBaseNe
         ResourceSubscriber<NewsList> subscriber = new ResourceSubscriber<NewsList>() {
             @Override
             public void onNext(NewsList newsList) {
-                if (page == 0) {
-                    getView().hideLoading();
-                }
                 if (null != newsList && newsList.getList() != null) {
                     getView().getNewsList(newsList.getList());
-                } else {
-                    getView().showError(Static.CONTEXT.getString(R.string.no_date));
                 }
             }
 
             @Override
             public void onError(Throwable t) {
-                getView().showError(Static.CONTEXT.getString(R.string.no_network));
-                if (page == 0) {
-                    getView().hideLoading();
-                }
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getNewsData(page);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+                if (page == 0) {
+                    getView().hideLoading();
+                }
             }
         };
         addSubscription(mHelper.startObservable(able, subscriber));

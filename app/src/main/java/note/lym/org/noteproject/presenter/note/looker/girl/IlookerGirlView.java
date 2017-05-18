@@ -15,4 +15,6 @@ public interface IlookerGirlView extends BaseView {
     void getLookerGirl(List<LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean> list);
 
     void noDataView();
+
+    void noMoreData();
 }

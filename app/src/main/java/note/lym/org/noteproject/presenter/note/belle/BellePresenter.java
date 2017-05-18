@@ -9,6 +9,7 @@ import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
 import note.lym.org.noteproject.utils.Static;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
@@ -25,35 +26,34 @@ public class BellePresenter extends RxPresenter<IBelleView> implements IBaseBell
 
 
     @Override
-    public void getBelleData(final int page,int count) {
-        if(page==1){
+    public void getBelleData(final int page, final int count) {
+        if (page == 1) {
             getView().showLoading();
         }
-        Flowable<Belle> flow = mHelper.getBelleData(page,count);
+        Flowable<Belle> flow = mHelper.getBelleData(page, count);
         ResourceSubscriber<Belle> observer = new ResourceSubscriber<Belle>() {
             @Override
             public void onNext(Belle list) {
-                if(page==1){
-                    getView().hideLoading();
-                }
                 if (null != list && !list.getResults().isEmpty()) {
                     getView().getBelleList(list.getResults());
-                }else{
-                    getView().showError(Static.CONTEXT.getString(R.string.no_date));
                 }
             }
 
             @Override
             public void onError(Throwable t) {
-                getView().showError(Static.CONTEXT.getString(R.string.no_network));
-                if(page==1){
-                    getView().hideLoading();
-                }
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getBelleData(page, count);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+                if (page == 1) {
+                    getView().hideLoading();
+                }
             }
         };
         addSubscription(mHelper.startObservable(flow, observer));

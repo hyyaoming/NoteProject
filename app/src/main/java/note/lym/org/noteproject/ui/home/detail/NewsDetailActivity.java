@@ -74,19 +74,4 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter> implem
         RichText.from(newsDetail.getBody())
                 .into(mTvContent);
     }
-
-    @Override
-    public void showError(String msg) {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
 }

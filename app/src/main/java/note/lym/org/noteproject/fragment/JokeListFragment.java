@@ -45,7 +45,6 @@ public class JokeListFragment extends BaseFragment<JokePresenter> implements IJo
         mAdapter.setOnLoadMoreListener(this);
     }
 
-
     @Override
     protected void initInject() {
         getFragmentComponent().inject(this);
@@ -63,17 +62,6 @@ public class JokeListFragment extends BaseFragment<JokePresenter> implements IJo
         if(mPage>1){
             mAdapter.loadMoreComplete();
         }
-    }
-
-    @Override
-    public void showError(String msg) {
-        mBar.setVisibility(View.GONE);
-        Snackbar.make(mRvList, msg, Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getJokeData(ITEM_COUNT,mPage);
-            }
-        }).show();
     }
 
     @Override

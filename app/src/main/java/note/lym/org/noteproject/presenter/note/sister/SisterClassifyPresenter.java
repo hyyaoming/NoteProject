@@ -14,6 +14,7 @@ import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.SisterClassList;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 漂亮姐姐逻辑类
@@ -31,7 +32,7 @@ public class SisterClassifyPresenter extends RxPresenter<ISisterClassifyView> im
     }
 
     @Override
-    public void getPrettySister(final int page, int result, int type) {
+    public void getPrettySister(final int page, final int result, final int type) {
         if(page ==1){
             getView().showLoading();
         }
@@ -46,22 +47,24 @@ public class SisterClassifyPresenter extends RxPresenter<ISisterClassifyView> im
             @Override
             public void onNext(SisterClassList health) {
                 getView().getPrettySisterList(health.getShowapi_res_body().getData());
-                if(page ==1){
-                    getView().hideLoading();
-                }
             }
 
             @Override
             public void onError(Throwable t) {
-                getView().showError(t.getMessage());
-                if(page ==1){
-                    getView().hideLoading();
-                }
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getPrettySister(page,result,type);
+                    }
+                });
+
             }
 
             @Override
             public void onComplete() {
-
+                if(page ==1){
+                    getView().hideLoading();
+                }
             }
         };
         addSubscription(mHelper.startObservable(able,resource));

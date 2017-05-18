@@ -10,6 +10,7 @@ import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.MaySisterData;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 不得姐逻辑处理类
@@ -41,22 +42,22 @@ public class MaySisterPresenter extends RxPresenter<IMaySisterView> implements I
             @Override
             public void onNext(MaySisterData maySisterData) {
                 getView().getMaySisterData(maySisterData.getShowapi_res_body().getPagebean().getContentlist());
-                if (page == 1) {
-                    getView().hideLoading();
-                }
             }
-
             @Override
             public void onError(Throwable t) {
-                if (page == 1) {
-                    getView().hideLoading();
-                }
-                getView().showError(t.getMessage());
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getMaySisterData(page);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+                if (page == 1) {
+                    getView().hideLoading();
+                }
             }
         };
         addSubscription(mHelper.startObservable(able, resourceSubscriber));

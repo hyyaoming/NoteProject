@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import javax.inject.Inject;
 
@@ -21,6 +20,7 @@ import note.lym.org.noteproject.Dagger.Modul.FragmentModule;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.utils.SoftInputUtil;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
@@ -41,8 +41,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     /**
      * 子类布局文件中必须写一个progressbar,并且id要一致
      */
-    @BindView(R.id.progress)
-    protected ProgressBar mBar;
+    @BindView(R.id.loading_state)
+    LoadStateView mStateView;
 
 
     @Nullable
@@ -114,22 +114,23 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
     @Override
     public void showLoading() {
-        if(mBar != null){
-            mBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void showError(String msg) {
-        if(mBar != null){
-            mBar.setVisibility(View.GONE);
+        if(mStateView != null){
+            mStateView.setLoadingState(LoadStateView.LOADING_SHOW);
         }
     }
 
     @Override
     public void hideLoading() {
-        if(mBar != null){
-            mBar.setVisibility(View.GONE);
+        if(mStateView != null){
+            mStateView.setLoadingState(LoadStateView.LOADING_HIDE);
+        }
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if(mStateView != null){
+            mStateView.setRequestListener(listener);
+            mStateView.setLoadingState(LoadStateView.LOADING_NO_NETWORK);
         }
     }
 
@@ -162,6 +163,5 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     protected abstract void initInject();
 
     protected abstract int getLayoutResources();
-
 
 }

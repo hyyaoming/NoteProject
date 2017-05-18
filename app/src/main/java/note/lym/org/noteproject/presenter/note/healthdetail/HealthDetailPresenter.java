@@ -10,6 +10,7 @@ import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.HealthDetail;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 健康资讯详情逻辑类
@@ -27,7 +28,7 @@ public class HealthDetailPresenter extends RxPresenter<IHealthDetailView> implem
     }
 
     @Override
-    public void getHealthDetail(String healthId) {
+    public void getHealthDetail(final String healthId) {
         getView().showLoading();
         HashMap<String,String> map = new HashMap<>();
         map.put("showapi_appid", Constants.SHOW_API_ID);
@@ -37,18 +38,22 @@ public class HealthDetailPresenter extends RxPresenter<IHealthDetailView> implem
         ResourceSubscriber<HealthDetail> detail = new ResourceSubscriber<HealthDetail>() {
             @Override
             public void onNext(HealthDetail detail) {
-                getView().hideLoading();
                  getView().getHealthDetail(detail);
             }
 
             @Override
             public void onError(Throwable t) {
-                getView().hideLoading();
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getHealthDetail(healthId);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+                getView().hideLoading();
             }
         };
         addSubscription(mHelper.startObservable(able,detail));

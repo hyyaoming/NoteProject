@@ -40,8 +40,6 @@ public class HealthDetailActivity extends BaseActivity<HealthDetailPresenter> im
     BadgedFourThreeImageView mIvHealthImage;
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
-    @BindView(R.id.progress)
-    ProgressBar mBar;
 
     @Override
     protected int getLayoutId() {
@@ -84,20 +82,5 @@ public class HealthDetailActivity extends BaseActivity<HealthDetailPresenter> im
         mTvHealthDate.setText(bean.getTime());
         mTvHealthSource.setText(bean.getAuthor());
         mTvHealthTitle.setText(bean.getTitle());
-    }
-
-    @Override
-    public void showError(String msg) {
-        mBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showLoading() {
-        mBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        mBar.setVisibility(View.GONE);
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">简易便签</string>
+    <string name="app_name">MC</string>
     <string name="exit_app">你再点我就走了哦~</string>
     <string name="title">便签列表</string>
     <string name="no_note">目前还没有便签哦~</string>
@@ -34,4 +34,5 @@
     <string name="no_big_photo">这里像素不是很好，所以不做大图展示了~~~~</string>
     <string name="the_secret_mistress">金屋藏娇</string>
     <string name="no_save_looker_girl">小主目前还没有收藏小姐姐哦~</string>
+    <string name="look_network_state">小主，好像没网了~~</string>
 </resources>

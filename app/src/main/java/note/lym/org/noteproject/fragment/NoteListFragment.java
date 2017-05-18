@@ -3,14 +3,12 @@ package note.lym.org.noteproject.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,11 +36,8 @@ import note.lym.org.noteproject.view.PopupUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClickListener;
-import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemMoveListener;
-import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemRemoveListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.ItemMoveAndRemoveHelper;
-import project.recyclerview.lym.org.recyclerviewlibrary.util.RecyclerViewItemTouchHelper;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -76,7 +70,6 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
     protected void updateViews() {
         initToolBar(mToolBar,true,getString(R.string.title));
         setHasOptionsMenu(true);
-        mBar.setVisibility(View.GONE);
         mAdapter = new NoteListAdapter(R.layout.item_note_list, null);
         FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
         initRecyclerViewItemClickListener();
@@ -206,11 +199,6 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
     public void updateNoteList(List<Note> notes) {
         mAdapter.setNewData(notes);
         Log.i(TAG,notes.size()+"我有这么多");
-    }
-
-    @Override
-    public void showError(String msg) {
-
     }
 
     @Override

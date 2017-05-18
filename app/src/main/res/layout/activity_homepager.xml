@@ -47,14 +47,9 @@
                     layout="@layout/layout_no_note"
                     android:visibility="gone" />
 
-                <ProgressBar
-                    android:id="@+id/progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    android:indeterminateTint="@color/status_bar_color"
-                    android:indeterminateTintMode="src_in" />
+                    <include
+                        layout="@layout/layout_loading_state"
+                        />
 
             </FrameLayout>
         </android.support.design.widget.AppBarLayout>

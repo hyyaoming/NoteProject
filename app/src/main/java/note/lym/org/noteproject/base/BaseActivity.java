@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import note.lym.org.noteproject.Dagger.Component.ActivityComponent;
@@ -21,6 +22,7 @@ import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.manage.ActivityManage;
 import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.utils.StatusBarCompat;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 基类
@@ -36,6 +38,9 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
     protected T mPresenter;
 
     private Unbinder mUnBinder;
+
+    @BindView(R.id.loading_state)
+    LoadStateView mLoadState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +63,28 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
         initData();
     }
 
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if(mLoadState != null){
+            mLoadState.setLoadingState(LoadStateView.LOADING_NO_NETWORK);
+            mLoadState.setRequestListener(listener);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        if(mLoadState != null){
+            mLoadState.setLoadingState(LoadStateView.LOADING_SHOW);
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        if(mLoadState != null){
+            mLoadState.setLoadingState(LoadStateView.LOADING_HIDE);
+        }
+    }
+
     protected abstract int getLayoutId();
 
     protected abstract void initListener();
@@ -68,13 +95,6 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
 
     protected abstract void initInject();
 
-    /**
-     * 退出程序
-     */
-    protected void exitApp() {
-        ActivityManage.getInstance().backAllActivityToStack();
-        android.os.Process.killProcess(Process.myPid());
-    }
 
     protected ActivityComponent getActivityComponent() {
         return DaggerActivityComponent.builder()

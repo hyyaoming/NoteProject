@@ -4,10 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -44,7 +43,6 @@ public class SplashActivity extends AppCompatActivity implements Runnable {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                parentView.setBackgroundColor(ContextCompat.getColor(SplashActivity.this, R.color.colorPrimary));
                 mFloatButton.setVisibility(View.GONE);
                 HomePagerActivity.action(SplashActivity.this);
             }

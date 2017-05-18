@@ -11,6 +11,7 @@ import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.model.bean.SisterList;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 漂亮姐姐分类逻辑
@@ -41,12 +42,17 @@ public class SisterListPresenter extends RxPresenter<ISisterView> implements ISi
 
             @Override
             public void onError(Throwable t) {
-                getView().showError(t.getMessage());
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getSisterData();
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+            getView().hideLoading();
             }
         };
         addSubscription(mHelper.startObservable(able,resource));

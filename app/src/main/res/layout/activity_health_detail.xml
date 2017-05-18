@@ -16,7 +16,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <include
-        layout="@layout/layout_progress"
+        layout="@layout/layout_loading_state"
         />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -9,6 +9,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
 import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.NewsDetailBean;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
@@ -35,12 +36,17 @@ public class NewsDetailPresenter extends RxPresenter<INewsDetailView> implements
 
             @Override
             public void onError(Throwable t) {
-
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getNewsDetailId(id);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
-
+                    getView().hideLoading();
             }
         };
         addSubscription(mHelper.startObservable(able,subscriber));

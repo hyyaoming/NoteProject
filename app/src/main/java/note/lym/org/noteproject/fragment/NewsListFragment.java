@@ -69,18 +69,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     }
 
     @Override
-    public void showError(String msg) {
-        mAdapter.loadMoreComplete();
-        mBar.setVisibility(View.GONE);
-        Snackbar.make(mRvList, msg, Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getNewsData(page);
-            }
-        }).show();
-    }
-
-    @Override
     public void getNewsList(List<NewsList.NewsBean> list) {
         mAdapter.addData(list);
         if (page > 0) {

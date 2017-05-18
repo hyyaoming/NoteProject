@@ -11,6 +11,7 @@ import note.lym.org.noteproject.base.RxPresenter;
 import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * 咨询列表处理类
@@ -28,7 +29,7 @@ public class HelthListPresenter extends RxPresenter<IHealthListView> implements 
     }
 
     @Override
-    public void getHealthListData(String healthId, final int page) {
+    public void getHealthListData(final String healthId, final int page) {
         if(page ==1){
             getView().showLoading();
         }
@@ -41,19 +42,22 @@ public class HelthListPresenter extends RxPresenter<IHealthListView> implements 
         ResourceSubscriber<HealthList> resource = new ResourceSubscriber<HealthList>() {
             @Override
             public void onNext(HealthList healthList) {
-                if(page==1){
-                    getView().hideLoading();
-                }
                 getView().getHealthListData(healthList.getShowapi_res_body().getPagebean().getContentlist());
             }
 
             @Override
             public void onError(Throwable t) {
-
+                getView().showError(new LoadStateView.OnRequestListener() {
+                    @Override
+                    public void onRequest() {
+                        getHealthListData(healthId,page);
+                    }
+                });
             }
 
             @Override
             public void onComplete() {
+                getView().hideLoading();
 
             }
         };

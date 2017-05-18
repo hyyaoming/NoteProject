@@ -63,17 +63,6 @@ public class TextJokeListFragment extends BaseFragment<TextJokePersenter> implem
     }
 
     @Override
-    public void showError(String msg) {
-        mBar.setVisibility(View.GONE);
-        Snackbar.make(mRvList, msg, Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getTextJokeData(ITEM_COUNT,mPage);
-            }
-        }).show();
-    }
-
-    @Override
     public void onLoadMoreRequested() {
             mPage++;
         mPresenter.getTextJokeData(ITEM_COUNT,mPage);

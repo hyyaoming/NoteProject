@@ -32,7 +32,7 @@
             android:text="@string/no_date"
             />
 
-        <include layout="@layout/layout_progress" />
+        <include layout="@layout/layout_loading_state" />
     </FrameLayout>
 
 

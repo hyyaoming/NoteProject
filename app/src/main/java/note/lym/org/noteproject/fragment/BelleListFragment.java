@@ -76,17 +76,6 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
     }
 
     @Override
-    public void showError(String msg) {
-        mBar.setVisibility(View.GONE);
-        Snackbar.make(mRvBelleList, msg, Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getBelleData(page, COUNT);
-            }
-        }).show();
-    }
-
-    @Override
     public void onLoadMoreRequested() {
         page++;
         mPresenter.getBelleData(page, COUNT);

@@ -1,8 +1,8 @@
 package note.lym.org.noteproject.ui.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -37,8 +37,6 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
     public static final String TYPE = "type";
     public static final String NAME = "name";
     private int mPage = 1;
-    @BindView(R.id.progress)
-    ProgressBar mBar;
     private LookerAdapter mAdapter;
     private String type;
     private String name;
@@ -72,7 +70,7 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
                 LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean.ListBean bean = mAdapter.getItem(position).getList().get(0);
-                BigBelleActivity.action(LookerGirlActivity.this,bean.getBig());
+                BigBelleActivity.action(LookerGirlActivity.this, bean.getBig());
             }
         });
     }
@@ -104,22 +102,11 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
     @Override
     public void noDataView() {
         mTvNoData.setVisibility(View.VISIBLE);
-        loadEnd();
     }
 
     @Override
-    public void showError(String msg) {
-        mBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showLoading() {
-        mBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        mBar.setVisibility(View.GONE);
+    public void noMoreData() {
+        mAdapter.loadMoreEnd();
     }
 
     @Override
