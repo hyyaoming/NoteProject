@@ -1,7 +1,9 @@
 package note.lym.org.noteproject.ui.home;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -130,10 +132,10 @@ public class BigBelleActivity extends SimpleActivity {
     /**
      * 注意，这里如果想要fragment接收到回传值那么必须用fragment启动activity，不然收不到回传值。
      */
-    public static void action(Fragment fragment, String url) {
-        Intent intent = new Intent(fragment.getActivity(), BigBelleActivity.class);
+    public static void action(Context activity, String url) {
+        Intent intent = new Intent(activity, BigBelleActivity.class);
         intent.putExtra(URL, url);
-        fragment.startActivity(intent);
+        activity.startActivity(intent);
     }
 
     @OnClick(R.id.fl_layout)

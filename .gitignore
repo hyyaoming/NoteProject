@@ -19,7 +19,8 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 
-
+# Local configuration file(keystrore文件路径)
+gradle.properties
 # Windows thumbnail db
 Thumbs.db
 

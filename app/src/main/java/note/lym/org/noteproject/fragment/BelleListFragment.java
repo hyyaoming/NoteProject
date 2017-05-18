@@ -51,7 +51,7 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
                 String url = ((Belle.ResultsBean) adapter.getData().get(position)).getUrl();
-                BigBelleActivity.action(BelleListFragment.this, url);
+                BigBelleActivity.action(getActivity(), url);
             }
         });
     }

@@ -20,6 +20,7 @@ import note.lym.org.noteproject.model.bean.LookerGirl;
 import note.lym.org.noteproject.presenter.note.looker.girl.ILookerGirlPresenter;
 import note.lym.org.noteproject.presenter.note.looker.girl.IlookerGirlView;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
+import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
 /**
@@ -67,6 +68,13 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
         mAdapter = new LookerAdapter(R.layout.layout_belle_sister_item, null);
         FullSpanUtil.setStaggeredGridLayoutManager(mRvList, mAdapter, 2, StaggeredGridLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
+        mRvList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
+                LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean.ListBean bean = mAdapter.getItem(position).getList().get(0);
+                BigBelleActivity.action(LookerGirlActivity.this,bean.getBig());
+            }
+        });
     }
 
     @Override
@@ -83,12 +91,12 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
 
     @Override
     public void getLookerGirl(List<LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean> list) {
-      loadEnd();
+        loadEnd();
         mAdapter.setNewData(list);
     }
 
-    private void loadEnd(){
-        if(mPage > 1){
+    private void loadEnd() {
+        if (mPage > 1) {
             mAdapter.loadMoreComplete();
         }
     }
@@ -96,7 +104,7 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
     @Override
     public void noDataView() {
         mTvNoData.setVisibility(View.VISIBLE);
-     loadEnd();
+        loadEnd();
     }
 
     @Override
