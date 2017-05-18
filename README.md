@@ -5,8 +5,7 @@
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/device-2017-05-18-180456.png?raw=true)
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/device-2017-05-18-180613.png?raw=true)
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/device-2017-05-18-180721.png?raw=true)
-### 该项目主要是练习MVP开发模式，因为之前公司的项目迭代维护时间太长，用的还是MVC模式，所以就写了这个项目来练习MVP模式的开发，讲真，不用不知道，
-一用吓一跳，MVP是真好用，好吧，今天就写到这。
+### 该项目主要是练习MVP开发模式，因为之前公司的项目迭代维护时间太长，用的还是MVC模式，所以就写了这个项目来练习MVP模式的开发，讲真，不用不知道，一用吓一跳，MVP是真好用，好吧，今天就写到这。
 ### 项目主要用到一下开源库
  * Rxjava2
  * EventBus
@@ -18,4 +17,4 @@
  * infinitecycleviewpager
  * retrofit2
  * okhttp3
- ### 以上应该是主要的开源了，项目主要的数据来源于易源数据，于gank.io,非常感觉提供的api。
+ ### 以上应该是主要的开源了，项目主要的数据来源于易源数据，于gank.io,非常感谢提供的api。
