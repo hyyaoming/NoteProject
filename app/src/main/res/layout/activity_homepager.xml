@@ -46,11 +46,6 @@
                     android:id="@+id/layout_no_note"
                     layout="@layout/layout_no_note"
                     android:visibility="gone" />
-
-                    <include
-                        layout="@layout/layout_loading_state"
-                        />
-
             </FrameLayout>
         </android.support.design.widget.AppBarLayout>
 
