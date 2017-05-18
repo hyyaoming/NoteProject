@@ -1,6 +1,6 @@
 # NoteProject
 第一次哈，多少有点紧张，哈哈，不知道该怎么写呢，好吧，本来是打算做一个类似于锤子便签的应用的，做着做着
-什么都想加一点，模块也在一点一点的加，前期主要巩固自己对MVP开发模式的熟练度以及认识。
+什么都想加一点，模块也在一点一点的加，前期主要巩固自己对MVP开发模式的熟练度以及认识,要是想到了啥我还会往里面加的，哈哈哈。
 ## 小二，上几张图，哈哈(MDZZ)
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/device-2017-05-18-180456.png?raw=true)
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/device-2017-05-18-180613.png?raw=true)
@@ -17,4 +17,5 @@
  * infinitecycleviewpager
  * retrofit2
  * okhttp3
- ### 以上应该是主要的开源了，项目主要的数据来源于易源数据，于gank.io,非常感谢提供的api。
+ ### 以上是该项目用到的主要开源库了，项目主要的数据来源于易源数据以及gank.io,非常感谢提供的api,项目中部分资源来源于网络，若侵权，我马上删除。
+ #### 邮箱地址：m13162058226@163.com
