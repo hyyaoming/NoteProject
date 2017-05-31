@@ -47,6 +47,7 @@ public class BigBelleActivity extends SimpleActivity {
     @BindView(R.id.fl_layout)
     FrameLayout mLayout;
     public static final String URL = "image_url";
+    public static final String BOOLEAN_FLAG = "boolean_flag";
     private String mImageUrl;
     private boolean mIsHidden = false;
     private static final long TIME = 800L;
@@ -65,6 +66,10 @@ public class BigBelleActivity extends SimpleActivity {
         initToolBar(mToolBar, true, "");
         mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
         mImageUrl = getIntent().getStringExtra(URL);
+        boolean isTitleBar = getIntent().getBooleanExtra(BOOLEAN_FLAG,false);
+        if(!isTitleBar){
+            mToolBar.setVisibility(View.GONE);
+        }
         mCollect = getCollect();
         if (null != mCollect && mCollect.isCollect.equals("1")) {
             mTv.setSelected(true);
@@ -132,9 +137,10 @@ public class BigBelleActivity extends SimpleActivity {
     /**
      * 注意，这里如果想要fragment接收到回传值那么必须用fragment启动activity，不然收不到回传值。
      */
-    public static void action(Context activity, String url) {
+    public static void action(Context activity, String url,boolean showTitleBar) {
         Intent intent = new Intent(activity, BigBelleActivity.class);
         intent.putExtra(URL, url);
+        intent.putExtra(BOOLEAN_FLAG,showTitleBar);
         activity.startActivity(intent);
     }
 

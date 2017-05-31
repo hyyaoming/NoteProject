@@ -70,7 +70,7 @@ public class LookerGirlActivity extends BaseActivity<ILookerGirlPresenter> imple
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
                 LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean.ListBean bean = mAdapter.getItem(position).getList().get(0);
-                BigBelleActivity.action(LookerGirlActivity.this, bean.getBig());
+                BigBelleActivity.action(LookerGirlActivity.this, bean.getBig(),true);
             }
         });
     }
