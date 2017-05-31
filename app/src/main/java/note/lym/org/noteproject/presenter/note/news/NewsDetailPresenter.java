@@ -31,7 +31,7 @@ public class NewsDetailPresenter extends RxPresenter<INewsDetailView> implements
         ResourceSubscriber<Map<String, NewsDetailBean>> subscriber = new ResourceSubscriber<Map<String, NewsDetailBean>>() {
             @Override
             public void onNext(Map<String, NewsDetailBean> stringNewsDetailBeanMap) {
-                    getView().getNewsDetail(stringNewsDetailBeanMap.get(id));
+                getView().getNewsDetail(stringNewsDetailBeanMap.get(id));
             }
 
             @Override
@@ -46,9 +46,9 @@ public class NewsDetailPresenter extends RxPresenter<INewsDetailView> implements
 
             @Override
             public void onComplete() {
-                    getView().hideLoading();
+                getView().hideLoading();
             }
         };
-        addSubscription(mHelper.startObservable(able,subscriber));
+        addSubscription(mHelper.startObservable(able, subscriber));
     }
 }

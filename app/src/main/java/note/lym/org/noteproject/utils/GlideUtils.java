@@ -126,7 +126,8 @@ public class GlideUtils {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
                 bar.setVisibility(View.GONE);
-                return false;
+                ToastUtils.showToast(R.string.look_network_state);
+                return true;
             }
 
             @Override

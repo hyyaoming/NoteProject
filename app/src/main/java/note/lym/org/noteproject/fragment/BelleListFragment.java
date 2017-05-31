@@ -16,6 +16,7 @@ import note.lym.org.noteproject.model.bean.Belle;
 import note.lym.org.noteproject.presenter.note.belle.BellePresenter;
 import note.lym.org.noteproject.presenter.note.belle.IBelleView;
 import note.lym.org.noteproject.ui.home.BigBelleActivity;
+import note.lym.org.noteproject.view.LoadStateView;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
@@ -64,6 +65,16 @@ public class BelleListFragment extends BaseFragment<BellePresenter> implements I
     @Override
     protected int getLayoutResources() {
         return R.layout.fragment_belle_list;
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if(page == 1){
+            super.showError(listener);
+        }else{
+            mAdapter.loadMoreFail();
+        }
+
     }
 
     @Override

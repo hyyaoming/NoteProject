@@ -14,6 +14,7 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.TextJoke;
 import note.lym.org.noteproject.presenter.note.joke.ITextJokeView;
 import note.lym.org.noteproject.presenter.note.joke.TextJokePersenter;
+import note.lym.org.noteproject.view.LoadStateView;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
@@ -59,6 +60,15 @@ public class TextJokeListFragment extends BaseFragment<TextJokePersenter> implem
         mAdapter.addData(list);
         if(mPage>1){
             mAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if(mPage==1){
+            super.showError(listener);
+        }else{
+            mAdapter.loadMoreFail();
         }
     }
 

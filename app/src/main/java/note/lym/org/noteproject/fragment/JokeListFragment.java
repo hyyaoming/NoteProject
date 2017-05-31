@@ -15,6 +15,7 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.Joke;
 import note.lym.org.noteproject.presenter.note.joke.IJokeView;
 import note.lym.org.noteproject.presenter.note.joke.JokePresenter;
+import note.lym.org.noteproject.view.LoadStateView;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
@@ -40,8 +41,8 @@ public class JokeListFragment extends BaseFragment<JokePresenter> implements IJo
 
     @Override
     protected void updateViews() {
-        mAdapter = new JokeListAdapter(R.layout.layout_joke_item,null);
-        FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
+        mAdapter = new JokeListAdapter(R.layout.layout_joke_item, null);
+        FullSpanUtil.setLinearLayoutManage(mRvList, mAdapter, LinearLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
     }
 
@@ -59,14 +60,23 @@ public class JokeListFragment extends BaseFragment<JokePresenter> implements IJo
     @Override
     public void getJokeList(List<Joke.ShowapiResBodyBean.ContentlistBean> list) {
         mAdapter.addData(list);
-        if(mPage>1){
+        if (mPage > 1) {
             mAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if (mPage == 1) {
+            super.showError(listener);
+        } else {
+            mAdapter.loadMoreFail();
         }
     }
 
     @Override
     public void onLoadMoreRequested() {
         mPage++;
-        mPresenter.getJokeData(ITEM_COUNT,mPage);
+        mPresenter.getJokeData(ITEM_COUNT, mPage);
     }
 }

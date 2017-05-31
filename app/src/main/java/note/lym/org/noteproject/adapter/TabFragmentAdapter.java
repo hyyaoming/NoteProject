@@ -37,7 +37,7 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     private static final int JOKE_ITEM = 4;
     private static final int TEXT_JOKE_ITEM = 3;
     private static final int MAY_SISTER_ITEM = 2;
-    private static final int PERSIONS_TO_LIFE = 5;
+    private static final int PERSONS_TO_LIFE = 5;
     private Fragment mFragment;
     private List<String> mList;
 
@@ -99,12 +99,12 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
                 } else {
                     return mFragment;
                 }
-            case PERSIONS_TO_LIFE:
-                mFragment = mArray.get(PERSIONS_TO_LIFE);
+            case PERSONS_TO_LIFE:
+                mFragment = mArray.get(PERSONS_TO_LIFE);
                 if (null == mFragment) {
                     PersonToLifeFragment fragment = new PersonToLifeFragment();
                     mFragment = fragment;
-                    mArray.put(PERSIONS_TO_LIFE, fragment);
+                    mArray.put(PERSONS_TO_LIFE, fragment);
                     return fragment;
                 } else {
                     return mFragment;

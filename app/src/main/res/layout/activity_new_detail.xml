@@ -15,4 +15,8 @@
         <include layout="@layout/news_detail_content"/>
     </android.support.v4.widget.NestedScrollView>
 
+    <include
+        layout="@layout/layout_loading_state"
+        />
+
 </android.support.design.widget.CoordinatorLayout>

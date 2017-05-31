@@ -1,9 +1,11 @@
 package note.lym.org.noteproject.fragment;
 
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +17,7 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.presenter.note.health.HealthPresenter;
 import note.lym.org.noteproject.presenter.note.health.IHealthView;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
@@ -57,6 +60,17 @@ public class HealthMessageFragment extends BaseFragment<HealthPresenter> impleme
     protected int getLayoutResources() {
         return R.layout.fragment_health_message;
     }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        Snackbar.make(mVp,R.string.no_network,Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getHealthClassifyList();
+            }
+        }).show();
+    }
+
 
     @Override
     public void getHealthClassifyList(List<Health.ShowapiResBodyBean.ListBean> listBeanList) {

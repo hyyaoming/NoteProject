@@ -11,6 +11,7 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.MaySisterData;
 import note.lym.org.noteproject.presenter.note.maysister.IMaySisterView;
 import note.lym.org.noteproject.presenter.note.maysister.MaySisterPresenter;
+import note.lym.org.noteproject.view.LoadStateView;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 
@@ -55,6 +56,15 @@ public class MaySisterFragment extends BaseFragment<MaySisterPresenter> implemen
             mAdapter.loadMoreComplete();
         }
         mAdapter.addData(list);
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if(mPage ==1){
+            super.showError(listener);
+        }else{
+            mAdapter.loadMoreFail();
+        }
     }
 
     @Override

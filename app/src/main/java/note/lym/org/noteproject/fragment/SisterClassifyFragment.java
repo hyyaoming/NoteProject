@@ -1,9 +1,11 @@
 package note.lym.org.noteproject.fragment;
 
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +17,7 @@ import note.lym.org.noteproject.base.BaseFragment;
 import note.lym.org.noteproject.model.bean.SisterList;
 import note.lym.org.noteproject.presenter.note.sister.ISisterView;
 import note.lym.org.noteproject.presenter.note.sister.SisterListPresenter;
+import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  *
@@ -67,5 +70,15 @@ public class SisterClassifyFragment extends BaseFragment<SisterListPresenter> im
             fragments.add(SisterClassifyListFragment.newInstance(bean.getId()));
         }
         mAdapter.setItems(fragments,titles);
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        Snackbar.make(mVp,R.string.no_network,Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getSisterData();
+            }
+        }).show();
     }
 }

@@ -18,6 +18,7 @@ import note.lym.org.noteproject.presenter.note.news.INewsView;
 import note.lym.org.noteproject.presenter.note.news.NewsListPresenter;
 import note.lym.org.noteproject.ui.home.detail.NewsDetailActivity;
 import note.lym.org.noteproject.utils.ToastUtils;
+import note.lym.org.noteproject.view.LoadStateView;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemClickListener;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.DefaultItemDecoration;
@@ -46,13 +47,13 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     @Override
     protected void updateViews() {
         mAdapter = new NewsListAdapter(R.layout.item_news_list, null);
-        FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
-        ItemMoveAndRemoveHelper.openItemMove(mRvList,mAdapter);
+        FullSpanUtil.setLinearLayoutManage(mRvList, mAdapter, LinearLayoutManager.VERTICAL);
+        ItemMoveAndRemoveHelper.openItemMove(mRvList, mAdapter);
         mRvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseFastAdapter adapter, View view, int position) {
-                String newsId = ((NewsList.NewsBean)adapter.getData().get(position)).getDocid();
-                NewsDetailActivity.launch(getActivity(),newsId);
+                String newsId = ((NewsList.NewsBean) adapter.getData().get(position)).getDocid();
+                NewsDetailActivity.launch(getActivity(), newsId);
             }
         });
         mAdapter.setOnLoadMoreListener(this);
@@ -73,6 +74,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mAdapter.addData(list);
         if (page > 0) {
             mAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    public void showError(LoadStateView.OnRequestListener listener) {
+        if (page == 0) {
+            super.showError(listener);
+        } else {
+            mAdapter.loadMoreFail();
         }
     }
 
