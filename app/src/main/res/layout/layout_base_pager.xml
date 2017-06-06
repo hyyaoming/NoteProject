@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/base_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/num_indicator"
+        android:layout_width="@dimen/indicator_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:background="@drawable/shape_num_indicator_bg"
+        android:layout_height="@dimen/indicator_size" />
+
+</RelativeLayout>

@@ -20,6 +20,7 @@
     <dimen name="pull_critical_distance">70dp</dimen>
     <dimen name="image_icon">25dp</dimen>
     <dimen name="expanded_parent_height">50dp</dimen>
+    <dimen name="indicator_size">40dp</dimen>
 
 
 

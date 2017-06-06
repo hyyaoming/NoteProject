@@ -23,4 +23,12 @@
         </attr>
         <attr name="badgePadding" format="dimension|reference"/>
     </declare-styleable>
+    
+    <declare-styleable name="BaseViewPager">
+        <attr name="indicator_width" format="dimension"/>
+        <attr name="indicator_height" format="dimension"/>
+        <attr name="indicator_margin" format="dimension"/>
+        <attr name="indicator_un_select_color" format="reference"/>
+        <attr name="indicator_select_color" format="reference"/>
+    </declare-styleable>
 </resources>
