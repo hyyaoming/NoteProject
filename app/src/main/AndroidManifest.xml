@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.home.TestActivity">
+
+        </activity>
         <activity android:name=".ui.home.HomePagerActivity" />
         <activity
             android:name=".ui.home.BigBelleActivity"

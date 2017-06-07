@@ -1,8 +1,11 @@
 package note.lym.org.noteproject.base;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -21,6 +24,19 @@ public class BaseRunTimePermission extends ToolBarBaseActivity {
 
     private static RequestPermissionListener mListener;
     private static final int REQUEST_PERMISSION_CODE = 1000;
+    private ActivityManage manage = ActivityManage.getInstance();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        manage.addActivityToStack(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        manage.removeActivityBackStack(this);
+    }
 
     /**
      * 处理运行时权限

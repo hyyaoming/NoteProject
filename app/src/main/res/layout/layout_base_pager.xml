@@ -10,7 +10,6 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/layout_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,19 +17,68 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:visibility="gone" />
 
     <TextView
-        android:visibility="gone"
-        android:id="@+id/num_indicator"
+        android:id="@+id/tv_number"
         android:layout_width="@dimen/indicator_size"
+        android:layout_height="@dimen/indicator_size"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:gravity="center"
         android:layout_margin="10dp"
+        android:background="@drawable/shape_num_indicator_bg"
+        android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:background="@drawable/shape_num_indicator_bg"
-        android:layout_height="@dimen/indicator_size" />
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_indicator_title_number"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/indicator_size"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_black"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_titles"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/tv_bg_indicator_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/layout_num_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:orientation="horizontal" />
+        </FrameLayout>
+
+
+    </LinearLayout>
 
 </RelativeLayout>

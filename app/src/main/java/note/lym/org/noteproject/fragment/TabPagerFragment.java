@@ -26,6 +26,8 @@ import note.lym.org.noteproject.utils.AnimateHelper;
 import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
+ *
+ * viewpager
  * @author yaoming.li
  * @since 2017-05-08 10:14
  */

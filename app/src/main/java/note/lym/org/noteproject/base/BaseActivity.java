@@ -1,10 +1,8 @@
 package note.lym.org.noteproject.base;
 
 import android.os.Bundle;
-import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -19,8 +17,6 @@ import note.lym.org.noteproject.Dagger.Component.DaggerActivityComponent;
 import note.lym.org.noteproject.Dagger.Modul.ActivityModule;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
-import note.lym.org.noteproject.manage.ActivityManage;
-import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.utils.StatusBarCompat;
 import note.lym.org.noteproject.view.LoadStateView;
 

@@ -1,9 +1,6 @@
 package note.lym.org.noteproject.adapter;
 
 import android.text.TextUtils;
-import android.widget.TextView;
-
-import com.zzhoujay.richtext.RichText;
 
 import java.util.List;
 

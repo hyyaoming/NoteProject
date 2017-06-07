@@ -1,27 +1,12 @@
 package note.lym.org.noteproject.adapter;
 
-import android.content.Context;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.List;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.model.bean.SisterClassList;
-import note.lym.org.noteproject.utils.DefIconFactory;
 import note.lym.org.noteproject.utils.GlideUtils;
-import note.lym.org.noteproject.utils.SystemUtil;
-import note.lym.org.noteproject.utils.TextUtils;
-import note.lym.org.noteproject.utils.ToastUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.viewholder.BaseViewHolder;
 

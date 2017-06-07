@@ -13,7 +13,6 @@ import java.util.List;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.MoreType;
 import note.lym.org.noteproject.ui.home.LookerGirlActivity;
-import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
  * @author yaoming.li

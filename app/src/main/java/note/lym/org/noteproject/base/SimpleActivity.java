@@ -34,7 +34,6 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mUnBinder = ButterKnife.bind(this);
         mContext = this;
-        ActivityManage.getInstance().addActivityToStack(this);
         initEventAndData();
 
     }
@@ -43,7 +42,6 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityManage.getInstance().removeActivityBackStack(this);
         mUnBinder.unbind();
     }
 

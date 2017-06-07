@@ -43,6 +43,7 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  *
+ * 便签列表
  * @author yaoming.li
  * @since 2017-05-04 18:01
  */
