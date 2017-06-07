@@ -30,10 +30,10 @@ public class HelthListPresenter extends RxPresenter<IHealthListView> implements 
 
     @Override
     public void getHealthListData(final String healthId, final int page) {
-        if(page ==1){
+        if (page == 1) {
             getView().showLoading();
         }
-        HashMap<String,String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
         map.put("showapi_appid", Constants.SHOW_API_ID);
         map.put("showapi_sign", Constants.SHOW_API_KEY);
         map.put("page", String.valueOf(page));
@@ -42,7 +42,9 @@ public class HelthListPresenter extends RxPresenter<IHealthListView> implements 
         ResourceSubscriber<HealthList> resource = new ResourceSubscriber<HealthList>() {
             @Override
             public void onNext(HealthList healthList) {
-                getView().getHealthListData(healthList.getShowapi_res_body().getPagebean().getContentlist());
+                if (healthList != null && healthList.getShowapi_res_body() != null && healthList.getShowapi_res_body().getPagebean().getContentlist() != null) {
+                    getView().getHealthListData(healthList.getShowapi_res_body().getPagebean().getContentlist());
+                }
             }
 
             @Override
@@ -50,7 +52,7 @@ public class HelthListPresenter extends RxPresenter<IHealthListView> implements 
                 getView().showError(new LoadStateView.OnRequestListener() {
                     @Override
                     public void onRequest() {
-                        getHealthListData(healthId,page);
+                        getHealthListData(healthId, page);
                     }
                 });
             }
@@ -61,6 +63,6 @@ public class HelthListPresenter extends RxPresenter<IHealthListView> implements 
 
             }
         };
-        addSubscription(mHelper.startObservable(able,resource));
+        addSubscription(mHelper.startObservable(able, resource));
     }
 }
