@@ -255,7 +255,7 @@ public class BaseViewPager<T> extends FrameLayout implements ViewPager.OnPageCha
 
     private void setData() {
         mCurrentItem = 1;
-        CommonPagerAdapter adapter = new CommonPagerAdapter(mData, isAutoPlay, mCreate);
+        CommonPagerAdapter adapter = new CommonPagerAdapter(mData, true, mCreate);
         mPager.addOnPageChangeListener(this);
         mPager.setAdapter(adapter);
         mPager.setCurrentItem(1);
