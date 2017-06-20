@@ -5,7 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -19,30 +20,28 @@ import org.greenrobot.eventbus.EventBus;
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.async.MusicAsyncTask;
-import note.lym.org.noteproject.base.BaseRunTimePermission;
 import note.lym.org.noteproject.base.SimpleActivity;
 import note.lym.org.noteproject.eventbus.LookerEvent;
-import note.lym.org.noteproject.model.bean.Music;
 import note.lym.org.noteproject.model.dao.Collect;
 import note.lym.org.noteproject.service.MusicPlayService;
 import note.lym.org.noteproject.utils.AlbumManager;
 import note.lym.org.noteproject.utils.AnimateHelper;
 import note.lym.org.noteproject.utils.GlideUtils;
-import note.lym.org.noteproject.utils.MediaUtils;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
+ * 查看大图页面，新加背景音乐播放功能
+ *
  * @author yaoming.li
  * @since 2017-05-04 14:28
  */
-public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermission.RequestPermissionListener {
+public class BigBelleActivity extends SimpleActivity {
     @BindView(R.id.iv_photo)
     PhotoView mPhotoView;
     @BindView(R.id.toolbar)
@@ -60,6 +59,8 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
     TextView mTv;
     private Collect mCollect;
     public static final int DURATION = 1500;
+    private boolean isTitleBar = true;
+    private String[] permission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     protected int getLayout() {
@@ -68,11 +69,34 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
 
     @Override
     protected void initEventAndData() {
-        requestRunTimePermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, this);
+        requestPermission();
+        getIntentData();
+        bindView();
+        initListener();
+    }
+
+    /**
+     * 绑定事件
+     */
+    private void initListener() {
+        mPhotoView.setOnLongClickListener(longClickListener);
+        mPhotoView.setOnViewTapListener(tapListener);
+    }
+
+    /**
+     * 获取intent传值
+     */
+    private void getIntentData() {
+        mImageUrl = getIntent().getStringExtra(URL);
+        isTitleBar = getIntent().getBooleanExtra(BOOLEAN_FLAG, false);
+    }
+
+    /**
+     * 操作控件，或给控件赋值
+     */
+    private void bindView() {
         initToolBar(mToolBar, true, "");
         mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
-        mImageUrl = getIntent().getStringExtra(URL);
-        boolean isTitleBar = getIntent().getBooleanExtra(BOOLEAN_FLAG, false);
         if (!isTitleBar) {
             mToolBar.setVisibility(View.GONE);
         }
@@ -83,22 +107,28 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
             mTv.setSelected(false);
         }
         GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mProgressBar);
-        mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                requestPermission();
-                return true;
-            }
-        });
-
-        mPhotoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                hideOrShowToolbar();
-            }
-        });
-
     }
+
+    /**
+     * View长按事件
+     */
+    private View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            saveImageToGallery(mImageUrl);
+            return true;
+        }
+    };
+
+    /**
+     * photoView单击事件
+     */
+    private PhotoViewAttacher.OnViewTapListener tapListener = new PhotoViewAttacher.OnViewTapListener() {
+        @Override
+        public void onViewTap(View view, float x, float y) {
+            hideOrShowToolbar();
+        }
+    };
 
     @Override
     public void finish() {
@@ -106,11 +136,14 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
         EventBus.getDefault().post(new LookerEvent());
     }
 
+    /**
+     * 这需要对运行时权限处理一下，不然会崩溃
+     */
     private void requestPermission() {
-        requestRunTimePermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new RequestPermissionListener() {
+        requestRunTimePermission(permission, new RequestPermissionListener() {
             @Override
             public void accredit() {
-                saveImageToGallery(mImageUrl);
+                new MusicAsyncTask(BigBelleActivity.this).execute();
             }
 
             @Override
@@ -120,6 +153,9 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
         });
     }
 
+    /**
+     * 隐藏或显示toolbar
+     */
     protected void hideOrShowToolbar() {
         mToolBar.animate()
                 .translationY(mIsHidden ? 0 : -mToolBar.getHeight()).setDuration(TIME)
@@ -128,6 +164,11 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
         mIsHidden = !mIsHidden;
     }
 
+    /**
+     * 将当前的美图存入手机中
+     *
+     * @param url 图片地址
+     */
     private void saveImageToGallery(final String url) {
         AlertDialog.Builder builder = new AlertDialog.Builder(BigBelleActivity.this);
         builder.setTitle(R.string.download_belle);
@@ -150,8 +191,10 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
         activity.startActivity(intent);
     }
 
-    @OnClick(R.id.fl_layout)
-    public void love() {
+    /**
+     * 点击爱心按钮时的处理逻辑
+     */
+    private void clickLoveButton() {
         mCollect = getCollect();
         if (mCollect != null) {
             if (mCollect.isCollect.equals("1")) {
@@ -174,6 +217,12 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
         AnimateHelper.doLike(mTv, DURATION);
     }
 
+
+    @OnClick(R.id.fl_layout)
+    public void love() {
+        clickLoveButton();
+    }
+
     private Collect getCollect() {
         return DataSupport.where("url = ?", mImageUrl).findFirst(Collect.class);
     }
@@ -182,15 +231,5 @@ public class BigBelleActivity extends SimpleActivity implements BaseRunTimePermi
     protected void onDestroy() {
         super.onDestroy();
         MusicPlayService.stopService(this);
-    }
-
-    @Override
-    public void accredit() {
-        new MusicAsyncTask(this).execute();
-    }
-
-    @Override
-    public void decline(List<String> array) {
-
     }
 }

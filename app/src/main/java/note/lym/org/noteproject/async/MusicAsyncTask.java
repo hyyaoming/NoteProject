@@ -27,14 +27,17 @@ public class MusicAsyncTask extends AsyncTask<Void, Void, Music[]> {
     @Override
     protected Music[] doInBackground(Void... params) {
         ArrayList<Music> list = MediaUtils.queryMusic(mContext);
-        Music[] musics = list.toArray(new Music[list.size()]);
-        return musics;
+        return list.toArray(new Music[list.size()]);
     }
 
     @Override
     protected void onPostExecute(Music[] musics) {
-        Random random = new Random();
-        int x = random.nextInt(musics.length);
-        MusicPlayService.startService(mContext, musics[x].musicpath);
+        if (musics.length > 0) {
+            ArrayList<Music> musicList = new ArrayList<>();
+            for (Music music : musics) {
+                musicList.add(music);
+            }
+            MusicPlayService.startService(mContext, musicList);
+        }
     }
 }
