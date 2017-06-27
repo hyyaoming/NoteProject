@@ -6,10 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.utils.SoftInputUtil;
 
 /**
- * Desp.
+ * toolbar与fragment转场动画操作类
  *
  * @author yaoming.li
  * @since 2017-05-08 12:32
@@ -20,13 +21,14 @@ public class ToolBarBaseActivity extends AppCompatActivity {
     /**
      * 添加 Fragment
      *
-     * @param containerViewId
-     * @param fragment
+     * @param containerViewId 内容布局
+     * @param fragment        被替换的fragment
      */
     protected void addFragment(int containerViewId, Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         // 设置tag，不然下面 findFragmentByTag(tag)找不到
         fragmentTransaction.add(containerViewId, fragment, tag);
+        //加入到回退栈中
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
     }
@@ -34,12 +36,14 @@ public class ToolBarBaseActivity extends AppCompatActivity {
     /**
      * 替换 Fragment
      *
-     * @param containerViewId
-     * @param fragment
+     * @param containerViewId 内容布局
+     * @param fragment        需要展示的fragment
      */
     protected void replaceFragment(int containerViewId, Fragment fragment, String tag) {
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            //设置fragment之间的转场动画
+            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
             // 设置tag
             fragmentTransaction.replace(containerViewId, fragment, tag);
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -48,6 +52,7 @@ public class ToolBarBaseActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         } else {
             // 存在则弹出在它上面的所有fragment，并显示对应fragment
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
             getSupportFragmentManager().popBackStack(tag, 0);
         }
     }
@@ -55,9 +60,9 @@ public class ToolBarBaseActivity extends AppCompatActivity {
     /**
      * 初始化 Toolbar
      *
-     * @param toolbar
-     * @param homeAsUpEnabled
-     * @param title
+     * @param toolbar         Toolbar
+     * @param homeAsUpEnabled 是否显示menu按钮
+     * @param title           toolbar标题
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
         toolbar.setTitle(title);
@@ -72,7 +77,7 @@ public class ToolBarBaseActivity extends AppCompatActivity {
     /**
      * 隐藏系统软键盘
      */
-    protected void hideSoftInput(){
+    protected void hideSoftInput() {
         if (SoftInputUtil.isOpen()) {
             SoftInputUtil.hideSysSoftInput(this);
         }

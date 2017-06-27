@@ -36,7 +36,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Inject
     protected T mPresenter;
     private View mRootView;
-    private Unbinder mBinder;
     @Nullable
     /**
      * 子类布局文件中必须写一个progressbar,并且id要一致
@@ -50,7 +49,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (null == mRootView) {
             mRootView = inflater.inflate(getLayoutResources(), null);
-            mBinder = ButterKnife.bind(this, mRootView);
+             ButterKnife.bind(this, mRootView);
             initInject();
             if (mPresenter != null) {
                 mPresenter.attachView(this);
@@ -74,7 +73,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mBinder.unbind();
         if(null != mPresenter){
             mPresenter.detachView();
             mPresenter = null;
