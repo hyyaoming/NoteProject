@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.litepal.crud.DataSupport;
@@ -30,8 +27,8 @@ import note.lym.org.noteproject.eventbus.LookerEvent;
 import note.lym.org.noteproject.model.dao.Collect;
 import note.lym.org.noteproject.service.MusicPlayService;
 import note.lym.org.noteproject.utils.AlbumManager;
-import note.lym.org.noteproject.utils.AnimateHelper;
 import note.lym.org.noteproject.utils.GlideUtils;
+import note.lym.org.noteproject.view.likeview.LikeView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -55,10 +52,9 @@ public class BigBelleActivity extends SimpleActivity {
     private String mImageUrl;
     private boolean mIsHidden = false;
     private static final long TIME = 800L;
-    @BindView(R.id.iv_count)
-    TextView mTv;
+    @BindView(R.id.like_view)
+    LikeView mTv;
     private Collect mCollect;
-    public static final int DURATION = 1500;
     private boolean isTitleBar = true;
     private String[] permission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
@@ -95,18 +91,40 @@ public class BigBelleActivity extends SimpleActivity {
      * 操作控件，或给控件赋值
      */
     private void bindView() {
-        initToolBar(mToolBar, true, "");
-        mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
+        bindToolBar();
+        loadBigBelleImage();
+        bindLikeView();
+    }
+
+    /**
+     * 点赞按钮相关设置
+     */
+    private void bindLikeView() {
+        mTv.setVisibility(View.VISIBLE);
+        mCollect = getCollect();
+        if (null != mCollect && mCollect.isCollect.equals("1")) {
+            mTv.setState(true);
+        } else {
+            mTv.setState(false);
+        }
+    }
+
+    /**
+     * 加载大图片
+     */
+    private void loadBigBelleImage() {
+        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mProgressBar);
+    }
+
+    /**
+     * toolbar相关设置
+     */
+    private void bindToolBar() {
         if (!isTitleBar) {
             mToolBar.setVisibility(View.GONE);
         }
-        mCollect = getCollect();
-        if (null != mCollect && mCollect.isCollect.equals("1")) {
-            mTv.setSelected(true);
-        } else {
-            mTv.setSelected(false);
-        }
-        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mProgressBar);
+        initToolBar(mToolBar, true, "");
+        mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
     }
 
     /**
@@ -195,30 +213,19 @@ public class BigBelleActivity extends SimpleActivity {
      * 点击爱心按钮时的处理逻辑
      */
     private void clickLoveButton() {
-        mCollect = getCollect();
-        if (mCollect != null) {
-            if (mCollect.isCollect.equals("1")) {
-                mCollect.isCollect = "0";
-                mTv.setSelected(false);
-                setResult(RESULT_OK);
-            } else {
-                mCollect.isCollect = "1";
-                mTv.setSelected(true);
-            }
-            mCollect.url = mImageUrl;
-            mCollect.save();
-        } else {
-            Collect collect = new Collect();
-            collect.isCollect = "1";
-            collect.url = mImageUrl;
-            mTv.setSelected(true);
-            collect.save();
+        mCollect = mCollect == null ? new Collect() : mCollect;
+        boolean status = mTv.getState();
+        if(status){
+            mCollect.isCollect = "1";
+        }else{
+            mCollect.isCollect = "0";
         }
-        AnimateHelper.doLike(mTv, DURATION);
+        mCollect.url = mImageUrl;
+        mCollect.save();
     }
 
 
-    @OnClick(R.id.fl_layout)
+    @OnClick(R.id.like_view)
     public void love() {
         clickLoveButton();
     }

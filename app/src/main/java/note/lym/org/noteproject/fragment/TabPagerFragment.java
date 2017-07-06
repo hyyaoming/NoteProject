@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +65,7 @@ public class TabPagerFragment extends SimpleFragment {
     }
 
     public void setLoveCount() {
+        mIvCount.setVisibility(View.VISIBLE);
         int size = DataSupport.where("isCollect = ?", "1").find(Collect.class).size();
         mIvCount.setText(String.valueOf(size));
     }

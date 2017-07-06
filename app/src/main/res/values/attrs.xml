@@ -31,4 +31,10 @@
         <attr name="indicator_un_select_color" format="reference"/>
         <attr name="indicator_select_color" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="LikeView">
+        <attr name="defaultColor" format="color"/>
+        <attr name="cirRadius" format="dimension"/>
+        <attr name="cycleTime" format="integer"/>
+    </declare-styleable>
 </resources>
