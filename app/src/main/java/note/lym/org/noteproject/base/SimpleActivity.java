@@ -23,7 +23,6 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
 
 
     protected Activity mContext;
-    private Unbinder mUnBinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
 
         //竖屏锁定
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mUnBinder = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         mContext = this;
         initEventAndData();
 
@@ -42,7 +41,6 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mUnBinder.unbind();
     }
 
     protected abstract int getLayout();

@@ -1,20 +1,26 @@
 package note.lym.org.noteproject.service;
 
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothHeadset;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.Music;
+import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
  * 播放音乐
@@ -41,9 +47,17 @@ public class MusicPlayService extends Service {
      */
     private static final String CALL_PHONE = "android.intent.action.NEW_OUTGOING_CALL";
     /**
+     * 监听耳机插拔广播
+     */
+    private static final String HEADSET_STATE = AudioManager.ACTION_AUDIO_BECOMING_NOISY;
+    /**
      * 监听电话状态广播
      */
     private CallPhoneBroadCastReceiver receiver = new CallPhoneBroadCastReceiver();
+    /**
+     * 监听蓝牙耳机断开连接
+     */
+    private static final String BLUETOOTH_HEAD_SET_STATE = BluetoothHeadset.ACTION_AUDIO_STATE_CHANGED;
     /**
      * 当前是否为暂停播放
      */
@@ -67,6 +81,19 @@ public class MusicPlayService extends Service {
         super.onCreate();
         //注册监听手机状态广播
         registerReceiver();
+        getMusicSoundSize();
+    }
+
+    private void getMusicSoundSize() {
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //获取当前媒体播放最大音量
+        int max = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        //获取当前媒体播放音量
+        int current = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+        Log.d(TAG, "current:" + current + "max :" + max);
+        if (current == 0) {
+            ToastUtils.showToast(R.string.maybe_you_should_enlarge_music_sound);
+        }
     }
 
     @Override
@@ -215,26 +242,40 @@ public class MusicPlayService extends Service {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WAIT_CALL_PHONE);
         intentFilter.addAction(CALL_PHONE);
+        intentFilter.addAction(HEADSET_STATE);
+        intentFilter.addAction(BLUETOOTH_HEAD_SET_STATE);
         registerReceiver(receiver, intentFilter);
     }
 
     /**
      * 监听来去电状态
-     * 这里说明一下，只有两种可能一种播出电话，一种接听电话
+     * 这里说明一下，只有两种可能一种播出电话，一种接听电话,还有一种当耳机拔出时也需要停止播放
      */
     private class CallPhoneBroadCastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            //拨出电话，此时需要暂停播放音乐
-            if (action.equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
-                pause();
-            }
-            //另外情况则视为有电话拨进来，只有挂断电话才恢复音乐播放，其他情况都暂停播放音乐。
-            else {
-                TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
-                tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+            switch (action) {
+                //拨出电话，此时需要暂停播放音乐
+                case Intent.ACTION_NEW_OUTGOING_CALL:
+                    pause();
+                    break;
+                case HEADSET_STATE:
+                    pause();
+                    break;
+                case BLUETOOTH_HEAD_SET_STATE:
+                    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+                    if (BluetoothProfile.STATE_DISCONNECTED == adapter.getProfileConnectionState(BluetoothProfile.HEADSET)) {
+                        //此时蓝牙耳机断开连接
+                        pause();
+                    }
+                    break;
+                default:
+                    //另外情况则视为有电话拨进来，只有挂断电话才恢复音乐播放，其他情况都暂停播放音乐。
+                    TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
+                    tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+                    break;
             }
         }
     }

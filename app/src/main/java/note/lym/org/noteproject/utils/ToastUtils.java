@@ -25,7 +25,7 @@ public class ToastUtils {
 
     public static void showToast(String _msg) {
         if (_toast == null) {
-            _toast = Toast.makeText(_context, _msg, Toast.LENGTH_SHORT);
+            _toast = Toast.makeText(_context, _msg, Toast.LENGTH_LONG);
             _toast.show();
             _oneTime = System.currentTimeMillis();
         } else {

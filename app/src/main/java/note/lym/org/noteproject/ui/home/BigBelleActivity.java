@@ -28,6 +28,8 @@ import note.lym.org.noteproject.model.dao.Collect;
 import note.lym.org.noteproject.service.MusicPlayService;
 import note.lym.org.noteproject.utils.AlbumManager;
 import note.lym.org.noteproject.utils.GlideUtils;
+import note.lym.org.noteproject.utils.PreferencesUtils;
+import note.lym.org.noteproject.utils.SystemUtil;
 import note.lym.org.noteproject.view.likeview.LikeView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -100,13 +102,9 @@ public class BigBelleActivity extends SimpleActivity {
      * 点赞按钮相关设置
      */
     private void bindLikeView() {
-        mTv.setVisibility(View.VISIBLE);
         mCollect = getCollect();
-        if (null != mCollect && mCollect.isCollect.equals("1")) {
-            mTv.setState(true);
-        } else {
-            mTv.setState(false);
-        }
+        mTv.setVisibility((PreferencesUtils.isLoadImage(this) || SystemUtil.isWifiConnected(this)) ? View.VISIBLE : View.GONE);
+        mTv.setState(null != mCollect && mCollect.isCollect.equals("1"));
     }
 
     /**
@@ -120,9 +118,7 @@ public class BigBelleActivity extends SimpleActivity {
      * toolbar相关设置
      */
     private void bindToolBar() {
-        if (!isTitleBar) {
-            mToolBar.setVisibility(View.GONE);
-        }
+        mToolBar.setVisibility(isTitleBar ? View.VISIBLE : View.GONE);
         initToolBar(mToolBar, true, "");
         mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
     }
@@ -161,7 +157,9 @@ public class BigBelleActivity extends SimpleActivity {
         requestRunTimePermission(permission, new RequestPermissionListener() {
             @Override
             public void accredit() {
-                new MusicAsyncTask(BigBelleActivity.this).execute();
+                if (PreferencesUtils.isMusicPlay(BigBelleActivity.this)) {
+                    new MusicAsyncTask(BigBelleActivity.this).execute();
+                }
             }
 
             @Override
@@ -215,15 +213,10 @@ public class BigBelleActivity extends SimpleActivity {
     private void clickLoveButton() {
         mCollect = mCollect == null ? new Collect() : mCollect;
         boolean status = mTv.getState();
-        if(status){
-            mCollect.isCollect = "1";
-        }else{
-            mCollect.isCollect = "0";
-        }
+        mCollect.isCollect = status ? "1" : "0";
         mCollect.url = mImageUrl;
         mCollect.save();
     }
-
 
     @OnClick(R.id.like_view)
     public void love() {

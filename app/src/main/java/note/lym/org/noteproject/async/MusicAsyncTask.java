@@ -4,11 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.Random;
 
+import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.Music;
 import note.lym.org.noteproject.service.MusicPlayService;
 import note.lym.org.noteproject.utils.MediaUtils;
+import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
  * 扫描音乐异步任务
@@ -38,6 +39,8 @@ public class MusicAsyncTask extends AsyncTask<Void, Void, Music[]> {
                 musicList.add(music);
             }
             MusicPlayService.startService(mContext, musicList);
+        } else {
+            ToastUtils.showToast(R.string.i_think_you_must_down_music);
         }
     }
 }

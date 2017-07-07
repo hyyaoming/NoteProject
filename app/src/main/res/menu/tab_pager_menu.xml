@@ -23,4 +23,11 @@
             android:title="@string/beautiful_sister" />
     </group>
 
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/user_setting"
+            android:title="@string/user_setting" />
+    </group>
+
 </menu>

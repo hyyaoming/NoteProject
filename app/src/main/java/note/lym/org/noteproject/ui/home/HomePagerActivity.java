@@ -20,7 +20,6 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.base.SimpleActivity;
-import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyFragment;
@@ -53,10 +52,11 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         _initDrawerLayout(mDrawerLayout, mNavView);
         mSparseTags.put(R.id.menu_note, getString(R.string.casual_write));
         mSparseTags.put(R.id.menu_picture, getString(R.string.around_work));
-        mSparseTags.put(R.id.menu_health,getString(R.string.health_message));
-        mSparseTags.put(R.id.menu_sister,getString(R.string.beautiful_sister));
+        mSparseTags.put(R.id.menu_health, getString(R.string.health_message));
+        mSparseTags.put(R.id.menu_sister, getString(R.string.beautiful_sister));
+        mSparseTags.put(R.id.menu_setting, getString(R.string.user_setting));
         mNavView.setCheckedItem(R.id.menu_picture);
-        addFragment(R.id.fl_container, new TabPagerFragment(),  getString(R.string.around_work));
+        addFragment(R.id.fl_container, new TabPagerFragment(), getString(R.string.around_work));
     }
 
     /**
@@ -152,7 +152,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         private WeakReference<Activity> act;
 
         public WeakHandler(Activity activity) {
-            act = new WeakReference<Activity>(activity);
+            act = new WeakReference<>(activity);
         }
 
         @Override
@@ -169,10 +169,15 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
                     replaceFragment(R.id.fl_container, new NoteListFragment(), mSparseTags.get(R.id.menu_note));
                     break;
                 case R.id.menu_health:
-                    replaceFragment(R.id.fl_container,new HealthMessageFragment(),mSparseTags.get(R.id.menu_health));
+                    replaceFragment(R.id.fl_container, new HealthMessageFragment(), mSparseTags.get(R.id.menu_health));
                     break;
                 case R.id.menu_sister:
-                    replaceFragment(R.id.fl_container,new SisterClassifyFragment(),mSparseTags.get(R.id.menu_sister));
+                    replaceFragment(R.id.fl_container, new SisterClassifyFragment(), mSparseTags.get(R.id.menu_sister));
+                    break;
+                case R.id.menu_setting:
+                    UserSetActivity.launch(activity);
+                    break;
+                default:
                     break;
             }
         }

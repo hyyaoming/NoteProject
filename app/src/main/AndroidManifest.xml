@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="note.lym.org.noteproject">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -39,6 +40,8 @@
             android:name=".ui.home.AttentionActivity"
             android:theme="@style/AppTheme.BigPhotoTheme" />
         <service android:name=".service.MusicPlayService" />
+        <activity android:name=".ui.home.UserSetActivity"/>
+        <activity android:name=".ui.home.WebActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/often_set">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="bgm_music"
+            android:summaryOff="@string/open_bgm"
+            android:summaryOn="@string/close_bgm" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="load_image"
+            android:summaryOff="@string/open_wifi_load_image"
+            android:summaryOn="@string/close_wifi_load_image" />
+    </PreferenceCategory>
+
+    <PreferenceScreen
+        android:key="jump_to_git_hub"
+        android:summary="@string/project_address"
+        android:title="@string/click_a_star" />
+
+</PreferenceScreen>

@@ -35,4 +35,14 @@
     <string name="the_secret_mistress">金屋藏娇</string>
     <string name="no_save_looker_girl">小主目前还没有收藏小姐姐哦~</string>
     <string name="look_network_state">小主，好像没网了~~</string>
+    <string name="i_think_you_must_down_music">我想也许你需要下载一些歌曲了~~~</string>
+    <string name="maybe_you_should_enlarge_music_sound">也许你扩大一下音量就可以听见歌曲了哦~~~</string>
+    <string name="user_setting">用户设置</string>
+    <string name="open_bgm">开启背景音乐</string>
+    <string name="close_bgm">关闭背景音乐</string>
+    <string name="open_wifi_load_image">开启wifi加载图片</string>
+    <string name="close_wifi_load_image">关闭wifi加载图片</string>
+    <string name="click_a_star">开源不易，来个star呗</string>
+    <string name="project_address">项目地址：https://github.com/hyyaoming/NoteProject</string>
+    <string name="often_set">常用设置</string>
 </resources>
