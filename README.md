@@ -4,7 +4,7 @@
 #### 小二，上几张图，哈哈(MDZZ)
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/1500003619(1).jpg)
 ![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/1500003648(1).jpg)
-![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/1500003672(1).jpg)
+![image](https://github.com/hyyaoming/NoteProject/blob/master/screenshots/abc.png)
 #### 该项目主要是练习MVP开发模式，因为之前公司的项目迭代维护时间太长，用的还是MVC模式，所以就写了这个项目来练习MVP模式的开发，讲真，不用不知道，一用吓一跳，MVP是真好用，好吧，今天就写到这。
 #### 项目主要用到一下开源库
  * Rxjava2
