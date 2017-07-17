@@ -9,6 +9,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:clipToPadding="true"
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
@@ -39,6 +40,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="@dimen/expanded_parent_height"
+            android:layout_height="@dimen/expanded_parent_height"
+            android:layout_gravity="bottom|end"
+            android:visibility="gone"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:layout_behavior="note.lym.org.noteproject.view.Behavior.FloatingActionButtonBeHavior"
+            android:src="@drawable/ic_arrow_upward"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

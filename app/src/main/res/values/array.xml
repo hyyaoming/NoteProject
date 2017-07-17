@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="title">
+        <item>随便逛逛</item>
+        <item>网易头条</item>
+        <item>内涵段子</item>
+        <item>搞笑段子</item>
+        <item>轻松一刻</item>
+        <item>这有福利</item>
+    </string-array>
+</resources>

@@ -6,12 +6,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.adapter.HealthListAdapter;
 import note.lym.org.noteproject.base.BaseFragment;
+import note.lym.org.noteproject.eventbus.FlbEvent;
 import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.presenter.note.health.HelthListPresenter;
 import note.lym.org.noteproject.presenter.note.health.IHealthListView;
@@ -42,6 +47,7 @@ public class ClassifyListFragment extends BaseFragment<HelthListPresenter> imple
 
     @Override
     protected void updateViews() {
+        EventBus.getDefault().register(this);
         mAdapter = new HealthListAdapter(R.layout.item_news_list, null);
         FullSpanUtil.setLinearLayoutManage(mRvList, mAdapter, LinearLayoutManager.VERTICAL);
         mAdapter.setOnLoadMoreListener(this);
@@ -88,9 +94,20 @@ public class ClassifyListFragment extends BaseFragment<HelthListPresenter> imple
         mAdapter.addData(list);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFlbEvent(FlbEvent event) {
+        mRvList.getLayoutManager().scrollToPosition(0);
+    }
+
     @Override
     public void onLoadMoreRequested() {
         mPage++;
         mPresenter.getHealthListData(mHealthId, mPage);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

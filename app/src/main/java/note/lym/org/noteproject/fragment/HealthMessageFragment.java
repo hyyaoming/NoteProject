@@ -1,5 +1,6 @@
 package note.lym.org.noteproject.fragment;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,13 +8,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.adapter.HealthClassifyAdapter;
 import note.lym.org.noteproject.base.BaseFragment;
+import note.lym.org.noteproject.eventbus.FlbEvent;
 import note.lym.org.noteproject.model.bean.Health;
 import note.lym.org.noteproject.presenter.note.health.HealthPresenter;
 import note.lym.org.noteproject.presenter.note.health.IHealthView;
@@ -33,6 +38,8 @@ public class HealthMessageFragment extends BaseFragment<HealthPresenter> impleme
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     private HealthClassifyAdapter mAdapter;
+    @BindView(R.id.flb)
+    FloatingActionButton mActionButton;
 
     @Override
     protected void loadLazyData() {
@@ -41,6 +48,8 @@ public class HealthMessageFragment extends BaseFragment<HealthPresenter> impleme
 
     @Override
     protected void updateViews() {
+        EventBus.getDefault().unregister(this);
+        mActionButton.setVisibility(View.VISIBLE);
         initToolBar(mToolBar, true, getString(R.string.health_message));
         /**
          * 在fragment中嵌套fragment，尤其是使用了ViewPager的情况下的时候最好使用getChildFragmentManager
@@ -71,6 +80,10 @@ public class HealthMessageFragment extends BaseFragment<HealthPresenter> impleme
         }).show();
     }
 
+    @OnClick(R.id.fab)
+    public void onClick(){
+        EventBus.getDefault().post(new FlbEvent());
+    }
 
     @Override
     public void getHealthClassifyList(List<Health.ShowapiResBodyBean.ListBean> listBeanList) {
@@ -81,5 +94,11 @@ public class HealthMessageFragment extends BaseFragment<HealthPresenter> impleme
             fragments.add(ClassifyListFragment.newInstance(bean.getId()));
         }
         mAdapter.setItems(fragments,titles);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
