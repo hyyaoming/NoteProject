@@ -9,7 +9,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import butterknife.BindView;
@@ -35,6 +34,11 @@ public class WebActivity extends SimpleActivity {
     @BindView(R.id.web_progressBar)
     ProgressBar mBar;
     private String url;
+    /**
+     * 标题名字
+     */
+    public static final String TITLE_NAME = "title_name";
+    private String mTitleName;
 
     @Override
     protected int getLayout() {
@@ -43,12 +47,13 @@ public class WebActivity extends SimpleActivity {
 
     @Override
     protected void initEventAndData() {
-        initToolBar(mToolBar,true,"");
         getIntentData();
+        initToolBar(mToolBar,true,mTitleName);
         bindView();
     }
 
     private void getIntentData() {
+        mTitleName = getIntent().getStringExtra(TITLE_NAME);
         url = getIntent().getStringExtra(LINK_URL);
     }
 
@@ -86,9 +91,10 @@ public class WebActivity extends SimpleActivity {
         }
     }
 
-    public static void launch(Context context,String url){
+    public static void launch(Context context,String url,String titleName){
         Intent intent = new Intent(context,WebActivity.class);
         intent.putExtra(LINK_URL,url);
+        intent.putExtra(TITLE_NAME,titleName);
         context.startActivity(intent);
     }
 

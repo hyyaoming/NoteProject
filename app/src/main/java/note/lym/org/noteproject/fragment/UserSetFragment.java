@@ -30,7 +30,7 @@ public class UserSetFragment extends PreferenceFragment {
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (JUMP_TO_GIT_HUB.equals(preference.getKey())) {
-            WebActivity.launch(getActivity(), WebActivity.URL);
+            WebActivity.launch(getActivity(), WebActivity.URL,getString(R.string.GitHub));
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }

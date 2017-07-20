@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_status_bar" />
+
     <include
         android:id="@+id/layout_tool_bar"
         layout="@layout/layout_app_tool_bar" />

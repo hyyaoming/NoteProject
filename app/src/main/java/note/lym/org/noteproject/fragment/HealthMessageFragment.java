@@ -38,7 +38,7 @@ public class HealthMessageFragment extends BaseFragment<HealthPresenter> impleme
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     private HealthClassifyAdapter mAdapter;
-    @BindView(R.id.flb)
+    @BindView(R.id.fab)
     FloatingActionButton mActionButton;
 
     @Override

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/gary_color</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
     
     <style name="BigBelleTheme" parent="BaseAppTheme">
@@ -29,4 +30,10 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
+    <style name="SwipeBackLayout">
+        <item name="edge_size">50dip</item>
+        <item name="shadow_left">@drawable/shadow_left</item>
+        <item name="shadow_right">@drawable/shadow_right</item>
+        <item name="shadow_bottom">@drawable/shadow_bottom</item>
+    </style>
 </resources>

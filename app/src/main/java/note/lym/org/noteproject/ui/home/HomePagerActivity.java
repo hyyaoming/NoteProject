@@ -2,7 +2,6 @@ package note.lym.org.noteproject.ui.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 
 import java.lang.ref.WeakReference;
 
@@ -70,6 +68,11 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         activity.finish();
     }
 
+    @Override
+    protected boolean enableSwipe() {
+        return false;
+    }
+
     /**
      * 初始化 DrawerLayout
      *
@@ -77,14 +80,6 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
      * @param navView      NavigationView
      */
     private void _initDrawerLayout(DrawerLayout drawerLayout, NavigationView navView) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-            //将侧边栏顶部延伸至status bar
-            drawerLayout.setFitsSystemWindows(true);
-            //将主页面顶部延伸至status bar
-            drawerLayout.setClipToPadding(false);
-        }
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed(View drawerView) {
