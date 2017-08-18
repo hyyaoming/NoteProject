@@ -49,4 +49,28 @@ public class PreferencesUtils {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, defaultValue);
     }
 
+    /**
+     * 存入一个字符串类型的值
+     *
+     * @param context 上下文
+     * @param key     key
+     * @param value   值
+     * @return 是否成功
+     */
+    public static boolean setString(Context context, String key, String value) {
+        return PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, value).commit();
+    }
+
+    /**
+     * 获取一个指定key的字符串
+     *
+     * @param context      上下文
+     * @param key          key值
+     * @param defaultValue 默认值
+     * @return 取出指定值
+     */
+    public static String getString(Context context, String key, String defaultValue) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
+    }
+
 }
