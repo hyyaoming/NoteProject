@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.Music;
@@ -35,9 +36,7 @@ public class MusicAsyncTask extends AsyncTask<Void, Void, Music[]> {
     protected void onPostExecute(Music[] musics) {
         if (musics.length > 0) {
             ArrayList<Music> musicList = new ArrayList<>();
-            for (Music music : musics) {
-                musicList.add(music);
-            }
+            musicList.addAll(Arrays.asList(musics));
             MusicPlayService.startService(mContext, musicList);
         } else {
             ToastUtils.showToast(R.string.i_think_you_must_down_music);
