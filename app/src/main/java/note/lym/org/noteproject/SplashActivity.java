@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity implements Runnable {
     FloatingActionButton mFloatButton;
     private static final int POST_DELAYED_TIME = 200;
     private static final int ANIMATOR_TIME = 1000;
-    //明明
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
