@@ -1,10 +1,10 @@
-package note.lym.org.noteproject.Dagger.Modul;
+package note.lym.org.noteproject.dagger.modul;
 
 import android.app.Activity;
 
 import dagger.Module;
 import dagger.Provides;
-import note.lym.org.noteproject.Dagger.ActivityScope;
+import note.lym.org.noteproject.dagger.ActivityScope;
 
 
 @Module

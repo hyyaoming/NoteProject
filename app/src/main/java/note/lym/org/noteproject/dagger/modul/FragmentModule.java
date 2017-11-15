@@ -1,11 +1,11 @@
-package note.lym.org.noteproject.Dagger.Modul;
+package note.lym.org.noteproject.dagger.modul;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import dagger.Module;
 import dagger.Provides;
-import note.lym.org.noteproject.Dagger.FragmentScope;
+import note.lym.org.noteproject.dagger.FragmentScope;
 
 @Module
 public class FragmentModule {

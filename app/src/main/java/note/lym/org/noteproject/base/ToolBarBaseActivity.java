@@ -11,11 +11,10 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.utils.StatusBarCompat;
-import note.lym.org.noteproject.view.Swipelayout.SwipeBackLayout;
-import note.lym.org.noteproject.view.Swipelayout.app.SwipeBackActivity;
 
 
 /**
@@ -26,8 +25,6 @@ import note.lym.org.noteproject.view.Swipelayout.app.SwipeBackActivity;
  */
 public class ToolBarBaseActivity extends SwipeBackActivity {
 
-    private SwipeBackLayout mLayout;
-    private boolean isEnableSwipe = true;
     private boolean isEnableStatusBar = true;
 
     @Override
@@ -59,26 +56,6 @@ public class ToolBarBaseActivity extends SwipeBackActivity {
 
     protected boolean enableBar(){
         return isEnableStatusBar;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initSwipe();
-    }
-
-    private void initSwipe() {
-        mLayout = getSwipeBackLayout();
-        if (enableSwipe()) {
-            mLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-            mLayout.setEnableGesture(true);
-        }else{
-            mLayout.setEnableGesture(false);
-        }
-    }
-
-    protected boolean enableSwipe() {
-        return isEnableSwipe;
     }
 
     /**
@@ -115,7 +92,7 @@ public class ToolBarBaseActivity extends SwipeBackActivity {
             fragmentTransaction.commit();
         } else {
             // 存在则弹出在它上面的所有fragment，并显示对应fragment
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).commit();
             getSupportFragmentManager().popBackStack(tag, 0);
         }
     }

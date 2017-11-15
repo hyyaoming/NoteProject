@@ -3,7 +3,6 @@ package note.lym.org.noteproject.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +12,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import note.lym.org.noteproject.Dagger.Component.DaggerFragmentComponent;
-import note.lym.org.noteproject.Dagger.Component.FragmentComponent;
-import note.lym.org.noteproject.Dagger.Modul.FragmentModule;
+import me.yokeyword.fragmentation.SupportFragment;
+import note.lym.org.noteproject.dagger.component.DaggerFragmentComponent;
+import note.lym.org.noteproject.dagger.component.FragmentComponent;
+import note.lym.org.noteproject.dagger.modul.FragmentModule;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.utils.SoftInputUtil;
@@ -26,7 +25,7 @@ import note.lym.org.noteproject.view.LoadStateView;
  * @author yaoming.li
  * @since 2017-05-03 20:46
  */
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView {
+public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
     protected static final String TAG = BaseFragment.class.getSimpleName();
     protected Context mContext;
     /**

@@ -1,10 +1,10 @@
-package note.lym.org.noteproject.Dagger.Component;
+package note.lym.org.noteproject.dagger.component;
 
 import android.app.Activity;
 
 import dagger.Component;
-import note.lym.org.noteproject.Dagger.FragmentScope;
-import note.lym.org.noteproject.Dagger.Modul.FragmentModule;
+import note.lym.org.noteproject.dagger.FragmentScope;
+import note.lym.org.noteproject.dagger.modul.FragmentModule;
 import note.lym.org.noteproject.fragment.BelleListFragment;
 import note.lym.org.noteproject.fragment.ClassifyListFragment;
 import note.lym.org.noteproject.fragment.HealthMessageFragment;

@@ -7,15 +7,19 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import butterknife.BindView;
+import me.yokeyword.fragmentation.SupportFragment;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.base.SimpleActivity;
 import note.lym.org.noteproject.fragment.HealthMessageFragment;
@@ -34,9 +38,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    private SparseArray<String> mSparseTags = new SparseArray<>();
-    private int mItemId = -1;
-    private WeakHandler mHandler = new WeakHandler(this);
+    private HashMap<Integer, SupportFragment> mHashMap = new HashMap<>();
     private static final int EXIT_TIME = 1500;
     private long mExit_Time = 0;
 
@@ -47,14 +49,16 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
 
     @Override
     protected void initEventAndData() {
-        _initDrawerLayout(mDrawerLayout, mNavView);
-        mSparseTags.put(R.id.menu_note, getString(R.string.casual_write));
-        mSparseTags.put(R.id.menu_picture, getString(R.string.around_work));
-        mSparseTags.put(R.id.menu_health, getString(R.string.health_message));
-        mSparseTags.put(R.id.menu_sister, getString(R.string.beautiful_sister));
-        mSparseTags.put(R.id.menu_setting, getString(R.string.user_setting));
+        setSwipeBackEnable(false);
+        mNavView.setNavigationItemSelectedListener(this);
+        mHashMap.put(R.id.menu_picture, new TabPagerFragment());
+        mHashMap.put(R.id.menu_note, new NoteListFragment());
+        mHashMap.put(R.id.menu_health, new HealthMessageFragment());
+        mHashMap.put(R.id.menu_sister, new SisterClassifyFragment());
         mNavView.setCheckedItem(R.id.menu_picture);
-        addFragment(R.id.fl_container, new TabPagerFragment(), getString(R.string.around_work));
+        loadMultipleRootFragment(R.id.fl_container, 0, mHashMap.get(R.id.menu_picture)
+                , mHashMap.get(R.id.menu_note), mHashMap.get(R.id.menu_health)
+                , mHashMap.get(R.id.menu_sister));
     }
 
     /**
@@ -68,42 +72,14 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         activity.finish();
     }
 
-    @Override
-    protected boolean enableSwipe() {
-        return false;
-    }
-
-    /**
-     * 初始化 DrawerLayout
-     *
-     * @param drawerLayout DrawerLayout
-     * @param navView      NavigationView
-     */
-    private void _initDrawerLayout(DrawerLayout drawerLayout, NavigationView navView) {
-        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                mHandler.sendEmptyMessage(mItemId);
-            }
-        });
-        navView.setNavigationItemSelectedListener(this);
-    }
 
     @Override
-    public void onBackPressed() {
-        // 获取堆栈里有几个
-        final int stackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+    public void onBackPressedSupport() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else if (stackEntryCount == 1) {
-            // 如果剩一个说明在主页，提示按两次退出app
-            _exit();
-        } else {
-            // 获取上一个堆栈中保存的是哪个页面，根据name来设置导航项的选中状态
-            final String tagName = getSupportFragmentManager().getBackStackEntryAt(stackEntryCount - 2).getName();
-            mNavView.setCheckedItem(mSparseTags.keyAt(mSparseTags.indexOfValue(tagName)));
-            super.onBackPressed();
+            return;
         }
+        _exit();
     }
 
     private void _exit() {
@@ -126,7 +102,25 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         if (item.isChecked()) {
             return true;
         }
-        mItemId = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.menu_picture:
+                showHideFragment(mHashMap.get(R.id.menu_picture));
+                break;
+            case R.id.menu_note:
+                showHideFragment(mHashMap.get(R.id.menu_note));
+                break;
+            case R.id.menu_health:
+                showHideFragment(mHashMap.get(R.id.menu_health));
+                break;
+            case R.id.menu_sister:
+                showHideFragment(mHashMap.get(R.id.menu_sister));
+                break;
+            case R.id.menu_setting:
+                UserSetActivity.launch(this);
+                break;
+            default:
+                break;
+        }
         return true;
     }
 
@@ -137,45 +131,6 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * 这里采用一个软引用队列，防止内存泄漏
-     */
-    private class WeakHandler extends Handler {
-
-        private WeakReference<Activity> act;
-
-        public WeakHandler(Activity activity) {
-            act = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            Activity activity = act.get();
-            if (activity == null) {
-                return;
-            }
-            switch (msg.what) {
-                case R.id.menu_picture:
-                    replaceFragment(R.id.fl_container, new TabPagerFragment(), mSparseTags.get(R.id.menu_picture));
-                    break;
-                case R.id.menu_note:
-                    replaceFragment(R.id.fl_container, new NoteListFragment(), mSparseTags.get(R.id.menu_note));
-                    break;
-                case R.id.menu_health:
-                    replaceFragment(R.id.fl_container, new HealthMessageFragment(), mSparseTags.get(R.id.menu_health));
-                    break;
-                case R.id.menu_sister:
-                    replaceFragment(R.id.fl_container, new SisterClassifyFragment(), mSparseTags.get(R.id.menu_sister));
-                    break;
-                case R.id.menu_setting:
-                    UserSetActivity.launch(activity);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
 }

@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  *
  * @author yaoming.li
  * @since 2017-05-03 21:30
  */
-public abstract class SimpleFragment extends Fragment {
+public abstract class SimpleFragment extends SupportFragment {
 
     private Context mContext;
     private View mRootView;

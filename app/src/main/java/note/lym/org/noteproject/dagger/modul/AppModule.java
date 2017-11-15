@@ -1,11 +1,11 @@
-package note.lym.org.noteproject.Dagger.Modul;
+package note.lym.org.noteproject.dagger.modul;
 
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import note.lym.org.noteproject.Dagger.ContextLife;
+import note.lym.org.noteproject.dagger.ContextLife;
 import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.model.http.RetrofitHelper;
 

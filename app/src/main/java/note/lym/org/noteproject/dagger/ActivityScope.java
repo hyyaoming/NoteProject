@@ -1,4 +1,4 @@
-package note.lym.org.noteproject.Dagger;
+package note.lym.org.noteproject.dagger;
 
 import java.lang.annotation.Retention;
 

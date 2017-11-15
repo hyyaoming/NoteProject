@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -305,14 +306,12 @@ public class GlideUtils {
                             int width = SystemUtil.getScreenWidth(NoteApplication.getInstance()) / 2;
                             int height = TextUtils.calcPhotoHeight(size, width);
                             loadFitCenter(url, DefIconFactory.iconDefault(), iv, width, height);
-                        } else {
-                            ToastUtils.showToast(R.string.no_date);
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        ToastUtils.showToast(R.string.no_date);
+                        Log.d("GlideUtils", "Error");
                     }
                 });
     }

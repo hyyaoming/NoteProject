@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "note.lym.org.noteproject"
         minSdkVersion 15
@@ -45,19 +45,19 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     //插件
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     apt 'com.google.dagger:dagger-compiler:2.9'
     //design风格
-    compile 'com.android.support:design:25.2.0'
-    //litepal多功能数据库
+    compile 'com.android.support:design:25.3.1'
+    //郭婶的多功能数据库
     compile 'org.litepal.android:core:1.5.0'
     compile project(':recyclerviewlibrary')
     compile project(':library')
-    compile 'com.android.support:cardview-v7:25.2.0'
+    compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.6'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -75,5 +75,10 @@ dependencies {
     compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
     //热修复
     compile 'com.aliyun.ams:alicloud-android-hotfix:3.1.0'
+    //阿里开源的针对构建页面复杂布局的处理方案
+    compile ('com.alibaba.android:vlayout:1.2.2@aar') { transitive = true }
+    //一个管理fragment并且集成了滑动退出的库
+    compile 'me.yokeyword:fragmentation:1.1.4'
+    compile 'me.yokeyword:fragmentation-swipeback:1.1.4'
 
 }

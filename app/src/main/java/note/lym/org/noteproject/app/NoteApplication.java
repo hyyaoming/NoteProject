@@ -11,9 +11,9 @@ import com.taobao.sophix.listener.PatchLoadStatusListener;
 
 import org.litepal.LitePalApplication;
 
-import note.lym.org.noteproject.Dagger.Component.AppComponent;
-import note.lym.org.noteproject.Dagger.Component.DaggerAppComponent;
-import note.lym.org.noteproject.Dagger.Modul.AppModule;
+import note.lym.org.noteproject.dagger.component.AppComponent;
+import note.lym.org.noteproject.dagger.component.DaggerAppComponent;
+import note.lym.org.noteproject.dagger.modul.AppModule;
 import note.lym.org.noteproject.utils.Static;
 import note.lym.org.noteproject.utils.ToastUtils;
 
