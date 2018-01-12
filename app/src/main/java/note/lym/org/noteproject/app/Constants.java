@@ -39,4 +39,20 @@ public class Constants {
      * show_api_key
      */
     public static final String SHOW_API_KEY = "82294d27890648a69d314cbc3072b489";
+    /**
+     * left location
+     */
+    public static final String LEFT = "left";
+    /**
+     * top location
+     */
+    public static final String TOP = "top";
+    /**
+     * height
+     */
+    public static final String HEIGHT = "height";
+    /**
+     * width
+     */
+    public static final String WIDTH = "width";
 }

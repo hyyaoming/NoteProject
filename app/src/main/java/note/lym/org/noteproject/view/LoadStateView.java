@@ -1,15 +1,16 @@
 package note.lym.org.noteproject.view;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import note.lym.org.noteproject.R;
+import note.lym.org.noteproject.view.loading.LoadingView;
 
 /**
  * 加载状态处理类
@@ -24,10 +25,11 @@ public class LoadStateView extends FrameLayout {
     public static final int LOADING_NO_DATE = 0xff044; //没有数据
     private OnRequestListener mRequestListener;
     private int mState = LOADING_SHOW;
-    @BindView(R.id.progress)
-    ProgressBar mBar;
+    @BindView(R.id.loading_view)
+    LoadingView mLoadingView;
     @BindView(R.id.fl_no_network)
     FrameLayout mLayout;
+    private AnimationDrawable mAnimationDrawable;
 
     /**
      * 设置接口
@@ -90,12 +92,12 @@ public class LoadStateView extends FrameLayout {
             case LOADING_NO_DATE:
             case LOADING_NO_NETWORK:
                 setVisibility(VISIBLE);
-                mBar.setVisibility(GONE);
+                mLoadingView.stopLoading();
                 mLayout.setVisibility(VISIBLE);
                 break;
             case LOADING_SHOW:
                 setVisibility(VISIBLE);
-                mBar.setVisibility(VISIBLE);
+                mLoadingView.showLoading();
                 mLayout.setVisibility(GONE);
                 break;
             default:

@@ -18,4 +18,5 @@
     <color name="light_black">#30000000</color>
     <color name="guide_mask_bk">#C8000000</color>
     <color name="result_view">#b0000000</color>
+    <color name="colorTabText">#585858</color>
 </resources>

@@ -2,20 +2,14 @@ package note.lym.org.noteproject.ui.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -31,6 +25,7 @@ import note.lym.org.noteproject.fragment.TabPagerFragment;
  * 主页
  *
  * @author yaoming.li
+ * @version 1.0.0
  * @since 2017-04-25 11:35
  */
 public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +35,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     DrawerLayout mDrawerLayout;
     private HashMap<Integer, SupportFragment> mHashMap = new HashMap<>();
     private static final int EXIT_TIME = 1500;
-    private long mExit_Time = 0;
+    private long mExitTime = 0;
 
     @Override
     protected int getLayout() {
@@ -56,9 +51,9 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         mHashMap.put(R.id.menu_health, new HealthMessageFragment());
         mHashMap.put(R.id.menu_sister, new SisterClassifyFragment());
         mNavView.setCheckedItem(R.id.menu_picture);
-        loadMultipleRootFragment(R.id.fl_container, 0, mHashMap.get(R.id.menu_picture)
-                , mHashMap.get(R.id.menu_note), mHashMap.get(R.id.menu_health)
-                , mHashMap.get(R.id.menu_sister));
+        loadMultipleRootFragment(R.id.fl_container, 0, mHashMap.get(R.id.menu_picture),
+                mHashMap.get(R.id.menu_note), mHashMap.get(R.id.menu_health),
+                mHashMap.get(R.id.menu_sister));
     }
 
     /**
@@ -79,18 +74,18 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
-        _exit();
+        exit();
     }
 
-    private void _exit() {
-        if (System.currentTimeMillis() - mExit_Time > EXIT_TIME) {
+    private void exit() {
+        if (System.currentTimeMillis() - mExitTime > EXIT_TIME) {
             Snackbar.make(mDrawerLayout, R.string.exit_app, Snackbar.LENGTH_SHORT).setAction(R.string.exit_application, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     exitApp();
                 }
             }).show();
-            mExit_Time = System.currentTimeMillis();
+            mExitTime = System.currentTimeMillis();
         } else {
             exitApp();
         }

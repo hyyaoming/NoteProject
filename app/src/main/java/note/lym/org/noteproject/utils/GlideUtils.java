@@ -30,6 +30,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.view.loading.LoadingView;
 
 /**
  * Glide图片加载类
@@ -134,28 +135,28 @@ public class GlideUtils {
      * @param view    设置加载的图片
      * @param url     图片地址
      */
-    public static void loadFitCenter(Context context, String url, ImageView view, ProgressBar bar) {
+    public static void loadFitCenter(Context context, String url, ImageView view, LoadingView loading) {
         if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
-            Glide.with(context).load(url).fitCenter().dontAnimate().listener(loadRequestListener(bar, view)).into(view);
+            Glide.with(context).load(url).fitCenter().dontAnimate().listener(loadRequestListener(loading, view)).into(view);
         } else {
-            bar.setVisibility(View.GONE);
+            loading.setVisibility(View.GONE);
             view.setImageResource(DefIconFactory.iconDefault());
         }
     }
 
-    private static RequestListener loadRequestListener(final ProgressBar bar, final ImageView view) {
+    private static RequestListener loadRequestListener(final LoadingView bar, final ImageView view) {
         return new RequestListener<String, GlideDrawable>() {
 
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                bar.setVisibility(View.GONE);
                 ToastUtils.showToast(R.string.look_network_state);
+                bar.stopLoading();
                 return true;
             }
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                bar.setVisibility(View.GONE);
+                bar.stopLoading();
                 view.setImageDrawable(resource);
                 return true;
             }

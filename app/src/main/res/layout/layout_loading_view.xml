@@ -17,12 +17,11 @@
             android:drawablePadding="@dimen/activity_horizontal_margin"
             android:drawableTop="@drawable/ic_not_network"
             android:text="@string/look_network_state"
-            android:textSize="18sp"
-            android:textColor="@color/theme_color" />
+            android:textColor="@color/theme_color"
+            android:textSize="18sp" />
     </FrameLayout>
 
-    <include
-        layout="@layout/layout_progress" />
+    <include layout="@layout/loading_view" />
 
 
 </FrameLayout>

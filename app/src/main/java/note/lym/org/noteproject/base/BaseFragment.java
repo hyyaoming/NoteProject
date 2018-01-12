@@ -23,10 +23,17 @@ import note.lym.org.noteproject.view.LoadStateView;
 
 /**
  * @author yaoming.li
+ * @version 1.0.0
  * @since 2017-05-03 20:46
  */
 public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
+    /**
+     * 子类打印log日志时可以方便一些
+     */
     protected static final String TAG = BaseFragment.class.getSimpleName();
+    /**
+     * 方便子类获取上下文对象
+     */
     protected Context mContext;
     /**
      * 是否开始加载数据标记位
@@ -48,7 +55,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (null == mRootView) {
             mRootView = inflater.inflate(getLayoutResources(), null);
-             ButterKnife.bind(this, mRootView);
+            ButterKnife.bind(this, mRootView);
             initInject();
             if (mPresenter != null) {
                 mPresenter.attachView(this);
@@ -72,7 +79,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(null != mPresenter){
+        if (null != mPresenter) {
             mPresenter.detachView();
             mPresenter = null;
         }
@@ -86,13 +93,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
      * @param title
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
-        ((ToolBarBaseActivity)getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
+        ((ToolBarBaseActivity) getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
     }
 
     /**
      * 隐藏系统软键盘
      */
-    protected void hideSoftInput(){
+    protected void hideSoftInput() {
         if (SoftInputUtil.isOpen()) {
             ToolBarBaseActivity activity = (ToolBarBaseActivity) getActivity();
             SoftInputUtil.hideSysSoftInput(activity);
@@ -111,21 +118,21 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
 
     @Override
     public void showLoading() {
-        if(mStateView != null){
+        if (mStateView != null) {
             mStateView.setLoadingState(LoadStateView.LOADING_SHOW);
         }
     }
 
     @Override
     public void hideLoading() {
-        if(mStateView != null){
+        if (mStateView != null) {
             mStateView.setLoadingState(LoadStateView.LOADING_HIDE);
         }
     }
 
     @Override
     public void showError(LoadStateView.OnRequestListener listener) {
-        if(mStateView != null){
+        if (mStateView != null) {
             mStateView.setRequestListener(listener);
             mStateView.setLoadingState(LoadStateView.LOADING_NO_NETWORK);
         }

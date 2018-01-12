@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import note.lym.org.noteproject.R;
+import note.lym.org.noteproject.app.Constants;
 import note.lym.org.noteproject.async.MusicAsyncTask;
 import note.lym.org.noteproject.base.SimpleActivity;
 import note.lym.org.noteproject.eventbus.LookerEvent;
@@ -31,6 +33,7 @@ import note.lym.org.noteproject.utils.GlideUtils;
 import note.lym.org.noteproject.utils.PreferencesUtils;
 import note.lym.org.noteproject.utils.SystemUtil;
 import note.lym.org.noteproject.view.likeview.LikeView;
+import note.lym.org.noteproject.view.loading.LoadingView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -45,8 +48,8 @@ public class BigBelleActivity extends SimpleActivity {
     PhotoView mPhotoView;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
-    @BindView(R.id.progress)
-    ProgressBar mProgressBar;
+    @BindView(R.id.loading_view)
+    LoadingView mLoadingView;
     @BindView(R.id.fl_layout)
     FrameLayout mLayout;
     public static final String URL = "image_url";
@@ -111,7 +114,7 @@ public class BigBelleActivity extends SimpleActivity {
      * 加载大图片
      */
     private void loadBigBelleImage() {
-        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mProgressBar);
+        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mLoadingView);
     }
 
     /**
@@ -199,12 +202,16 @@ public class BigBelleActivity extends SimpleActivity {
 
     /**
      * 注意，这里如果想要fragment接收到回传值那么必须用fragment启动activity，不然收不到回传值。
+     *
+     * @param context      上下文
+     * @param url          地址链接
+     * @param showTitleBar 是否显示头部
      */
-    public static void action(Context activity, String url, boolean showTitleBar) {
-        Intent intent = new Intent(activity, BigBelleActivity.class);
+    public static void action(Context context, String url, boolean showTitleBar) {
+        Intent intent = new Intent(context, BigBelleActivity.class);
         intent.putExtra(URL, url);
         intent.putExtra(BOOLEAN_FLAG, showTitleBar);
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
 
     /**
