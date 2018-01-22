@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/recyclerviewlibrary" />
+            <option value="$PROJECT_DIR$/svg_library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

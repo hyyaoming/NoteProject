@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/background"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/status_bar_color"
-    android:fitsSystemWindows="true">
+    >
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/flb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/smile"
-        android:clickable="false"
-        android:fitsSystemWindows="true"
-        app:backgroundTint="@android:color/white"/>
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/iv_svg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        app:loopCount="1"
+        app:source="angel.svga" />
 
-</android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>
