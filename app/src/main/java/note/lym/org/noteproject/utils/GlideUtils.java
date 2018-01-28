@@ -59,7 +59,7 @@ public class GlideUtils {
      * @param url 图片地址
      */
     public static void load(Context act, ImageView img, String url, int defaultImage) {
-        if (PreferencesUtils.isLoadImage(act) || SystemUtil.isWifiConnected(act)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(act)) {
             Glide.with(act).load(url).centerCrop().placeholder(defaultImage).dontAnimate().into(img);
         } else {
             img.setImageResource(defaultImage);
@@ -74,7 +74,7 @@ public class GlideUtils {
      * @param imageView    需要加载的图片
      */
     public static void loadFitCenter(Context context, String url, int defaultImage, ImageView imageView) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(NoteApplication.getContext()).load(url).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);
@@ -91,7 +91,7 @@ public class GlideUtils {
      * @param height       图片高度
      */
     public static void loadFitCenter(String url, int defaultImage, ImageView imageView, int width, int height) {
-        if (PreferencesUtils.isLoadImage(NoteApplication.getContext()) || SystemUtil.isWifiConnected(NoteApplication.getContext())) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(NoteApplication.getContext())) {
             Glide.with(NoteApplication.getContext()).load(url).override(width, height).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);
@@ -123,7 +123,7 @@ public class GlideUtils {
      * @param listener 回调
      */
     public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).centerCrop().dontAnimate().listener(listener).into(view);
         } else {
             view.setImageResource(DefIconFactory.iconDefault());
@@ -138,7 +138,7 @@ public class GlideUtils {
      * @param url     图片地址
      */
     public static void loadFitCenter(Context context, String url, ImageView view, LoadingView loading) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).fitCenter().dontAnimate().listener(loadRequestListener(loading, view)).into(view);
         } else {
             loading.setVisibility(View.GONE);
@@ -190,7 +190,7 @@ public class GlideUtils {
      * @param img          设置加载的图片
      */
     public static void load(Context context, String url, int errorImage, int defaultImage, ImageView img) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).error(errorImage).dontAnimate().placeholder(defaultImage).into(img);
         } else {
             img.setImageResource(defaultImage);
@@ -209,7 +209,7 @@ public class GlideUtils {
      * @param height       图片剪裁的高度
      */
     public static void load(Context context, String url, int errorImage, int defaultImage, ImageView image, int width, int height) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).centerCrop().error(errorImage).dontAnimate().placeholder(defaultImage).override(width, height).centerCrop().into(image);
         } else {
             image.setImageResource(defaultImage);
@@ -229,7 +229,7 @@ public class GlideUtils {
      * @param animationRes 加载时的动画
      */
     public static void load(Context context, String url, int errorImage, int defaultImage, ImageView imageView, int width, int height, int animationRes) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).error(errorImage).placeholder(defaultImage).override(width, height).crossFade().centerCrop().animate(animationRes).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);

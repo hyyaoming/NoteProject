@@ -3,6 +3,7 @@ package note.lym.org.noteproject.utils;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
+import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.fragment.UserSetFragment;
 
 /**
@@ -20,33 +21,41 @@ public class PreferencesUtils {
     /**
      * 是否开启背景音乐播放
      *
-     * @param context 上下文
      * @return 返回true可以播放，反之不能播放
      */
-    public static boolean isMusicPlay(Context context) {
-        return getBoolean(context, UserSetFragment.BGM_MUSIC, true);
+    public static boolean isMusicPlay() {
+        return getBoolean(UserSetFragment.BGM_MUSIC, true);
     }
 
     /**
      * 是否开启wifi浏览图片模式
      *
-     * @param context 上下文
      * @return true在WiFi时才加载图片, false则不加载
      */
-    public static boolean isLoadImage(Context context) {
-        return getBoolean(context, UserSetFragment.LOAD_IMAGE, true);
+    public static boolean isLoadImage() {
+        return getBoolean(UserSetFragment.LOAD_IMAGE, true);
     }
 
     /**
      * 获取一个Boolean类型从值
      *
-     * @param context      上下文
      * @param key          key
      * @param defaultValue 默认值
      * @return 返回boolean
      */
-    public static boolean getBoolean(Context context, String key, boolean defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, defaultValue);
+    public static boolean getBoolean(String key, boolean defaultValue) {
+        return PreferenceManager.getDefaultSharedPreferences(NoteApplication.getInstance()).getBoolean(key, defaultValue);
+    }
+
+    /**
+     * 存储一个boolean类型值
+     *
+     * @param key     key
+     * @param value   值
+     * @return 返回值
+     */
+    public static boolean putBoolean(String key, boolean value) {
+        return PreferenceManager.getDefaultSharedPreferences(NoteApplication.getInstance()).edit().putBoolean(key, value).commit();
     }
 
     /**

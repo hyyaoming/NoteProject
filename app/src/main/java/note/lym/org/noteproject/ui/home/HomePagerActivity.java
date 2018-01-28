@@ -1,17 +1,27 @@
 package note.lym.org.noteproject.ui.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -21,7 +31,9 @@ import note.lym.org.noteproject.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyFragment;
 import note.lym.org.noteproject.fragment.TabPagerFragment;
-import note.lym.org.noteproject.utils.GlideUtils;
+import note.lym.org.noteproject.utils.ConstantUtil;
+import note.lym.org.noteproject.utils.PreferencesUtils;
+import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
  * 主页
@@ -30,14 +42,17 @@ import note.lym.org.noteproject.utils.GlideUtils;
  * @version 1.0.0
  * @since 2017-04-25 11:35
  */
-public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     @BindView(R.id.nav_view)
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     private HashMap<Integer, SupportFragment> mHashMap = new HashMap<>();
     private static final int EXIT_TIME = 1500;
+    private static final int REQUEST_CODE_CHOOSE = 23;
     private long mExitTime = 0;
+    private ImageView mIv;
+    private ImageView mIvChangeModel;
 
     @Override
     protected int getLayout() {
@@ -46,9 +61,12 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
 
     @Override
     protected void initEventAndData() {
-        initMenuHeadView();
+        initFragment();
         setSwipeBackEnable(false);
-        mNavView.setNavigationItemSelectedListener(this);
+        initMenu();
+    }
+
+    private void initFragment() {
         mHashMap.put(R.id.menu_picture, new TabPagerFragment());
         mHashMap.put(R.id.menu_note, new NoteListFragment());
         mHashMap.put(R.id.menu_health, new HealthMessageFragment());
@@ -59,11 +77,14 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
                 mHashMap.get(R.id.menu_sister));
     }
 
-    private void initMenuHeadView() {
-        View menuHeadView = mNavView.getHeaderView(0);
-        ImageView iv = (ImageView) menuHeadView.findViewById(R.id.iv_change_avatar);
-        GlideUtils.loadCircleNativeImageView(R.drawable.ic_hotbitmapgg_avatar, iv);
+    private void initMenu() {
+        mNavView.setNavigationItemSelectedListener(this);
+        mIv = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.iv_change_avatar);
+        mIvChangeModel = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.iv_change_model);
+        mIv.setOnClickListener(this);
+        mIvChangeModel.setOnClickListener(this);
     }
+
 
     /**
      * 启动当前的Activity
@@ -74,6 +95,23 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         Intent intent = new Intent(activity, HomePagerActivity.class);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    /**
+     * 日夜间模式切换
+     */
+    private void switchNightMode() {
+        boolean isNight = PreferencesUtils.getBoolean(ConstantUtil.SWITCH_MODE_KEY, false);
+        if (isNight) {
+            // 日间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            PreferencesUtils.putBoolean(ConstantUtil.SWITCH_MODE_KEY, false);
+        } else {
+            // 夜间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            PreferencesUtils.putBoolean(ConstantUtil.SWITCH_MODE_KEY, true);
+        }
+        recreate();
     }
 
 
@@ -136,5 +174,44 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            List<Uri> list = Matisse.obtainResult(data);
+            Glide.with(this).load(list.get(0)).asBitmap().into(mIv);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.iv_change_avatar) {
+            requestRunTimePermission(new String[]{Manifest
+                    .permission.WRITE_EXTERNAL_STORAGE}, new RequestPermissionListener() {
+                @Override
+                public void accredit() {
+                    Matisse.from(HomePagerActivity.this)
+                            .choose(MimeType.allOf())
+                            .countable(true)
+                            .maxSelectable(1)
+                            .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .thumbnailScale(0.85f)
+                            .imageEngine(new GlideEngine())
+                            .forResult(REQUEST_CODE_CHOOSE);
+                }
+
+                @Override
+                public void decline(List<String> array) {
+
+                }
+            });
+        } else if (viewId == R.id.iv_change_model) {
+            ToastUtils.showToast("change model");
+        }
+    }
+
 
 }
