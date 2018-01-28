@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ import note.lym.org.noteproject.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.fragment.NoteListFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyFragment;
 import note.lym.org.noteproject.fragment.TabPagerFragment;
+import note.lym.org.noteproject.utils.GlideUtils;
 
 /**
  * 主页
@@ -44,6 +46,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
 
     @Override
     protected void initEventAndData() {
+        initMenuHeadView();
         setSwipeBackEnable(false);
         mNavView.setNavigationItemSelectedListener(this);
         mHashMap.put(R.id.menu_picture, new TabPagerFragment());
@@ -54,6 +57,12 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         loadMultipleRootFragment(R.id.fl_container, 0, mHashMap.get(R.id.menu_picture),
                 mHashMap.get(R.id.menu_note), mHashMap.get(R.id.menu_health),
                 mHashMap.get(R.id.menu_sister));
+    }
+
+    private void initMenuHeadView() {
+        View menuHeadView = mNavView.getHeaderView(0);
+        ImageView iv = (ImageView) menuHeadView.findViewById(R.id.iv_change_avatar);
+        GlideUtils.loadCircleNativeImageView(R.drawable.ic_hotbitmapgg_avatar, iv);
     }
 
     /**

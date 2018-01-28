@@ -3,6 +3,7 @@ package note.lym.org.noteproject.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.IntegerRes;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
@@ -30,6 +31,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.view.loading.LoadingView;
 
 /**
@@ -249,6 +251,23 @@ public class GlideUtils {
                         RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
                 circularBitmapDrawable.setCircular(true);
                 iv.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+    }
+
+    /**
+     * 加载一张本地圆形图片
+     *
+     * @param imageRes  图片资源
+     * @param imageView imageView
+     */
+    public static void loadCircleNativeImageView(int imageRes, final ImageView imageView) {
+        Glide.with(NoteApplication.getInstance()).load(imageRes).asBitmap().fitCenter().into(new BitmapImageViewTarget(imageView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable nativeImage = RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
+                nativeImage.setCircular(true);
+                imageView.setImageDrawable(nativeImage);
             }
         });
     }
