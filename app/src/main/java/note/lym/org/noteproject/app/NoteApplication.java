@@ -85,7 +85,7 @@ public class NoteApplication extends LitePalApplication {
                         } else {
                             Log.d(TAG, "unknown error" + code);
                             // 其它错误信息, 查看PatchStatus类说明
-                        }
+                        } //test
                     }
                 }).initialize();
         // queryAndLoadNewPatch不可放在attachBaseContext 中，否则无网络权限，建议放在后面任意时刻，如onCreate中

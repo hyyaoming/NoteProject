@@ -32,27 +32,8 @@ public class ToolBarBaseActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        /**
-         * 这里必须这样配置不然不起效
-         */
-        StatusBarCompat.compat(this, ContextCompat.getColor(this,R.color.status_bar_color));
-        setTranslucentStatus();
     }
 
-    @TargetApi(19)
-    protected void setTranslucentStatus() {
-        if (Build.VERSION.SDK_INT >= 19 && enableBar()) {
-            Window win = getWindow();
-            WindowManager.LayoutParams winParams = win.getAttributes();
-            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            if (enableBar()) {
-                winParams.flags |= bits;
-            } else {
-                winParams.flags &= ~bits;
-            }
-            win.setAttributes(winParams);
-        }
-    }
 
     protected boolean enableBar(){
         return isEnableStatusBar;

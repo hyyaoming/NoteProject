@@ -44,10 +44,6 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
         getWindow().setContentView(getLayoutId());
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        /**
-         * 这里必须这样配置不然不起效
-         */
-        StatusBarCompat.compat(this, ContextCompat.getColor(this,R.color.status_bar_color));
         Log.i(TAG, getClass().getSimpleName());
 
         mUnBinder = ButterKnife.bind(this);

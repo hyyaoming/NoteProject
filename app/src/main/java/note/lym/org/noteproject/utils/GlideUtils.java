@@ -3,6 +3,7 @@ package note.lym.org.noteproject.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.IntegerRes;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
@@ -30,6 +31,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.view.loading.LoadingView;
 
 /**
@@ -57,7 +59,7 @@ public class GlideUtils {
      * @param url 图片地址
      */
     public static void load(Context act, ImageView img, String url, int defaultImage) {
-        if (PreferencesUtils.isLoadImage(act) || SystemUtil.isWifiConnected(act)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(act)) {
             Glide.with(act).load(url).centerCrop().placeholder(defaultImage).dontAnimate().into(img);
         } else {
             img.setImageResource(defaultImage);
@@ -72,7 +74,7 @@ public class GlideUtils {
      * @param imageView    需要加载的图片
      */
     public static void loadFitCenter(Context context, String url, int defaultImage, ImageView imageView) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(NoteApplication.getContext()).load(url).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);
@@ -89,7 +91,7 @@ public class GlideUtils {
      * @param height       图片高度
      */
     public static void loadFitCenter(String url, int defaultImage, ImageView imageView, int width, int height) {
-        if (PreferencesUtils.isLoadImage(NoteApplication.getContext()) || SystemUtil.isWifiConnected(NoteApplication.getContext())) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(NoteApplication.getContext())) {
             Glide.with(NoteApplication.getContext()).load(url).override(width, height).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);
@@ -121,7 +123,7 @@ public class GlideUtils {
      * @param listener 回调
      */
     public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).centerCrop().dontAnimate().listener(listener).into(view);
         } else {
             view.setImageResource(DefIconFactory.iconDefault());
@@ -136,7 +138,7 @@ public class GlideUtils {
      * @param url     图片地址
      */
     public static void loadFitCenter(Context context, String url, ImageView view, LoadingView loading) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).fitCenter().dontAnimate().listener(loadRequestListener(loading, view)).into(view);
         } else {
             loading.setVisibility(View.GONE);
@@ -188,7 +190,7 @@ public class GlideUtils {
      * @param img          设置加载的图片
      */
     public static void load(Context context, String url, int errorImage, int defaultImage, ImageView img) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).error(errorImage).dontAnimate().placeholder(defaultImage).into(img);
         } else {
             img.setImageResource(defaultImage);
@@ -207,7 +209,7 @@ public class GlideUtils {
      * @param height       图片剪裁的高度
      */
     public static void load(Context context, String url, int errorImage, int defaultImage, ImageView image, int width, int height) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).centerCrop().error(errorImage).dontAnimate().placeholder(defaultImage).override(width, height).centerCrop().into(image);
         } else {
             image.setImageResource(defaultImage);
@@ -227,7 +229,7 @@ public class GlideUtils {
      * @param animationRes 加载时的动画
      */
     public static void load(Context context, String url, int errorImage, int defaultImage, ImageView imageView, int width, int height, int animationRes) {
-        if (PreferencesUtils.isLoadImage(context) || SystemUtil.isWifiConnected(context)) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
             Glide.with(context).load(url).error(errorImage).placeholder(defaultImage).override(width, height).crossFade().centerCrop().animate(animationRes).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);
@@ -249,6 +251,23 @@ public class GlideUtils {
                         RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
                 circularBitmapDrawable.setCircular(true);
                 iv.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+    }
+
+    /**
+     * 加载一张本地圆形图片
+     *
+     * @param imageRes  图片资源
+     * @param imageView imageView
+     */
+    public static void loadCircleNativeImageView(int imageRes, final ImageView imageView) {
+        Glide.with(NoteApplication.getInstance()).load(imageRes).asBitmap().fitCenter().into(new BitmapImageViewTarget(imageView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable nativeImage = RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
+                nativeImage.setCircular(true);
+                imageView.setImageDrawable(nativeImage);
             }
         });
     }

@@ -1,7 +1,6 @@
 package note.lym.org.noteproject;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
@@ -17,6 +16,9 @@ public class SplashActivity extends AppCompatActivity {
 
     @BindView(R.id.iv_svg)
     SVGAImageView mIvSVG;
+    /**
+     * tag
+     */
     private static final String TAG = SplashActivity.class.getSimpleName();
 
     @Override
@@ -25,10 +27,11 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+        mIvSVG.setLoops(1);
         mIvSVG.setCallback(new SVGACallback() {
             @Override
             public void onPause() {
-                Log.d(TAG, "svg：onPause");
+
             }
 
             @Override
@@ -48,5 +51,4 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
     }
-
 }

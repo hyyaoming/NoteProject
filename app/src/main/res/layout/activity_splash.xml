@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout android:id="@+id/background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/status_bar_color"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <com.opensource.svgaplayer.SVGAImageView
         android:id="@+id/iv_svg"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:scaleType="fitCenter"
-        app:loopCount="1"
-        app:source="angel.svga" />
-
+        app:source="angel.svga"
+        app:antiAlias="true"/>
 
 </RelativeLayout>

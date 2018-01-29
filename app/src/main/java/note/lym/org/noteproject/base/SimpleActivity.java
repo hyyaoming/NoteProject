@@ -24,7 +24,6 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        StatusBarCompat.compat(this, ContextCompat.getColor(this, R.color.status_bar_color));
         //竖屏锁定
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ButterKnife.bind(this);

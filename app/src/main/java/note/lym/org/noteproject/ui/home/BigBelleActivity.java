@@ -106,7 +106,7 @@ public class BigBelleActivity extends SimpleActivity {
      */
     private void bindLikeView() {
         mCollect = getCollect();
-        mTv.setVisibility((PreferencesUtils.isLoadImage(this) || SystemUtil.isWifiConnected(this)) ? View.VISIBLE : View.GONE);
+        mTv.setVisibility((PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(this)) ? View.VISIBLE : View.GONE);
         mTv.setState(null != mCollect && mCollect.isCollect.equals("1"));
     }
 
@@ -160,7 +160,7 @@ public class BigBelleActivity extends SimpleActivity {
         requestRunTimePermission(permission, new RequestPermissionListener() {
             @Override
             public void accredit() {
-                if (PreferencesUtils.isMusicPlay(BigBelleActivity.this)) {
+                if (PreferencesUtils.isMusicPlay()) {
                     new MusicAsyncTask(BigBelleActivity.this).execute();
                 }
             }

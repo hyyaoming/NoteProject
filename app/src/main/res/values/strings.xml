@@ -49,4 +49,5 @@
     <string name="casual_look">随便逛逛</string>
     <string name="GitHub">GitHub</string>
     <string name="hard_loading">努力加载中...</string>
+    <string name="change_iv_avatar">点击切换头像</string>
 </resources>
