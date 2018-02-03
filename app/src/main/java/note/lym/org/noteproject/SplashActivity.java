@@ -2,6 +2,7 @@ package note.lym.org.noteproject;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.opensource.svgaplayer.SVGACallback;
@@ -14,7 +15,11 @@ import note.lym.org.noteproject.ui.home.HomePagerActivity;
 public class SplashActivity extends AppCompatActivity {
 
     @BindView(R.id.iv_svg)
-    SVGAImageView mIv;
+    SVGAImageView mIvSVG;
+    /**
+     * tag
+     */
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +27,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        mIv.setLoops(1);
-        mIv.setCallback(new SVGACallback() {
+        mIvSVG.setLoops(1);
+        mIvSVG.setCallback(new SVGACallback() {
             @Override
             public void onPause() {
 
@@ -31,20 +36,19 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFinished() {
+                Log.d(TAG, "svg：onFinished");
                 HomePagerActivity.action(SplashActivity.this);
             }
 
             @Override
             public void onRepeat() {
-
+                Log.d(TAG, "svg：onRepeat");
             }
 
             @Override
             public void onStep(int frame, double percentage) {
-
+                Log.d(TAG, "svg：onStep");
             }
         });
     }
-
-
 }
