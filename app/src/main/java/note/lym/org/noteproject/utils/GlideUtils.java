@@ -3,13 +3,12 @@ package note.lym.org.noteproject.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.IntegerRes;
+import android.net.Uri;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,7 +30,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
-import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.view.loading.LoadingView;
 
 /**
@@ -253,6 +251,16 @@ public class GlideUtils {
                 iv.setImageDrawable(circularBitmapDrawable);
             }
         });
+    }
+
+    /**
+     * 加载一张地址为uri的本地图片
+     *
+     * @param uri 图片地址
+     * @param iv  作用的图片
+     */
+    public static void loadImageInUri(Uri uri, ImageView iv) {
+        Glide.with(NoteApplication.getInstance()).load(uri).asBitmap().placeholder(R.drawable.ic_avatar).fitCenter().into(iv);
     }
 
     /**

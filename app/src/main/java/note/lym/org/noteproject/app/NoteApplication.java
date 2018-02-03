@@ -14,6 +14,8 @@ import org.litepal.LitePalApplication;
 import note.lym.org.noteproject.dagger.component.AppComponent;
 import note.lym.org.noteproject.dagger.component.DaggerAppComponent;
 import note.lym.org.noteproject.dagger.modul.AppModule;
+import note.lym.org.noteproject.utils.ConstantUtil;
+import note.lym.org.noteproject.utils.PreferencesUtils;
 import note.lym.org.noteproject.utils.Static;
 import note.lym.org.noteproject.utils.ToastUtils;
 
@@ -27,6 +29,7 @@ public class NoteApplication extends LitePalApplication {
 
     private static final String TAG = NoteApplication.class.getSimpleName();
     private static NoteApplication instance;
+    public static AppComponent appComponent;
 
     public static synchronized NoteApplication getInstance() {
         return instance;
@@ -40,17 +43,26 @@ public class NoteApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+        initStyle();
         initHotFix();
         ToastUtils.init(this);
         Static.CONTEXT = this;
         Static.INFLATER = LayoutInflater.from(this);
-        instance = this;
     }
 
-    public static AppComponent getAppComponent() {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(instance))
-                .build();
+    private void initStyle() {
+        boolean isNight = PreferencesUtils.getBoolean(ConstantUtil.SWITCH_MODE_KEY, false);
+        AppCompatDelegate.setDefaultNightMode(isNight ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    public static AppComponent getAppComponent(){
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(instance))
+                    .build();
+        }
+        return appComponent;
     }
 
     private void initHotFix() {

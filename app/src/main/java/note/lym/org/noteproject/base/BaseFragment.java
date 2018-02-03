@@ -18,6 +18,7 @@ import note.lym.org.noteproject.dagger.component.FragmentComponent;
 import note.lym.org.noteproject.dagger.modul.FragmentModule;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.ui.home.HomePagerActivity;
 import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.view.LoadStateView;
 
@@ -26,7 +27,7 @@ import note.lym.org.noteproject.view.LoadStateView;
  * @version 1.0.0
  * @since 2017-05-03 20:46
  */
-public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
+public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView, View.OnClickListener {
     /**
      * 子类打印log日志时可以方便一些
      */
@@ -88,12 +89,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     /**
      * 初始化 Toolbar
      *
-     * @param toolbar
-     * @param homeAsUpEnabled
-     * @param title
+     * @param toolbar         toolbar
+     * @param homeAsUpEnabled home is enable
+     * @param title           title content
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
         ((ToolBarBaseActivity) getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
+        toolbar.setNavigationOnClickListener(this);
     }
 
     /**
@@ -168,4 +170,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
 
     protected abstract int getLayoutResources();
 
+    @Override
+    public void onClick(View view) {
+        if (getActivity() instanceof HomePagerActivity) {
+            HomePagerActivity activity = (HomePagerActivity) getActivity();
+            activity.toggleDrawer();
+        }
+    }
 }

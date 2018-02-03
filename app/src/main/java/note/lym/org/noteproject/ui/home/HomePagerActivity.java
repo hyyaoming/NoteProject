@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -32,8 +32,8 @@ import note.lym.org.noteproject.fragment.NoteListFragment;
 import note.lym.org.noteproject.fragment.SisterClassifyFragment;
 import note.lym.org.noteproject.fragment.TabPagerFragment;
 import note.lym.org.noteproject.utils.ConstantUtil;
+import note.lym.org.noteproject.utils.GlideUtils;
 import note.lym.org.noteproject.utils.PreferencesUtils;
-import note.lym.org.noteproject.utils.ToastUtils;
 
 /**
  * 主页
@@ -52,7 +52,6 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     private static final int REQUEST_CODE_CHOOSE = 23;
     private long mExitTime = 0;
     private ImageView mIv;
-    private ImageView mIvChangeModel;
 
     @Override
     protected int getLayout() {
@@ -80,9 +79,10 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     private void initMenu() {
         mNavView.setNavigationItemSelectedListener(this);
         mIv = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.iv_change_avatar);
-        mIvChangeModel = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.iv_change_model);
+        ImageView mIvChangeModel = (ImageView) mNavView.getHeaderView(0).findViewById(R.id.iv_change_model);
         mIv.setOnClickListener(this);
         mIvChangeModel.setOnClickListener(this);
+        loadUserAvatarImageInUri();
     }
 
 
@@ -95,6 +95,23 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         Intent intent = new Intent(activity, HomePagerActivity.class);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    //解决切换日间模式时，fragment重叠的问题
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * DrawerLayout侧滑菜单开关
+     */
+    public void toggleDrawer() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 
     /**
@@ -180,8 +197,18 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> list = Matisse.obtainResult(data);
-            Glide.with(this).load(list.get(0)).asBitmap().into(mIv);
+            caseResultImageUri(String.valueOf(list.get(0)));
         }
+    }
+
+    private void caseResultImageUri(String path) {
+        PreferencesUtils.setString(ConstantUtil.AVATAR, path);
+        loadUserAvatarImageInUri();
+    }
+
+    private void loadUserAvatarImageInUri() {
+        String path = PreferencesUtils.getString(ConstantUtil.AVATAR, "");
+        GlideUtils.loadImageInUri(Uri.parse(path), mIv);
     }
 
     @Override
@@ -209,7 +236,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
                 }
             });
         } else if (viewId == R.id.iv_change_model) {
-            ToastUtils.showToast("change model");
+            switchNightMode();
         }
     }
 

@@ -12,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,15 +37,13 @@ import project.recyclerview.lym.org.recyclerviewlibrary.listener.OnItemLongClick
 import project.recyclerview.lym.org.recyclerviewlibrary.util.FullSpanUtil;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.ItemMoveAndRemoveHelper;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
- *
  * 便签列表
+ *
  * @author yaoming.li
  * @since 2017-05-04 18:01
  */
-public class NoteListFragment extends BaseFragment<NoteListPresenter> implements SwipeRefreshLayout.OnRefreshListener, INoteView {
+public class NoteListFragment extends BaseFragment<NoteListPresenter> implements SwipeRefreshLayout.OnRefreshListener, INoteView, Toolbar.OnMenuItemClickListener {
 
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
@@ -62,22 +58,24 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
 
     @Override
     protected void loadLazyData() {
-//        mPresenter.getData(true,10);
         mPresenter.getNoteList();
-        Log.i(TAG,"load data");
     }
 
     @Override
     protected void updateViews() {
-        initToolBar(mToolBar,true,getString(R.string.title));
-        setHasOptionsMenu(true);
+        crateToolbarMenu();
         mAdapter = new NoteListAdapter(R.layout.item_note_list, null);
-        FullSpanUtil.setLinearLayoutManage(mRvList,mAdapter,LinearLayoutManager.VERTICAL);
+        FullSpanUtil.setLinearLayoutManage(mRvList, mAdapter, LinearLayoutManager.VERTICAL);
         initRecyclerViewItemClickListener();
-        ItemMoveAndRemoveHelper.openItemMove(mRvList,mAdapter);
+        ItemMoveAndRemoveHelper.openItemMove(mRvList, mAdapter);
         initSwipeRefreshListener();
     }
 
+    private void crateToolbarMenu() {
+        initToolBar(mToolBar, true, getString(R.string.title));
+        mToolBar.inflateMenu(R.menu.menu_add_note);
+        mToolBar.setOnMenuItemClickListener(this);
+    }
 
     private void initRecyclerViewItemClickListener() {
         mRvList.addOnItemTouchListener(new OnItemClickListener() {
@@ -137,13 +135,11 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
 
     @Override
     public void showDateView() {
-        Log.i(TAG,"view gone");
         mNoNoteView.setVisibility(View.GONE);
     }
 
     @Override
     public void noDataView() {
-        Log.i(TAG,"no data view");
         mNoNoteView.setVisibility(View.VISIBLE);
     }
 
@@ -199,16 +195,19 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
     @Override
     public void updateNoteList(List<Note> notes) {
         mAdapter.setNewData(notes);
-        Log.i(TAG,notes.size()+"我有这么多");
+        Log.i(TAG, notes.size() + "我有这么多");
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_add_note, menu);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == InsertNoteActivity.REQUEST_CODE && resultCode == RESULT_OK) {
+            mPresenter.getNoteList();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.add_note) {
             PopupUtils.showInsertNoteDialog(getActivity(), new InsertNoteDialog.OnButtonClickListener() {
                 @Override
@@ -219,13 +218,5 @@ public class NoteListFragment extends BaseFragment<NoteListPresenter> implements
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == InsertNoteActivity.REQUEST_CODE && resultCode == RESULT_OK) {
-            mPresenter.getNoteList();
-        }
     }
 }

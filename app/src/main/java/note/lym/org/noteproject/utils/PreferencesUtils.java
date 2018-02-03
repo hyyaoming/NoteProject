@@ -1,6 +1,5 @@
 package note.lym.org.noteproject.utils;
 
-import android.content.Context;
 import android.preference.PreferenceManager;
 
 import note.lym.org.noteproject.app.NoteApplication;
@@ -50,8 +49,8 @@ public class PreferencesUtils {
     /**
      * 存储一个boolean类型值
      *
-     * @param key     key
-     * @param value   值
+     * @param key   key
+     * @param value 值
      * @return 返回值
      */
     public static boolean putBoolean(String key, boolean value) {
@@ -61,25 +60,23 @@ public class PreferencesUtils {
     /**
      * 存入一个字符串类型的值
      *
-     * @param context 上下文
      * @param key     key
      * @param value   值
      * @return 是否成功
      */
-    public static boolean setString(Context context, String key, String value) {
-        return PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, value).commit();
+    public static boolean setString(String key, String value) {
+        return PreferenceManager.getDefaultSharedPreferences(NoteApplication.getInstance()).edit().putString(key, value).commit();
     }
 
     /**
      * 获取一个指定key的字符串
      *
-     * @param context      上下文
      * @param key          key值
      * @param defaultValue 默认值
      * @return 取出指定值
      */
-    public static String getString(Context context, String key, String defaultValue) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
+    public static String getString(String key, String defaultValue) {
+        return PreferenceManager.getDefaultSharedPreferences(NoteApplication.getInstance()).getString(key, defaultValue);
     }
 
 }
