@@ -1,13 +1,22 @@
 package note.lym.org.noteproject.utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -104,7 +113,7 @@ public class AlbumManager {
     /**
      * 同步刷新系统相册
      *
-     * @param imageUrl
+     * @param imageUrl the fileName
      */
     private static void syncAlbum(String imageUrl) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -115,6 +124,65 @@ public class AlbumManager {
         } else {
             final Intent intent = new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory()));
             NoteApplication.getInstance().sendBroadcast(intent);
+        }
+    }
+
+    /**
+     * View to bitmap.
+     *
+     * @param view    The view.
+     * @param context The context.
+     */
+    public static void view2BitmapAndSaveToGallery(Context context, final View view) {
+        if (view != null) {
+            Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(ret);
+            Drawable bgDrawable = view.getBackground();
+            if (bgDrawable != null) {
+                bgDrawable.draw(canvas);
+            } else {
+                canvas.drawColor(Color.WHITE);
+            }
+            view.draw(canvas);
+            saveImageToGallery(context, ret);
+        }
+    }
+
+    /**
+     * 将一张bitmap插入到系统中
+     *
+     * @param context the context
+     * @param bmp     this bitmap
+     */
+    public static void saveImageToGallery(Context context, Bitmap bmp) {
+        if (null != bmp) {
+            // 首先保存图片
+            File appDir = new File(Environment.getExternalStorageDirectory(), "demo");
+            if (!appDir.exists()) {
+                appDir.mkdir();
+            }
+            String fileName = System.currentTimeMillis() + ".jpg";
+            File file = new File(appDir, fileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // 其次把文件插入到系统图库
+            try {
+                MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                        file.getAbsolutePath(), fileName, null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // 最后通知图库更新
+            syncAlbum(fileName);
         }
     }
 }
