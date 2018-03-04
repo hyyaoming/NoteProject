@@ -6,7 +6,7 @@
     <version value="2"></version>
     <list>
         <mapping class="note.lym.org.noteproject.model.bean.Note"></mapping>
-        <mapping class="note.lym.org.noteproject.model.dao.Collect"></mapping>
+        <mapping class="note.lym.org.noteproject.model.bean.Collect"></mapping>
     </list>
 
 </litepal>

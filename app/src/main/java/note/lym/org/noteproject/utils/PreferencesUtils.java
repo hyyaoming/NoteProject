@@ -3,7 +3,7 @@ package note.lym.org.noteproject.utils;
 import android.preference.PreferenceManager;
 
 import note.lym.org.noteproject.app.NoteApplication;
-import note.lym.org.noteproject.fragment.UserSetFragment;
+import note.lym.org.noteproject.ui.user.fragment.UserSetFragment;
 
 /**
  * 存储一些简单的变量与数据

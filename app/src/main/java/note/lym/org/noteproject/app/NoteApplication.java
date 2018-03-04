@@ -11,9 +11,11 @@ import com.taobao.sophix.listener.PatchLoadStatusListener;
 
 import org.litepal.LitePalApplication;
 
+import note.lym.org.noteproject.app.constant.Constants;
 import note.lym.org.noteproject.dagger.component.AppComponent;
 import note.lym.org.noteproject.dagger.component.DaggerAppComponent;
 import note.lym.org.noteproject.dagger.modul.AppModule;
+import note.lym.org.noteproject.dagger.modul.HttpModule;
 import note.lym.org.noteproject.utils.ConstantUtil;
 import note.lym.org.noteproject.utils.PreferencesUtils;
 import note.lym.org.noteproject.utils.Static;
@@ -60,6 +62,7 @@ public class NoteApplication extends LitePalApplication {
         if (appComponent == null) {
             appComponent = DaggerAppComponent.builder()
                     .appModule(new AppModule(instance))
+                    .httpModule(new HttpModule())
                     .build();
         }
         return appComponent;

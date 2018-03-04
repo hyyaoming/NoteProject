@@ -19,33 +19,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.home.TestActivity">
-
-        </activity>
-        <activity android:name=".ui.home.HomePagerActivity" />
+        <activity android:name=".ui.home.activity.HomePagerActivity" />
         <activity
-            android:name=".ui.home.BigBelleActivity"
+            android:name=".ui.girl.activity.BigBelleActivity"
             android:theme="@style/AppTheme.BigPhotoTheme" />
-        <activity android:name=".ui.home.detail.NoteDetailActivity" />
-        <activity android:name=".ui.home.detail.NewsDetailActivity" />
-        <activity android:name=".ui.home.InsertNoteActivity" />
-        <activity android:name=".ui.home.detail.HealthDetailActivity" />
-        <activity android:name=".ui.home.LookerGirlActivity" />
+        <activity android:name=".ui.note.activity.NoteDetailActivity" />
+        <activity android:name=".ui.detail.activity.NewsDetailActivity" />
+        <activity android:name=".ui.note.activity.InsertNoteActivity" />
+        <activity android:name=".ui.detail.activity.HealthDetailActivity" />
+        <activity android:name=".ui.girl.activity.LookerGirlActivity" />
         <activity
-            android:name=".ui.home.AttentionActivity"
+            android:name=".ui.girl.activity.AttentionActivity"
             android:theme="@style/AppTheme.BigPhotoTheme" />
 
-        <service android:name=".service.MusicPlayService" />
+        <service android:name=".delay.service.MusicPlayService" />
 
-        <activity android:name=".ui.home.UserSetActivity" />
-        <activity android:name=".ui.home.WebActivity" />
+        <activity android:name=".ui.user.activity.UserSetActivity" />
+        <activity android:name=".ui.web.activity.WebActivity" />
     </application>
 
 </manifest>
