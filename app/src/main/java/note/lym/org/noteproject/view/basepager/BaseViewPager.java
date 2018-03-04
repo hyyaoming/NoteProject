@@ -1,5 +1,6 @@
 package note.lym.org.noteproject.view.basepager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
@@ -46,7 +47,7 @@ public class BaseViewPager<T> extends FrameLayout implements ViewPager.OnPageCha
     /**
      * viewpager holder creator
      */
-    private PagerHolderCreator mCreate;
+    private PagerHolderCreator<BasePagerHolder> mCreate;
     /**
      * Viewpager数据
      */
@@ -235,7 +236,7 @@ public class BaseViewPager<T> extends FrameLayout implements ViewPager.OnPageCha
      *
      * @param create viewpager的holder建造者
      */
-    public void begin(PagerHolderCreator create) {
+    public void begin(PagerHolderCreator<BasePagerHolder> create) {
         this.mCreate = create;
         setPagerStyle();
         initImageOrTitles();
@@ -253,9 +254,10 @@ public class BaseViewPager<T> extends FrameLayout implements ViewPager.OnPageCha
         return this;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setData() {
         mCurrentItem = 1;
-        CommonPagerAdapter adapter = new CommonPagerAdapter(mData, true, mCreate);
+        CommonPagerAdapter<T> adapter = new CommonPagerAdapter<>(mData, true, mCreate);
         mPager.addOnPageChangeListener(this);
         mPager.setAdapter(adapter);
         mPager.setCurrentItem(1);

@@ -119,7 +119,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		 * @param itemView the view of the list item
 		 * @param position the position in the list view
 		 */
-		public void onExpand(View itemView, int position, View togglebuttonView);
+        void onExpand(View itemView, int position, View togglebuttonView);
 
 		/**
 		 * Called when an item is collapsed.
@@ -127,7 +127,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 		 * @param itemView the view of the list item
 		 * @param position the position in the list view
 		 */
-		public void onCollapse(View itemView, int position, View togglebuttonView);
+        void onCollapse(View itemView, int position, View togglebuttonView);
 
 	}
 
@@ -239,7 +239,7 @@ public abstract class AbstractSlideExpandableListAdapter extends WrapperListAdap
 	 * @return boolean True if there is currently an item expanded, otherwise false
 	 */
 	public boolean isAnyItemExpanded() {
-		return (lastOpenPosition != -1) ? true : false;
+		return lastOpenPosition != -1;
 	}
 
 	/**

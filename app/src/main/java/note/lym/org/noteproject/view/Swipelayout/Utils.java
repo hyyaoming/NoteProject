@@ -1,9 +1,11 @@
 
 package note.lym.org.noteproject.view.Swipelayout;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.lang.reflect.Method;
 
@@ -67,11 +69,11 @@ public class Utils {
                     translucentConversionListenerClazz = clazz;
                 }
             }
-            Method method = Activity.class.getDeclaredMethod("convertToTranslucent",
+            @SuppressLint("PrivateApi") Method method = Activity.class.getDeclaredMethod("convertToTranslucent",
                     translucentConversionListenerClazz);
             method.setAccessible(true);
-            method.invoke(activity, new Object[] {
-                null
+            method.invoke(activity, new Object[]{
+                    null
             });
         } catch (Throwable t) {
         }
@@ -80,9 +82,10 @@ public class Utils {
     /**
      * Calling the convertToTranslucent method on platforms after Android 5.0
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private static void convertActivityToTranslucentAfterL(Activity activity) {
         try {
-            Method getActivityOptions = Activity.class.getDeclaredMethod("getActivityOptions");
+            @SuppressLint("PrivateApi") Method getActivityOptions = Activity.class.getDeclaredMethod("getActivityOptions");
             getActivityOptions.setAccessible(true);
             Object options = getActivityOptions.invoke(activity);
 
@@ -93,7 +96,7 @@ public class Utils {
                     translucentConversionListenerClazz = clazz;
                 }
             }
-            Method convertToTranslucent = Activity.class.getDeclaredMethod("convertToTranslucent",
+            @SuppressLint("PrivateApi") Method convertToTranslucent = Activity.class.getDeclaredMethod("convertToTranslucent",
                     translucentConversionListenerClazz, ActivityOptions.class);
             convertToTranslucent.setAccessible(true);
             convertToTranslucent.invoke(activity, null, options);

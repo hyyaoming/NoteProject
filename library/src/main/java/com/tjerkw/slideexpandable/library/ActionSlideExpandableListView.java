@@ -49,7 +49,7 @@ public class ActionSlideExpandableListView extends SlideExpandableListView {
 		 * @param clickedView the view clicked
 		 * @param position the position in the listview
 		 */
-		public void onClick(View itemView, View clickedView, int position);
+        void onClick(View itemView, View clickedView, int position);
 	}
 
 	public void setAdapter(ListAdapter adapter) {

@@ -17,6 +17,7 @@ import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.base.activity.SimpleActivity;
 import note.lym.org.noteproject.model.bean.Note;
 import note.lym.org.noteproject.model.dao.NoteDao;
+import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.utils.ToastUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.util.DateUtils;
 
@@ -118,7 +119,7 @@ public class InsertNoteActivity extends SimpleActivity {
 
     private void saveNote() {
         if (getContentSize() > 0) {
-            hideSoftInput();
+            SoftInputUtil.hideShow(mEditTextNote);
             NoteDao.insertNote(getInsertNote());
             setResult(RESULT_OK);
             finish();

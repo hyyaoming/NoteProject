@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
@@ -15,9 +18,10 @@ import note.lym.org.noteproject.R;
  * @author yaoming.li
  * @since 2017-05-04 16:06
  */
-public class ForegroundImageView extends ImageView {
+public class ForegroundImageView extends AppCompatImageView {
     private Drawable foreground;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public ForegroundImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -32,7 +36,8 @@ public class ForegroundImageView extends ImageView {
     }
 
 
-    public ForegroundImageView(Context context,AttributeSet attrs,int defStyle){
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ForegroundImageView(Context context, AttributeSet attrs, int defStyle){
         super(context,attrs,defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundView);
 
@@ -123,6 +128,7 @@ public class ForegroundImageView extends ImageView {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void drawableHotspotChanged(float x, float y) {
         super.drawableHotspotChanged(x, y);

@@ -45,11 +45,6 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter> implem
     }
 
     @Override
-    protected boolean enableBar() {
-        return false;
-    }
-
-    @Override
     protected void initData() {
         mNewsDetailId = getIntent().getStringExtra("news_id");
         mPresenter.getNewsDetailId(mNewsDetailId);

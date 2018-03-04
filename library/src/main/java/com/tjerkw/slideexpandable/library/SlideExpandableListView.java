@@ -131,9 +131,9 @@ public class SlideExpandableListView extends ListView implements AbstractSlideEx
 		expandCollapseListener = listener;
 	}
 	public interface OnItemExpandCollapseListener {
-		public void onExpand(int position );
+		void onExpand(int position);
 
-		public void onCollapse(int position);
+		void onCollapse(int position);
 
 	}
 }

@@ -13,14 +13,14 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
+import note.lym.org.noteproject.R;
+import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.base.activity.BaseRunTimePermission;
 import note.lym.org.noteproject.base.presenter.BasePresenter;
 import note.lym.org.noteproject.base.presenter.BaseView;
-import note.lym.org.noteproject.base.activity.ToolBarBaseActivity;
 import note.lym.org.noteproject.dagger.component.DaggerFragmentComponent;
 import note.lym.org.noteproject.dagger.component.FragmentComponent;
 import note.lym.org.noteproject.dagger.modul.FragmentModule;
-import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.ui.home.activity.HomePagerActivity;
 import note.lym.org.noteproject.utils.SoftInputUtil;
 import note.lym.org.noteproject.view.LoadStateView;
@@ -97,7 +97,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
      * @param title           title content
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
-        ((ToolBarBaseActivity) getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
+        ((BaseRunTimePermission) getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
         toolbar.setNavigationOnClickListener(this);
     }
 
@@ -106,7 +106,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
      */
     protected void hideSoftInput() {
         if (SoftInputUtil.isOpen()) {
-            ToolBarBaseActivity activity = (ToolBarBaseActivity) getActivity();
+            BaseRunTimePermission activity = (BaseRunTimePermission) getActivity();
             SoftInputUtil.hideSysSoftInput(activity);
         }
     }

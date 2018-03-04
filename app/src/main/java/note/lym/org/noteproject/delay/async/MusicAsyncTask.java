@@ -1,5 +1,6 @@
 package note.lym.org.noteproject.delay.async;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -20,6 +21,7 @@ import note.lym.org.noteproject.utils.ToastUtils;
  */
 public class MusicAsyncTask extends AsyncTask<Void, Void, Music[]> {
 
+    @SuppressLint("StaticFieldLeak")
     private Context mContext;
 
     public MusicAsyncTask(Context context) {

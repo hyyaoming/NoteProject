@@ -26,13 +26,13 @@ import java.util.List;
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 import note.lym.org.noteproject.R;
+import note.lym.org.noteproject.app.constant.Constants;
 import note.lym.org.noteproject.base.activity.SimpleActivity;
 import note.lym.org.noteproject.ui.news.fragment.HealthMessageFragment;
 import note.lym.org.noteproject.ui.note.fragment.NoteListFragment;
 import note.lym.org.noteproject.ui.girl.fragment.SisterClassifyFragment;
 import note.lym.org.noteproject.ui.home.fragment.TabPagerFragment;
 import note.lym.org.noteproject.ui.user.activity.UserSetActivity;
-import note.lym.org.noteproject.utils.ConstantUtil;
 import note.lym.org.noteproject.utils.GlideUtils;
 import note.lym.org.noteproject.utils.PreferencesUtils;
 
@@ -119,15 +119,15 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
      * 日夜间模式切换
      */
     private void switchNightMode() {
-        boolean isNight = PreferencesUtils.getBoolean(ConstantUtil.SWITCH_MODE_KEY, false);
+        boolean isNight = PreferencesUtils.getBoolean(Constants.SWITCH_MODE_KEY, false);
         if (isNight) {
             // 日间模式
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            PreferencesUtils.putBoolean(ConstantUtil.SWITCH_MODE_KEY, false);
+            PreferencesUtils.putBoolean(Constants.SWITCH_MODE_KEY, false);
         } else {
             // 夜间模式
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            PreferencesUtils.putBoolean(ConstantUtil.SWITCH_MODE_KEY, true);
+            PreferencesUtils.putBoolean(Constants.SWITCH_MODE_KEY, true);
         }
         recreate();
     }
@@ -203,12 +203,12 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     }
 
     private void caseResultImageUri(String path) {
-        PreferencesUtils.setString(ConstantUtil.AVATAR, path);
+        PreferencesUtils.setString(Constants.AVATAR, path);
         loadUserAvatarImageInUri();
     }
 
     private void loadUserAvatarImageInUri() {
-        String path = PreferencesUtils.getString(ConstantUtil.AVATAR, "");
+        String path = PreferencesUtils.getString(Constants.AVATAR, "");
         GlideUtils.loadImageInUri(Uri.parse(path), mIv);
     }
 

@@ -71,7 +71,7 @@ class SVGAVideoEntity {
                     images.put(imageKey, bitmap)
                 }
                 else {
-                    (cacheDir.absolutePath + "/" + imageKey + ".png")?.takeIf { File(it).exists() }?.let { it
+                    (cacheDir.absolutePath + "/" + imageKey + ".png").takeIf { File(it).exists() }?.let { it
                         BitmapFactory.decodeFile(it, options)?.let {
                             images.put(imageKey, it)
                         }
@@ -97,7 +97,7 @@ class SVGAVideoEntity {
                         images.put(imageKey, bitmap)
                     }
                     else {
-                        (cacheDir.absolutePath + "/" + imageKey + ".png")?.takeIf { File(it).exists() }?.let { it
+                        (cacheDir.absolutePath + "/" + imageKey + ".png").takeIf { File(it).exists() }?.let { it
                             BitmapFactory.decodeFile(it, options)?.let {
                                 images.put(imageKey, it)
                             }

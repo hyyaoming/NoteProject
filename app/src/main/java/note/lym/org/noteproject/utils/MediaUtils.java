@@ -40,7 +40,12 @@ public class MediaUtils {
                 null));
     }
 
-
+    /**
+     * 返回本地所有的音乐
+     *
+     * @param cursor param is cursor
+     * @return all local music
+     */
     public static ArrayList<Music> getMusicListCursor(Cursor cursor) {
         if (cursor == null) {
             return null;

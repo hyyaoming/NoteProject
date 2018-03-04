@@ -1,5 +1,6 @@
 package note.lym.org.noteproject.view.image;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -178,6 +179,7 @@ public class BadgedFourThreeImageView extends FourThreeImageView {
             paint.setColorFilter(cf);
         }
 
+        @SuppressLint("WrongConstant")
         @Override
         public int getOpacity() {
             return 0;

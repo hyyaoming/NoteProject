@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import note.lym.org.noteproject.app.constant.Constants;
+
 /**
  * 软键盘管理类
  *
@@ -12,7 +14,7 @@ import android.view.inputmethod.InputMethodManager;
  * @since 2017-04-28 12:51
  */
 public class SoftInputUtil {
-    private static final InputMethodManager imm = (InputMethodManager) Static.CONTEXT.getSystemService(Context.INPUT_METHOD_SERVICE);
+    private static final InputMethodManager imm = (InputMethodManager) Constants.CONTEXT.getSystemService(Context.INPUT_METHOD_SERVICE);
 
     /**
      * @description 如果输入法在窗口上已经显示，则隐藏，反之则显示

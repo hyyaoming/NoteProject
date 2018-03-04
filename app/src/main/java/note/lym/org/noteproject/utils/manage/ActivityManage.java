@@ -12,8 +12,8 @@ import java.util.Stack;
  */
 public class ActivityManage {
 
-    private static ActivityManage _Instance;
-    private static Stack<Activity> arrays = new Stack<>();
+    private static ActivityManage sInstance;
+    private static Stack<Activity> sArray = new Stack<>();
 
     private ActivityManage() {
     }
@@ -24,14 +24,14 @@ public class ActivityManage {
      * @return ActivityManage
      */
     public static ActivityManage getInstance() {
-        if (_Instance == null) {
+        if (sInstance == null) {
             synchronized (ActivityManage.class) {
-                if (_Instance == null) {
-                    _Instance = new ActivityManage();
+                if (sInstance == null) {
+                    sInstance = new ActivityManage();
                 }
             }
         }
-        return _Instance;
+        return sInstance;
     }
 
     /**
@@ -39,9 +39,9 @@ public class ActivityManage {
      *
      * @param activity activity
      */
-    public static void addActivityToStack(Activity activity) {
+    public void addActivityToStack(Activity activity) {
         if (null != activity) {
-            arrays.add(activity);
+            sArray.add(activity);
         }
     }
 
@@ -50,31 +50,32 @@ public class ActivityManage {
      *
      * @param activity activity
      */
-    public static void removeActivityBackStack(Activity activity) {
-        if (null != activity && arrays.contains(activity)) {
-            arrays.remove(activity);
+    public void removeActivityBackStack(Activity activity) {
+        if (null != activity && sArray.contains(activity)) {
+            sArray.remove(activity);
         }
     }
 
     /**
      * 结束所有的Activity
      */
-    public static void backAllActivityToStack() {
-        for (Activity act : arrays) {
+    public void backAllActivityToStack() {
+        for (Activity act : sArray) {
             if (null != act) {
                 removeActivityBackStack(act);
             }
         }
-        arrays.clear();
+        sArray.clear();
     }
 
     /**
      * 获取当前栈顶Activity
-     * @return
+     *
+     * @return  Activity
      */
-    public static Activity getStackTopActivity() {
-        if (!arrays.isEmpty()) {
-            return arrays.lastElement();
+    public Activity getStackTopActivity() {
+        if (!sArray.isEmpty()) {
+            return sArray.lastElement();
         }
         return null;
     }

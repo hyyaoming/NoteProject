@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
-import note.lym.org.noteproject.base.activity.ToolBarBaseActivity;
+import note.lym.org.noteproject.base.activity.BaseRunTimePermission;
 
 /**
  *
@@ -74,7 +74,7 @@ public abstract class SimpleFragment extends SupportFragment {
      * @param title
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
-        ((ToolBarBaseActivity)getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
+        ((BaseRunTimePermission)getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
     }
 
     protected abstract void loadLazyData();

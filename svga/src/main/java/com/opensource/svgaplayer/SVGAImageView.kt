@@ -106,7 +106,7 @@ open class SVGAImageView : ImageView {
 
     private fun setSoftwareLayerType() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            this.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }
     }
 
@@ -165,7 +165,7 @@ open class SVGAImageView : ImageView {
         val drawable = drawable as? SVGADrawable ?: return
         drawable.cleared = false
         drawable.scaleType = scaleType
-        drawable.videoItem?.let {
+        drawable.videoItem.let {
             var durationScale = 1.0
             val startFrame = Math.max(0, range?.location ?: 0)
             val endFrame = Math.min(it.frames - 1, ((range?.location ?: 0) + (range?.length ?: Int.MAX_VALUE) - 1))
