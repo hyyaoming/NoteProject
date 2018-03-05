@@ -2,6 +2,9 @@ package note.lym.org.noteproject.ui.news.adapter;
 
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 import note.lym.org.noteproject.R;
@@ -12,12 +15,12 @@ import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.viewholder.BaseViewHolder;
 
 /**
- *  笑话适配器
+ * 笑话适配器
+ *
  * @author yaoming.li
  * @since 2017-05-11 16:18
  */
 public class JokeListAdapter extends BaseFastAdapter<Joke.ShowapiResBodyBean.ContentlistBean, BaseViewHolder> {
-
 
     public JokeListAdapter(int layoutResId, List<Joke.ShowapiResBodyBean.ContentlistBean> data) {
         super(layoutResId, data);
@@ -26,7 +29,8 @@ public class JokeListAdapter extends BaseFastAdapter<Joke.ShowapiResBodyBean.Con
     @Override
     protected void convert(BaseViewHolder helper, Joke.ShowapiResBodyBean.ContentlistBean item) {
         ImageView iv = helper.getView(R.id.iv_joke_gif);
-        GlideUtils.loadGif(item.getImg(),iv, DefIconFactory.iconDefault());
+        GlideUtils.loadGif(item.getImg(), iv, DefIconFactory.iconDefault());
+        Glide.with(mContext).setDefaultRequestOptions(new RequestOptions().centerCrop()).asGif().load(item.getImg()).into(iv);
         helper.setText(R.id.tv_joke_title, item.getTitle());
         helper.setText(R.id.tv_joke_time, item.getCt());
     }

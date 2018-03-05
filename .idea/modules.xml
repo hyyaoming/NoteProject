@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/NoteProject.iml" filepath="$PROJECT_DIR$/NoteProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/matisse/matisse.iml" filepath="$PROJECT_DIR$/matisse/matisse.iml" />
       <module fileurl="file://$PROJECT_DIR$/recyclerviewlibrary/recyclerviewlibrary.iml" filepath="$PROJECT_DIR$/recyclerviewlibrary/recyclerviewlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/svga/svga.iml" filepath="$PROJECT_DIR$/svga/svga.iml" />
     </modules>

@@ -46,7 +46,6 @@ public class JokeListFragment extends BaseFragment<JokePresenter> implements Jok
     @Override
     protected void initInject() {
         getFragmentComponent().inject(this);
-
     }
 
     @Override

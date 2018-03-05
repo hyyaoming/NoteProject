@@ -7,32 +7,41 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.app.constant.Constants;
 
 import static android.content.Context.WINDOW_SERVICE;
 
 /**
  * 系统工具类
+ *
+ * @author yaoming.li
+ * @since 2018年3月5日16:34:17
  */
 public class SystemUtil {
 
 
     /**
      * 检查是否有可用网络
+     *
+     * @return netWork is connected
      */
     public static boolean isNetworkConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) NoteApplication.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connectivityManager.getActiveNetworkInfo() != null;
+        return (connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) != null;
     }
 
     /**
      * 判断WIFI网络是否可用
+     *
+     * @param context the is context
+     * @return isConnected
      */
     public static boolean isWifiConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWiFiNetworkInfo = mConnectivityManager
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            NetworkInfo mWiFiNetworkInfo = mConnectivityManager != null ? mConnectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI) : null;
             if (mWiFiNetworkInfo != null && mWiFiNetworkInfo.isAvailable()) {
                 return mWiFiNetworkInfo.isConnected();
             }
@@ -42,26 +51,41 @@ public class SystemUtil {
 
     /**
      * 获取屏幕像素
-     * @return  arr
+     *
+     * @return arr  int[]
      */
-    public static int[] getScreenDensity(){
+    public static int[] getScreenDensity() {
         int[] arr = new int[]{};
         arr[0] = NoteApplication.getInstance().getResources().getDisplayMetrics().widthPixels;
         arr[1] = NoteApplication.getInstance().getResources().getDisplayMetrics().heightPixels;
         return arr;
     }
 
-    public static int getScreenHeight(Context context){
-        WindowManager wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+    /**
+     * 获取屏幕高度
+     *
+     * @return height
+     */
+    public static int getScreenHeight() {
+        WindowManager wm = (WindowManager) Constants.CONTEXT.getSystemService(WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
+        if (wm != null) {
+            wm.getDefaultDisplay().getMetrics(dm);
+        }
         return dm.heightPixels;
     }
 
-    public static int getScreenWidth(Context context){
-        WindowManager wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+    /**
+     * 获取屏幕宽度
+     *
+     * @return width
+     */
+    public static int getScreenWidth() {
+        WindowManager wm = (WindowManager) Constants.CONTEXT.getSystemService(WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
+        if (wm != null) {
+            wm.getDefaultDisplay().getMetrics(dm);
+        }
         return dm.widthPixels;
     }
 

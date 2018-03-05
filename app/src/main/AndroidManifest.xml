@@ -39,7 +39,7 @@
             android:name=".ui.girl.activity.AttentionActivity"
             android:theme="@style/AppTheme.BigPhotoTheme" />
 
-        <service android:name=".delay.service.MusicPlayService" />
+        <service android:name=".service.MusicPlayService" />
 
         <activity android:name=".ui.user.activity.UserSetActivity" />
         <activity android:name=".ui.web.activity.WebActivity" />

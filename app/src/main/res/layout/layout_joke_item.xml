@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/iv_joke_gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="240dp" />
 
         <TextView
             android:id="@+id/tv_joke_title"

@@ -37,7 +37,7 @@ public class ClassifyListHolder extends VLayoutBaseViewHolder<HealthList.Showapi
     @Override
     public void setData(HealthList.ShowapiResBodyBean.PagebeanBean.ContentlistBean item, int position) {
         super.setData(item, position);
-        GlideUtils.load(NoteApplication.getInstance(), (ImageView) getView(R.id.iv_icon), item.getImg(), DefIconFactory.iconDefault());
+        GlideUtils.load((ImageView) getView(R.id.iv_icon), item.getImg(), DefIconFactory.iconDefault());
         setText(R.id.tv_news_name, item.getTitle().replaceAll("<b>", "").replaceAll("</b>", ""));
         setText(R.id.tv_news_time, item.getTime());
         setText(R.id.tv_source, item.getAuthor());

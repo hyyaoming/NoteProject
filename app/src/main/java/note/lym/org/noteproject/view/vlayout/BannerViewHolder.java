@@ -12,6 +12,8 @@ import com.youth.banner.loader.ImageLoader;
 
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.BannerModel;
+import note.lym.org.noteproject.utils.DefIconFactory;
+import note.lym.org.noteproject.utils.GlideUtils;
 
 /**
  * description:
@@ -36,8 +38,7 @@ public class BannerViewHolder extends VLayoutBaseViewHolder<BannerModel> {
         banner.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object o, ImageView imageView) {
-                Glide.with(mContext).load((String) o).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into
-                        (imageView);
+                GlideUtils.load(imageView, (String) o, DefIconFactory.iconDefault());
             }
         });
 
@@ -45,7 +46,7 @@ public class BannerViewHolder extends VLayoutBaseViewHolder<BannerModel> {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int i) {
-                mListener.onItemClickListener(mRootView, mData,i);
+                mListener.onItemClickListener(mRootView, mData, i);
             }
         });
         //banner设置方法全部调用完毕时最后调用

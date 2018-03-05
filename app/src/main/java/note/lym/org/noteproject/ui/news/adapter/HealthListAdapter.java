@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import java.util.List;
 
 import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.app.NoteApplication;
 import note.lym.org.noteproject.model.bean.HealthList;
 import note.lym.org.noteproject.utils.DefIconFactory;
 import note.lym.org.noteproject.utils.GlideUtils;
@@ -26,7 +25,7 @@ public class HealthListAdapter extends BaseFastAdapter<HealthList.ShowapiResBody
     @Override
     protected void convert(BaseViewHolder helper, HealthList.ShowapiResBodyBean.PagebeanBean.ContentlistBean item) {
         ImageView iv = helper.getView(R.id.iv_icon);
-        GlideUtils.load(NoteApplication.getInstance(),iv,item.getImg(), DefIconFactory.iconDefault());
+        GlideUtils.load(iv,item.getImg(), DefIconFactory.iconDefault());
         helper.setText(R.id.tv_news_name,item.getTitle().replaceAll("<b>","").replaceAll("</b>","").toString());
         helper.setText(R.id.tv_news_time,item.getTime());
         helper.setText(R.id.tv_source,item.getAuthor());

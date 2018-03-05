@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -221,11 +222,15 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
                 @Override
                 public void accredit() {
                     Matisse.from(HomePagerActivity.this)
-                            .choose(MimeType.allOf())
+                            .choose(MimeType.ofAll(), false)
                             .countable(true)
-                            .maxSelectable(1)
-                            .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .capture(true)
+                            .captureStrategy(
+                                    new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
+                            .maxSelectable(9)
+                            .gridExpectedSize(
+                                    getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                             .thumbnailScale(0.85f)
                             .imageEngine(new GlideEngine())
                             .forResult(REQUEST_CODE_CHOOSE);

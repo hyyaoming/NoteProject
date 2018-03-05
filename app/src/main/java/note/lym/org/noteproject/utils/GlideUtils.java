@@ -4,17 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
@@ -30,6 +31,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.NoteApplication;
+import note.lym.org.noteproject.app.constant.Constants;
 import note.lym.org.noteproject.view.loading.LoadingView;
 
 /**
@@ -52,31 +54,25 @@ public class GlideUtils {
     /**
      * 就加载一张图片，啥都不设置。
      *
-     * @param act 上下文对象
      * @param img 设置加载的图片
      * @param url 图片地址
      */
-    public static void load(Context act, ImageView img, String url, int defaultImage) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(act)) {
-            Glide.with(act).load(url).centerCrop().placeholder(defaultImage).dontAnimate().into(img);
+    public static void load(ImageView img, String url, int defaultImage) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(Constants.CONTEXT)) {
+            Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(defaultImage).centerCrop()).asBitmap().load(url).into(img);
         } else {
             img.setImageResource(defaultImage);
         }
     }
 
-    /**
-     * 这种情况一般指图片子指定了图片的大小，需要全部展示
-     *
-     * @param url          图片地址
-     * @param defaultImage 默认图
-     * @param imageView    需要加载的图片
-     */
-    public static void loadFitCenter(Context context, String url, int defaultImage, ImageView imageView) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
-            Glide.with(NoteApplication.getContext()).load(url).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
-        } else {
-            imageView.setImageResource(defaultImage);
-        }
+    private static RequestOptions getRequestOptions(int defaultImage) {
+        return new RequestOptions()
+                .placeholder(defaultImage) //加载中图片
+                .dontAnimate()
+                .error(defaultImage) //加载失败图片
+                .fallback(defaultImage) //url为空图片
+                .priority(Priority.HIGH) //优先级
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
     }
 
     /**
@@ -90,54 +86,22 @@ public class GlideUtils {
      */
     public static void loadFitCenter(String url, int defaultImage, ImageView imageView, int width, int height) {
         if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(NoteApplication.getContext())) {
-            Glide.with(NoteApplication.getContext()).load(url).override(width, height).fitCenter().dontAnimate().placeholder(defaultImage).into(imageView);
+            Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(defaultImage).override(width, height)).asBitmap().load(url).into(imageView);
         } else {
             imageView.setImageResource(defaultImage);
         }
     }
 
     /**
-     * 就加载一张图片，啥都不设置,在wifi情况下加载。
-     *
-     * @param act 上下文对象
-     * @param img 设置加载的图片
-     * @param url 图片地址
-     */
-    public static void loadWifi(Context act, ImageView img, String url, int defaultImage) {
-        if (SystemUtil.isWifiConnected(NoteApplication.getInstance())) {
-            Glide.with(act).load(url).centerCrop().into(img);
-        } else {
-            img.setImageResource(defaultImage);
-        }
-    }
-
-
-    /**
      * 就加载一张图片，啥都不设置。
      *
-     * @param context  上下文对象
-     * @param view     设置加载的图片
-     * @param url      图片地址
-     * @param listener 回调
-     */
-    public static void loadCenterCrop(Context context, String url, ImageView view, RequestListener listener) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
-            Glide.with(context).load(url).centerCrop().dontAnimate().listener(listener).into(view);
-        } else {
-            view.setImageResource(DefIconFactory.iconDefault());
-        }
-    }
-
-    /**
-     * 就加载一张图片，啥都不设置。
-     *
-     * @param context 上下文对象
      * @param view    设置加载的图片
      * @param url     图片地址
+     * @param loading loading
      */
-    public static void loadFitCenter(Context context, String url, ImageView view, LoadingView loading) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
-            Glide.with(context).load(url).fitCenter().dontAnimate().listener(loadRequestListener(loading, view)).into(view);
+    public static void loadFitCenter(String url, ImageView view, LoadingView loading) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(Constants.CONTEXT)) {
+            Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(DefIconFactory.iconDefault())).asBitmap().load(url).listener(loadRequestListener(loading, view)).into(view);
         } else {
             loading.setVisibility(View.GONE);
             view.setImageResource(DefIconFactory.iconDefault());
@@ -145,20 +109,20 @@ public class GlideUtils {
     }
 
     private static RequestListener loadRequestListener(final LoadingView bar, final ImageView view) {
-        return new RequestListener<String, GlideDrawable>() {
+        return new RequestListener<Bitmap>() {
 
             @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                 ToastUtils.showToast(R.string.look_network_state);
                 bar.stopLoading();
-                return true;
+                return false;
             }
 
             @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                 bar.stopLoading();
-                view.setImageDrawable(resource);
-                return true;
+                view.setImageBitmap(resource);
+                return false;
             }
         };
     }
@@ -171,8 +135,8 @@ public class GlideUtils {
      * @param defaultImage 默认图
      */
     public static void loadGif(String url, ImageView iv, int defaultImage) {
-        if (SystemUtil.isWifiConnected(NoteApplication.getInstance())) {
-            Glide.with(NoteApplication.getInstance()).load(url).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
+        if (SystemUtil.isWifiConnected(Constants.CONTEXT)) {
+            Glide.with(Constants.CONTEXT).setDefaultRequestOptions(new RequestOptions().centerCrop()).asGif().load(url).into(iv);
         } else {
             iv.setImageResource(defaultImage);
         }
@@ -181,58 +145,16 @@ public class GlideUtils {
     /**
      * 设置加载中的图片以及加载失败的占位图
      *
-     * @param context      上下文
-     * @param url          图片地址
-     * @param errorImage   加载失败时的图片
-     * @param defaultImage 加载中的图片
-     * @param img          设置加载的图片
+     * @param url        图片地址
+     * @param errorImage 加载失败时的图片
+     * @param img        设置加载的图片
      */
-    public static void load(Context context, String url, int errorImage, int defaultImage, ImageView img) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
-            Glide.with(context).load(url).error(errorImage).dontAnimate().placeholder(defaultImage).into(img);
+    public static void load(String url, int errorImage, ImageView img) {
+        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(Constants.CONTEXT)) {
+            Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(errorImage)).asGif().load(url).into(img);
         } else {
-            img.setImageResource(defaultImage);
+            img.setImageResource(errorImage);
         }
-    }
-
-    /**
-     * 可设置加载图片的大小，并居中显示
-     *
-     * @param context      上下文
-     * @param url          图片地址
-     * @param errorImage   加载失败时的图片
-     * @param defaultImage 加载中的图片
-     * @param image        加载的图片
-     * @param width        图片剪裁的宽度
-     * @param height       图片剪裁的高度
-     */
-    public static void load(Context context, String url, int errorImage, int defaultImage, ImageView image, int width, int height) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
-            Glide.with(context).load(url).centerCrop().error(errorImage).dontAnimate().placeholder(defaultImage).override(width, height).centerCrop().into(image);
-        } else {
-            image.setImageResource(defaultImage);
-        }
-    }
-
-    /**
-     * 可设置加载时的动画
-     *
-     * @param context      上下文
-     * @param url          图片地址
-     * @param errorImage   加载失败时的图片
-     * @param defaultImage 加载中的图片
-     * @param imageView    加载的图片
-     * @param width        剪裁图片的宽度
-     * @param height       剪裁图片的高度
-     * @param animationRes 加载时的动画
-     */
-    public static void load(Context context, String url, int errorImage, int defaultImage, ImageView imageView, int width, int height, int animationRes) {
-        if (PreferencesUtils.isLoadImage() || SystemUtil.isWifiConnected(context)) {
-            Glide.with(context).load(url).error(errorImage).placeholder(defaultImage).override(width, height).crossFade().centerCrop().animate(animationRes).into(imageView);
-        } else {
-            imageView.setImageResource(defaultImage);
-        }
-
     }
 
     /**
@@ -242,15 +164,7 @@ public class GlideUtils {
      * @param iv  被加载的图片
      */
     public static void loadCircleImage(String url, final ImageView iv) {
-        Glide.with(NoteApplication.getInstance()).load(url).asBitmap().fitCenter().into(new BitmapImageViewTarget(iv) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                iv.setImageDrawable(circularBitmapDrawable);
-            }
-        });
+        Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(DefIconFactory.iconDefault()).fitCenter()).asBitmap().load(url).apply(RequestOptions.circleCropTransform()).into(iv);
     }
 
     /**
@@ -260,7 +174,7 @@ public class GlideUtils {
      * @param iv  作用的图片
      */
     public static void loadImageInUri(Uri uri, ImageView iv) {
-        Glide.with(NoteApplication.getInstance()).load(uri).asBitmap().placeholder(R.drawable.ic_avatar).fitCenter().into(iv);
+        Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(DefIconFactory.iconDefault()).fitCenter()).asBitmap().load(uri).into(iv);
     }
 
     /**
@@ -270,14 +184,7 @@ public class GlideUtils {
      * @param imageView imageView
      */
     public static void loadCircleNativeImageView(int imageRes, final ImageView imageView) {
-        Glide.with(NoteApplication.getInstance()).load(imageRes).asBitmap().fitCenter().into(new BitmapImageViewTarget(imageView) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable nativeImage = RoundedBitmapDrawableFactory.create(NoteApplication.getInstance().getResources(), resource);
-                nativeImage.setCircular(true);
-                imageView.setImageDrawable(nativeImage);
-            }
-        });
+        Glide.with(Constants.CONTEXT).setDefaultRequestOptions(getRequestOptions(DefIconFactory.iconDefault()).fitCenter()).asBitmap().load(imageRes).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
 
     /**
@@ -301,6 +208,9 @@ public class GlideUtils {
 
     /**
      * 计算图片分辨率
+     *
+     * @param url url
+     * @return 计算后的图片
      */
     public static String calePhotoSize(String url) throws ExecutionException, InterruptedException {
         File file = Glide.with(NoteApplication.getInstance()).load(url)
@@ -331,7 +241,7 @@ public class GlideUtils {
                     public void accept(@NonNull Object o) throws Exception {
                         String size = (String) o;
                         if (!TextUtils.isEmpty(size)) {
-                            int width = SystemUtil.getScreenWidth(NoteApplication.getInstance()) / 2;
+                            int width = SystemUtil.getScreenWidth() / 2;
                             int height = TextUtils.calcPhotoHeight(size, width);
                             loadFitCenter(url, DefIconFactory.iconDefault(), iv, width, height);
                         }

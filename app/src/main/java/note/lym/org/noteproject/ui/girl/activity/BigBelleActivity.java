@@ -14,21 +14,30 @@ import android.widget.FrameLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
-import note.lym.org.noteproject.delay.async.MusicAsyncTask;
 import note.lym.org.noteproject.base.activity.SimpleActivity;
 import note.lym.org.noteproject.utils.eventbus.LookerEvent;
 import note.lym.org.noteproject.model.bean.Collect;
 import note.lym.org.noteproject.model.dao.CollectDao;
-import note.lym.org.noteproject.delay.service.MusicPlayService;
+import note.lym.org.noteproject.service.MusicPlayService;
+import note.lym.org.noteproject.model.bean.Music;
 import note.lym.org.noteproject.utils.AlbumManager;
 import note.lym.org.noteproject.utils.GlideUtils;
+import note.lym.org.noteproject.utils.MediaUtils;
 import note.lym.org.noteproject.utils.PreferencesUtils;
 import note.lym.org.noteproject.utils.SystemUtil;
+import note.lym.org.noteproject.utils.ToastUtils;
 import note.lym.org.noteproject.view.likeview.LikeView;
 import note.lym.org.noteproject.view.loading.LoadingView;
 import uk.co.senab.photoview.PhotoView;
@@ -111,7 +120,7 @@ public class BigBelleActivity extends SimpleActivity {
      * 加载大图片
      */
     private void loadBigBelleImage() {
-        GlideUtils.loadFitCenter(this, mImageUrl, mPhotoView, mLoadingView);
+        GlideUtils.loadFitCenter(mImageUrl, mPhotoView, mLoadingView);
     }
 
     /**
@@ -158,7 +167,25 @@ public class BigBelleActivity extends SimpleActivity {
             @Override
             public void accredit() {
                 if (PreferencesUtils.isMusicPlay()) {
-                    new MusicAsyncTask(BigBelleActivity.this).execute();
+                    Observable.create(new ObservableOnSubscribe<List<Music>>() {
+                        @Override
+                        public void subscribe(ObservableEmitter<List<Music>> e) throws Exception {
+                            ArrayList<Music> list = MediaUtils.queryMusic(mContext);
+                            e.onNext(list);
+                        }
+
+                    }).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<List<Music>>() {
+                                @Override
+                                public void accept(List<Music> musics) throws Exception {
+                                    if (null != musics && musics.size() > 0) {
+                                        MusicPlayService.startService(mContext, (ArrayList<Music>) musics);
+                                    } else {
+                                        ToastUtils.showToast(R.string.i_think_you_must_down_music);
+                                    }
+                                }
+                            });
                 }
             }
 

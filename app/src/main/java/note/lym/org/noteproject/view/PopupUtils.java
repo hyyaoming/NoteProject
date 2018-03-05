@@ -11,8 +11,17 @@ import android.content.Context;
  * @since 2017-04-26 20:57
  */
 public class PopupUtils {
+    private PopupUtils() {
 
-    public static void showInsertNoteDialog(Activity activity, InsertNoteDialog.OnButtonClickListener listener){
+    }
+
+    /**
+     * show insert note dialog
+     *
+     * @param activity activity
+     * @param listener click result listener
+     */
+    public static void showInsertNoteDialog(Activity activity, InsertNoteDialog.OnButtonClickListener listener) {
         InsertNoteDialog dialog = new InsertNoteDialog(activity);
         dialog.setOnButtonClickListener(listener);
         dialog.show();

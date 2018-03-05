@@ -1,0 +1,80 @@
+ext {
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: '27.0.3',
+            applicationId    : "note.lym.org.noteproject",
+            minSdkVersion    : 21,
+            targetSdkVersion : 27,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    def dependVersion = [
+            support                 : '27.1.0',
+            litepal                 : '1.5.1',
+            butterknife             : '8.8.1',
+            dagger2                 : '2.14.1',
+            rxjava                  : '2.1.8',
+            rxAndroid               : '2.0.1',
+            retrofit                : '2.3.0',
+            okhttp                  : '3.9.1',
+            glide                   : '4.5.0',
+            photoview               : '1.2.4',
+            richtext                : '2.0.9',
+            banner                  : '1.4.9',
+            eventbus                : '3.0.0',
+            infinitecycleviewpager  : '1.0.2',
+            hotfix                  : '3.1.0',
+            fragmentation           : '1.1.6',
+            fragmentation_swipeback : '1.1.4',
+            easypermissions         : '1.1.3',
+            retrofit_adapter_rxjava2: '1.0.0',
+
+    ]
+
+    dependencies = [
+            //baseUi
+            "appcompat-v7"              : "com.android.support:appcompat-v7:${dependVersion.support}",
+            "cardview-v7"               : "com.android.support:cardview-v7:${dependVersion.support}",
+            "design"                    : "com.android.support:design:${dependVersion.support}",
+            "recyclerview-v7"           : "com.android.support:recyclerview-v7:${dependVersion.support}",
+
+            //db
+            "litepal"                   : "org.litepal.android:core:${dependVersion.litepal}",
+
+            //inject(注入相关)
+            "butterknife"               : "com.jakewharton:butterknife:${dependVersion.butterknife}",
+            "butterknife-compiler"      : "com.jakewharton:butterknife-compiler:${dependVersion.butterknife}",
+            "dagger"                    : "com.google.dagger:dagger:${dependVersion.dagger2}",
+            "dagger-compiler"           : "com.google.dagger:dagger-compiler:${dependVersion.dagger2}",
+
+            //rx
+            "rxjava"                    : "io.reactivex.rxjava2:rxjava:${dependVersion.rxjava}",
+            "rxandroid"                 : "io.reactivex.rxjava2:rxandroid:${dependVersion.rxAndroid}",
+            "retrofit-adapter-rxjava2"  : "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${dependVersion.retrofit_adapter_rxjava2}",
+
+            //netWork
+            "retrofit"                  : "com.squareup.retrofit2:retrofit:${dependVersion.retrofit}",
+            "retrofit-converter-gson"   : "com.squareup.retrofit2:converter-gson:${dependVersion.retrofit}",
+            "okhttp-logging-interceptor": "com.squareup.okhttp3:logging-interceptor:${dependVersion.okhttp}",
+            "glide"                     : "com.github.bumptech.glide:glide:${dependVersion.glide}",
+
+            //view
+            "photoview"                 : "com.github.chrisbanes.photoview:library:${dependVersion.photoview}",
+            "richtext"                  : "com.zzhoujay.richtext:richtext:${dependVersion.richtext}",
+            "banner"                    : "com.youth.banner:banner:${dependVersion.banner}",
+            "eventbus"                  : "org.greenrobot:eventbus:${dependVersion.eventbus}",
+            "infinitecycleviewpager"    : "com.github.devlight:infinitecycleviewpager:${dependVersion.infinitecycleviewpager}",
+
+            //util
+            "fragmentation"             : "me.yokeyword:fragmentation:${dependVersion.fragmentation}",
+            "fragmentation_swipeback"   : "me.yokeyword:fragmentation-swipeback:${dependVersion.fragmentation_swipeback}",
+            "easypermissions"           : "pub.devrel:easypermissions:${dependVersion.easypermissions}",
+
+            //阿里开源
+            "hotfix"                    : "com.aliyun.ams:alicloud-android-hotfix:${dependVersion.hotfix}",
+
+
+    ]
+
+}

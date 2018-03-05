@@ -76,7 +76,7 @@ public class HealthDetailActivity extends BaseActivity<HealthDetailPresenter> im
         initToolBar(mToolBar,true,bean.getTname());
         RichText.from(bean.getContent())
                 .into(mTvHealthContent);
-        GlideUtils.load(this, bean.getImg(),DefIconFactory.iconDefault(),DefIconFactory.iconDefault(),mIvHealthImage);
+        GlideUtils.load(bean.getImg(),DefIconFactory.iconDefault(),mIvHealthImage);
         mTvHealthDate.setText(bean.getTime());
         mTvHealthSource.setText(bean.getAuthor());
         mTvHealthTitle.setText(bean.getTitle());

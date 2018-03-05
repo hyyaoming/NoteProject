@@ -48,9 +48,9 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.attention_vp_item_layout, null);
-        ImageView iv = (ImageView) view.findViewById(R.id.iv_attention);
+        ImageView iv =  view.findViewById(R.id.iv_attention);
         Collect collect = mList.get(position);
-        GlideUtils.load(container.getContext(), iv, collect.url, DefIconFactory.iconDefault());
+        GlideUtils.load(iv, collect.url, DefIconFactory.iconDefault());
         container.addView(view);
         jumpToBigBelle(container.getContext(), view, collect.url);
         return view;
