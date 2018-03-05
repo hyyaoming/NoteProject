@@ -6,6 +6,7 @@ import java.util.List;
 
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.LookerGirl;
+import note.lym.org.noteproject.utils.DefIconFactory;
 import note.lym.org.noteproject.utils.GlideUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.viewholder.BaseViewHolder;
@@ -25,7 +26,7 @@ public class LookerAdapter extends BaseFastAdapter<LookerGirl.ShowapiResBodyBean
     protected void convert(BaseViewHolder helper, LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean item) {
         ImageView iv = helper.getView(R.id.iv_sister_photo);
         LookerGirl.ShowapiResBodyBean.PagebeanBean.ContentlistBean.ListBean bean = item.getList().get(0);
-        GlideUtils.loadCutImage(iv,bean.getMiddle());
+        GlideUtils.load(iv,bean.getMiddle(), DefIconFactory.iconDefault());
         helper.setText(R.id.tv_title,item.getTitle());
     }
 }

@@ -1,6 +1,7 @@
 package note.lym.org.noteproject.ui.home.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Flowable;
 import me.yokeyword.fragmentation.SupportFragment;
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.app.constant.Constants;
@@ -49,9 +51,13 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @SuppressLint("UseSparseArrays")
     private HashMap<Integer, SupportFragment> mHashMap = new HashMap<>();
     private static final int EXIT_TIME = 1500;
     private static final int REQUEST_CODE_CHOOSE = 23;
+    private static final int MAX_SELECT = 9;
+    private static final float SCALE = 0.85f;
+    private static final String FILE_PATH = "com.zhihu.matisse.sample.fileprovider";
     private long mExitTime = 0;
     private ImageView mIv;
 
@@ -100,6 +106,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     }
 
     //解决切换日间模式时，fragment重叠的问题
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //super.onSaveInstanceState(outState);
@@ -226,12 +233,12 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
                             .countable(true)
                             .capture(true)
                             .captureStrategy(
-                                    new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider"))
-                            .maxSelectable(9)
+                                    new CaptureStrategy(true, FILE_PATH))
+                            .maxSelectable(MAX_SELECT)
                             .gridExpectedSize(
                                     getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                            .thumbnailScale(0.85f)
+                            .thumbnailScale(SCALE)
                             .imageEngine(new GlideEngine())
                             .forResult(REQUEST_CODE_CHOOSE);
                 }

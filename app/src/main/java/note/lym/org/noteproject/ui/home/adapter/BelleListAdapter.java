@@ -6,6 +6,7 @@ import java.util.List;
 
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.Belle;
+import note.lym.org.noteproject.utils.DefIconFactory;
 import note.lym.org.noteproject.utils.GlideUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.viewholder.BaseViewHolder;
@@ -24,6 +25,6 @@ public class BelleListAdapter extends BaseFastAdapter<Belle.ResultsBean, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, Belle.ResultsBean item) {
         ImageView iv = helper.getView(R.id.iv_belle);
-        GlideUtils.loadCutImage(iv,item.getUrl());
+        GlideUtils.load(iv, item.getUrl(), DefIconFactory.iconDefault());
     }
 }

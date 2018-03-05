@@ -6,6 +6,7 @@ import java.util.List;
 
 import note.lym.org.noteproject.R;
 import note.lym.org.noteproject.model.bean.SisterClassList;
+import note.lym.org.noteproject.utils.DefIconFactory;
 import note.lym.org.noteproject.utils.GlideUtils;
 import project.recyclerview.lym.org.recyclerviewlibrary.adapter.BaseFastAdapter;
 import project.recyclerview.lym.org.recyclerviewlibrary.viewholder.BaseViewHolder;
@@ -25,6 +26,6 @@ public class BelleSisterListAdapter extends BaseFastAdapter<SisterClassList.Show
     protected void convert(BaseViewHolder helper, final SisterClassList.ShowapiResBodyBean.DataBean item) {
         final ImageView view = helper.getView(R.id.iv_sister_photo);
         helper.setText(R.id.tv_title, item.getTitle());
-        GlideUtils.loadCutImage(view,item.getImgurl());
+        GlideUtils.load(view, item.getImgurl(), DefIconFactory.iconDefault());
     }
 }
