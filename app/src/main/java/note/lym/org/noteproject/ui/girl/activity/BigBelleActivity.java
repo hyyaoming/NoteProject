@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -26,6 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import note.lym.org.noteproject.R;
+import note.lym.org.noteproject.app.constant.Constants;
 import note.lym.org.noteproject.base.activity.SimpleActivity;
 import note.lym.org.noteproject.utils.eventbus.LookerEvent;
 import note.lym.org.noteproject.model.bean.Collect;
@@ -40,6 +41,7 @@ import note.lym.org.noteproject.utils.SystemUtil;
 import note.lym.org.noteproject.utils.ToastUtils;
 import note.lym.org.noteproject.view.likeview.LikeView;
 import note.lym.org.noteproject.view.loading.LoadingView;
+import pub.devrel.easypermissions.EasyPermissions;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -49,7 +51,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * @author yaoming.li
  * @since 2017-05-04 14:28
  */
-public class BigBelleActivity extends SimpleActivity {
+public class BigBelleActivity extends SimpleActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.iv_photo)
     PhotoView mPhotoView;
     @BindView(R.id.toolbar)
@@ -66,8 +68,7 @@ public class BigBelleActivity extends SimpleActivity {
     @BindView(R.id.like_view)
     LikeView mTv;
     private Collect mCollect;
-    private boolean isTitleBar = true;
-    private String[] permission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private boolean mIsTitleBar = true;
 
     @Override
     protected int getLayout() {
@@ -86,8 +87,8 @@ public class BigBelleActivity extends SimpleActivity {
      * 绑定事件
      */
     private void initListener() {
-        mPhotoView.setOnLongClickListener(longClickListener);
-        mPhotoView.setOnViewTapListener(tapListener);
+        mPhotoView.setOnLongClickListener(mLongClickListener);
+        mPhotoView.setOnViewTapListener(mTapListener);
     }
 
     /**
@@ -95,7 +96,7 @@ public class BigBelleActivity extends SimpleActivity {
      */
     private void getIntentData() {
         mImageUrl = getIntent().getStringExtra(URL);
-        isTitleBar = getIntent().getBooleanExtra(BOOLEAN_FLAG, false);
+        mIsTitleBar = getIntent().getBooleanExtra(BOOLEAN_FLAG, false);
     }
 
     /**
@@ -127,7 +128,7 @@ public class BigBelleActivity extends SimpleActivity {
      * toolbar相关设置
      */
     private void bindToolBar() {
-        mToolBar.setVisibility(isTitleBar ? View.VISIBLE : View.GONE);
+        mToolBar.setVisibility(mIsTitleBar ? View.VISIBLE : View.GONE);
         initToolBar(mToolBar, true, "");
         mLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
     }
@@ -135,7 +136,7 @@ public class BigBelleActivity extends SimpleActivity {
     /**
      * View长按事件
      */
-    private View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+    private View.OnLongClickListener mLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             saveImageToGallery(mImageUrl);
@@ -146,7 +147,7 @@ public class BigBelleActivity extends SimpleActivity {
     /**
      * photoView单击事件
      */
-    private PhotoViewAttacher.OnViewTapListener tapListener = new PhotoViewAttacher.OnViewTapListener() {
+    private PhotoViewAttacher.OnViewTapListener mTapListener = new PhotoViewAttacher.OnViewTapListener() {
         @Override
         public void onViewTap(View view, float x, float y) {
             hideOrShowToolbar();
@@ -159,41 +160,47 @@ public class BigBelleActivity extends SimpleActivity {
         EventBus.getDefault().post(new LookerEvent());
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    private void startMusic() {
+        if (PreferencesUtils.isMusicPlay()) {
+            Observable.create(new ObservableOnSubscribe<List<Music>>() {
+                @Override
+                public void subscribe(ObservableEmitter<List<Music>> e) throws Exception {
+                    ArrayList<Music> list = MediaUtils.queryMusic(mContext);
+                    e.onNext(list);
+                }
+
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<Music>>() {
+                        @Override
+                        public void accept(List<Music> musics) throws Exception {
+                            if (null != musics && musics.size() > 0) {
+                                MusicPlayService.startService(mContext, (ArrayList<Music>) musics);
+                            } else {
+                                ToastUtils.showToast(R.string.i_think_you_must_down_music);
+                            }
+                        }
+                    });
+        }
+    }
+
     /**
      * 这需要对运行时权限处理一下，不然会崩溃
      */
     private void requestPermission() {
-        requestRunTimePermission(permission, new RequestPermissionListener() {
-            @Override
-            public void accredit() {
-                if (PreferencesUtils.isMusicPlay()) {
-                    Observable.create(new ObservableOnSubscribe<List<Music>>() {
-                        @Override
-                        public void subscribe(ObservableEmitter<List<Music>> e) throws Exception {
-                            ArrayList<Music> list = MediaUtils.queryMusic(mContext);
-                            e.onNext(list);
-                        }
-
-                    }).subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<List<Music>>() {
-                                @Override
-                                public void accept(List<Music> musics) throws Exception {
-                                    if (null != musics && musics.size() > 0) {
-                                        MusicPlayService.startService(mContext, (ArrayList<Music>) musics);
-                                    } else {
-                                        ToastUtils.showToast(R.string.i_think_you_must_down_music);
-                                    }
-                                }
-                            });
-                }
-            }
-
-            @Override
-            public void decline(List<String> array) {
-                Snackbar.make(mPhotoView, R.string.open_permission_download_belle, Snackbar.LENGTH_LONG).show();
-            }
-        });
+        String[] permission = {Constants.READ_EXTERANL_STORANGE, Constants.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, permission)) {
+            startMusic();
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.open_permission_download_belle), 1, permission);
+        }
     }
 
     /**
@@ -262,5 +269,15 @@ public class BigBelleActivity extends SimpleActivity {
     protected void onDestroy() {
         super.onDestroy();
         MusicPlayService.stopService(this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        startMusic();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
     }
 }

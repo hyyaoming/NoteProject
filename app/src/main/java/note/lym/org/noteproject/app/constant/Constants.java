@@ -1,5 +1,6 @@
 package note.lym.org.noteproject.app.constant;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -41,5 +42,19 @@ public class Constants {
      * 用户设置的头像
      */
     public static final String AVATAR = "avatar";
+
+    //--------------------- permissions -------------------
+    /**
+     * 编写sdCard
+     */
+    public static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    /**
+     *
+     */
+    public static final String READ_EXTERANL_STORANGE = Manifest.permission.READ_EXTERNAL_STORAGE;
+    /**
+     * 相机权限
+     */
+    public static final String CAMRAM = Manifest.permission.CAMERA;
 
 }

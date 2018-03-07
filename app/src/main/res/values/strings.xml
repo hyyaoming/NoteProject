@@ -30,6 +30,7 @@
     <string name="save_image_error">下载貌似失败了呢~</string>
     <string name="transition_img">transition_news_img</string>
     <string name="open_permission_download_belle">小主~要打开权限才能金屋藏娇哦~</string>
+    <string name="open_picture">查看图片需要得到您的权限允许~~</string>
     <string name="beautiful_sister">漂亮姐姐</string>
     <string name="welfare_auto_look">福利自己找</string>
     <string name="no_big_photo">这里像素不是很好，所以不做大图展示了~~~~</string>

@@ -38,6 +38,7 @@ import note.lym.org.noteproject.ui.home.fragment.TabPagerFragment;
 import note.lym.org.noteproject.ui.user.activity.UserSetActivity;
 import note.lym.org.noteproject.utils.GlideUtils;
 import note.lym.org.noteproject.utils.PreferencesUtils;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 主页
@@ -46,7 +47,8 @@ import note.lym.org.noteproject.utils.PreferencesUtils;
  * @version 1.0.0
  * @since 2017-04-25 11:35
  */
-public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class HomePagerActivity extends SimpleActivity implements NavigationView.OnNavigationItemSelectedListener,
+        View.OnClickListener, EasyPermissions.PermissionCallbacks {
     @BindView(R.id.nav_view)
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
@@ -57,7 +59,7 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     private static final int REQUEST_CODE_CHOOSE = 23;
     private static final int MAX_SELECT = 9;
     private static final float SCALE = 0.85f;
-    private static final String FILE_PATH = "com.zhihu.matisse.sample.fileprovider";
+    private static final String FILE_PATH = "note.lym.org.noteproject.fileprovider";
     private long mExitTime = 0;
     private ImageView mIv;
 
@@ -221,37 +223,49 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    private void openPicture() {
+        Matisse.from(HomePagerActivity.this)
+                .choose(MimeType.ofAll(), false)
+                .countable(true)
+                .capture(true)
+                .captureStrategy(
+                        new CaptureStrategy(true, FILE_PATH))
+                .maxSelectable(MAX_SELECT)
+                .gridExpectedSize(
+                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(SCALE)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_CODE_CHOOSE);
+    }
+
+    @Override
     public void onClick(View view) {
         int viewId = view.getId();
+        String[] permission = {Constants.WRITE_EXTERNAL_STORAGE, Constants.READ_EXTERANL_STORANGE, Constants.CAMRAM};
         if (viewId == R.id.iv_change_avatar) {
-            requestRunTimePermission(new String[]{Manifest
-                    .permission.WRITE_EXTERNAL_STORAGE}, new RequestPermissionListener() {
-                @Override
-                public void accredit() {
-                    Matisse.from(HomePagerActivity.this)
-                            .choose(MimeType.ofAll(), false)
-                            .countable(true)
-                            .capture(true)
-                            .captureStrategy(
-                                    new CaptureStrategy(true, FILE_PATH))
-                            .maxSelectable(MAX_SELECT)
-                            .gridExpectedSize(
-                                    getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                            .thumbnailScale(SCALE)
-                            .imageEngine(new GlideEngine())
-                            .forResult(REQUEST_CODE_CHOOSE);
-                }
-
-                @Override
-                public void decline(List<String> array) {
-
-                }
-            });
+            if (EasyPermissions.hasPermissions(this, permission)) {
+                openPicture();
+            } else {
+                EasyPermissions.requestPermissions(this, getString(R.string.open_picture), 1, permission);
+            }
         } else if (viewId == R.id.iv_change_model) {
             switchNightMode();
         }
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        openPicture();
+    }
 
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+    }
 }
