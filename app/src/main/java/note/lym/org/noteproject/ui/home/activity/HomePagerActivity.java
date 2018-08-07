@@ -230,17 +230,27 @@ public class HomePagerActivity extends SimpleActivity implements NavigationView.
 
     private void openPicture() {
         Matisse.from(HomePagerActivity.this)
-                .choose(MimeType.ofAll(), false)
+                //第一二参数指定可选文件的类型，第二个参数代表是否可以同时选择图片和音频 true代表不可以，false代表可以同时选择
+                .choose(MimeType.ofImage())
+                //指定选中图片的类型  true √  false代表数字
                 .countable(true)
+                //是否使用拍照功能
                 .capture(true)
-                .captureStrategy(
-                        new CaptureStrategy(true, FILE_PATH))
-                .maxSelectable(MAX_SELECT)
-                .gridExpectedSize(
-                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                //指定文件的路径 true 则指定的sd卡路径， false则是Android/包名/files目录
+                //这里true那么contentProvider配置的路径则为file_paths_public
+                //这里false那么contentProvider配置的路径则为file_paths_private
+                .captureStrategy(new CaptureStrategy(true, FILE_PATH))
+                .maxSelectable(MAX_SELECT)  //设置选中图片的最大数量
+                //根据设置的宽度来确定每行展示几个item
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                //设置预览图的展示方向
+                //默认为竖向，也可以设置为横向
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                //设置图片的缩小程度,区间为0~1 不在这个区间则抛出异常
                 .thumbnailScale(SCALE)
+                //设置图片的加载引擎
                 .imageEngine(new GlideEngine())
+                //跳转至MatisseActivity并指定请求码，与onActivityForResult()中的requestCode对应
                 .forResult(REQUEST_CODE_CHOOSE);
     }
 

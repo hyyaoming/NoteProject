@@ -247,9 +247,12 @@ public class AlbumMediaAdapter extends
             RecyclerView.LayoutManager lm = mRecyclerView.getLayoutManager();
             int spanCount = ((GridLayoutManager) lm).getSpanCount();
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+            //图片所占的总宽度
             int availableWidth = screenWidth - context.getResources().getDimensionPixelSize(
                     R.dimen.media_grid_spacing) * (spanCount - 1);
+            //每张图片多占的宽度
             mImageResize = availableWidth / spanCount;
+            //最后图片所占的宽度
             mImageResize = (int) (mImageResize * mSelectionSpec.thumbnailScale);
         }
         return mImageResize;

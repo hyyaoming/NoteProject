@@ -35,7 +35,11 @@ public class PersonToLifePresenter extends RxPresenter<PersonToLifeContract.View
         ResourceSubscriber<MoreType> resourceSubscriber = new ResourceSubscriber<MoreType>() {
             @Override
             public void onNext(MoreType moreType) {
-                getView().getMoreTypeData(moreType.getShowapi_res_body().getList());
+                if (null != moreType.getShowapi_res_body() && null != moreType.getShowapi_res_body().getList()) {
+                    getView().getMoreTypeData(moreType.getShowapi_res_body().getList());
+                } else {
+                    getView().showNoData();
+                }
             }
 
             @Override
@@ -53,6 +57,6 @@ public class PersonToLifePresenter extends RxPresenter<PersonToLifeContract.View
                 getView().hideLoading();
             }
         };
-        addSubscription(startObservable(able,resourceSubscriber));
+        addSubscription(startObservable(able, resourceSubscriber));
     }
 }

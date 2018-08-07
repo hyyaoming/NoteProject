@@ -37,7 +37,11 @@ public class MaySisterPresenter extends RxPresenter<MaySisterContract.View> impl
         ResourceSubscriber<MaySisterData> resourceSubscriber = new ResourceSubscriber<MaySisterData>() {
             @Override
             public void onNext(MaySisterData maySisterData) {
-                getView().getMaySisterData(maySisterData.getShowapi_res_body().getPagebean().getContentlist());
+                if (null != maySisterData && maySisterData.getShowapi_res_body() != null && maySisterData.getShowapi_res_body().getPagebean() != null) {
+                    getView().getMaySisterData(maySisterData.getShowapi_res_body().getPagebean().getContentlist());
+                } else {
+                    getView().showNoData();
+                }
             }
 
             @Override

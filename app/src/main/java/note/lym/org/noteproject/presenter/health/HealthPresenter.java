@@ -34,7 +34,11 @@ public class HealthPresenter extends RxPresenter<HealthContract.View> implements
         ResourceSubscriber<Health> resource = new ResourceSubscriber<Health>() {
             @Override
             public void onNext(Health health) {
-                getView().getHealthClassifyList(health.getShowapi_res_body().getList());
+                if (null != health && health.getShowapi_res_body() != null && health.getShowapi_res_body().getList() != null) {
+                    getView().getHealthClassifyList(health.getShowapi_res_body().getList());
+                } else {
+                    getView().showNoData();
+                }
             }
 
             @Override

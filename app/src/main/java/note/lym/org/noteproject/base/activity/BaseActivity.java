@@ -26,7 +26,7 @@ import note.lym.org.noteproject.view.LoadStateView;
  * @author yaoming.li
  * @since 2017-04-25 10:23
  */
-public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTimePermission implements BaseView {
+public abstract class BaseActivity<T extends BasePresenter> extends BaseRunTimePermission implements BaseView {
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -48,8 +48,9 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
 
         mUnBinder = ButterKnife.bind(this);
         initInject();
-        if (mPresenter != null)
+        if (mPresenter != null) {
             mPresenter.attachView(this);
+        }
         bindView();
         initListener();
         initData();
@@ -57,7 +58,7 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
 
     @Override
     public void showError(LoadStateView.OnRequestListener listener) {
-        if(mLoadState != null){
+        if (mLoadState != null) {
             mLoadState.setLoadingState(LoadStateView.LOADING_NO_NETWORK);
             mLoadState.setRequestListener(listener);
         }
@@ -65,14 +66,21 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
 
     @Override
     public void showLoading() {
-        if(mLoadState != null){
+        if (mLoadState != null) {
             mLoadState.setLoadingState(LoadStateView.LOADING_SHOW);
         }
     }
 
     @Override
+    public void showNoData() {
+        if (mLoadState != null) {
+            mLoadState.setLoadingState(LoadStateView.LOADING_NO_DATE);
+        }
+    }
+
+    @Override
     public void hideLoading() {
-        if(mLoadState != null){
+        if (mLoadState != null) {
             mLoadState.setLoadingState(LoadStateView.LOADING_HIDE);
         }
     }
@@ -101,7 +109,6 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -114,7 +121,7 @@ public abstract class BaseActivity <T extends BasePresenter> extends BaseRunTime
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }

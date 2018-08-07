@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
+    <!--没网络时-->
     <FrameLayout
         android:id="@+id/fl_no_network"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:visibility="gone">
 
         <TextView
@@ -21,7 +23,28 @@
             android:textSize="18sp" />
     </FrameLayout>
 
-    <include layout="@layout/loading_view" />
+    <!--没数据时-->
+    <FrameLayout
+        android:id="@+id/frameNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/loading_no_data"
+            android:textColor="@color/theme_color"
+            android:textSize="18sp" />
+    </FrameLayout>
 
+    <note.lym.org.noteproject.view.LoadingView
+        android:id="@+id/loading"
+        app:loading_view_size="30dp"
+        android:color="#cccccc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 </FrameLayout>

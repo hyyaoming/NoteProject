@@ -21,8 +21,6 @@ public abstract class SimpleActivity extends BaseRunTimePermission {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        //竖屏锁定
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ButterKnife.bind(this);
         mContext = this;
         initEventAndData();

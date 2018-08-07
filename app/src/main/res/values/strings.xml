@@ -51,4 +51,5 @@
     <string name="GitHub">GitHub</string>
     <string name="hard_loading">努力加载中...</string>
     <string name="change_iv_avatar">点击切换头像</string>
+    <string name="loading_no_data">暂无数据...</string>
 </resources>

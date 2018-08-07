@@ -20,8 +20,8 @@ import note.lym.org.noteproject.ui.news.adapter.HealthClassifyAdapter;
 import note.lym.org.noteproject.view.LoadStateView;
 
 /**
+ * belle list
  *
- *  belle list
  * @author yaoming.li
  * @since 2017-05-12 17:14
  */
@@ -66,20 +66,10 @@ public class SisterClassifyFragment extends BaseFragment<SisterListPresenter> im
     public void getSisterClassify(List<SisterList.ShowapiResBodyBean.DataBean> list) {
         LinkedList<Fragment> fragments = new LinkedList<>();
         LinkedList<String> titles = new LinkedList<>();
-        for(SisterList.ShowapiResBodyBean.DataBean bean: list){
+        for (SisterList.ShowapiResBodyBean.DataBean bean : list) {
             titles.add(bean.getTitle());
             fragments.add(SisterClassifyListFragment.newInstance(bean.getId()));
         }
-        mAdapter.setItems(fragments,titles);
-    }
-
-    @Override
-    public void showError(LoadStateView.OnRequestListener listener) {
-        Snackbar.make(mVp,R.string.no_network,Snackbar.LENGTH_LONG).setAction(R.string.again, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getSisterData();
-            }
-        }).show();
+        mAdapter.setItems(fragments, titles);
     }
 }

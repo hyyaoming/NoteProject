@@ -112,6 +112,7 @@ public class MediaStoreCompat {
         String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
         File storageDir;
         if (mCaptureStrategy.isPublic) {
+            //向sdCar中插入
             storageDir = Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES);
         } else {

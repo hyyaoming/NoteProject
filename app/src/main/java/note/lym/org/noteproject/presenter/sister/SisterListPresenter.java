@@ -34,7 +34,11 @@ public class SisterListPresenter extends RxPresenter<SisterListContract.View> im
         ResourceSubscriber<SisterList> resource = new ResourceSubscriber<SisterList>() {
             @Override
             public void onNext(SisterList health) {
-                getView().getSisterClassify(health.getShowapi_res_body().getData());
+                if (null != health && health.getShowapi_res_body() != null && health.getShowapi_res_body().getData() != null) {
+                    getView().getSisterClassify(health.getShowapi_res_body().getData());
+                } else {
+                    getView().showNoData();
+                }
             }
 
             @Override

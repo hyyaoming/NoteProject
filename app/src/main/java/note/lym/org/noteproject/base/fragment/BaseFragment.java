@@ -129,6 +129,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     }
 
     @Override
+    public void showNoData() {
+        if (mStateView != null) {
+            mStateView.setLoadingState(LoadStateView.LOADING_NO_DATE);
+        }
+    }
+
+    @Override
     public void hideLoading() {
         if (mStateView != null) {
             mStateView.setLoadingState(LoadStateView.LOADING_HIDE);

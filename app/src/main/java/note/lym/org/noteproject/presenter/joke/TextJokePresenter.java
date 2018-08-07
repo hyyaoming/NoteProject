@@ -37,8 +37,12 @@ public class TextJokePresenter extends RxPresenter<TextJokeContract.View> implem
         ResourceSubscriber<TextJoke> jokeResource = new ResourceSubscriber<TextJoke>() {
             @Override
             public void onNext(TextJoke joke) {
-                Log.i("Tag", joke.getShowapi_res_body().getContentlist().size() + "");
-                getView().getTextJokeList(joke.getShowapi_res_body().getContentlist());
+                if (null != joke && joke.getShowapi_res_body() != null && joke.getShowapi_res_body().getContentlist() != null) {
+                    Log.i("Tag", joke.getShowapi_res_body().getContentlist().size() + "");
+                    getView().getTextJokeList(joke.getShowapi_res_body().getContentlist());
+                } else {
+                    getView().showNoData();
+                }
             }
 
             @Override
